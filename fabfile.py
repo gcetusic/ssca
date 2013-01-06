@@ -53,13 +53,14 @@ def bootstrap():
     create_virtualenv()
     update_requirements()
     manage('collectstatic --noinput')
-    manage('syncdb')
-    update_db(env.project)
+    manage('syncdb --all')
+    update_db('initial', True)
     touch()
 
 def build():
-    """ Rebuild """
-    manage('syncdb')
+    """ Rebuild. Don't be alarmed if it fails on south, if no models have changed """
+    update_requirements()
+    update_db('auto', False)
 
 def create_virtualenv():
     """ setup virtualenv on remote host """
@@ -84,10 +85,14 @@ def update_requirements():
     else:
         run(' '.join(cmd))
 
-def update_db(appname):
+def update_db(south, fake):
     """ migrate db using south """
-    manage('schemamigration %s --auto' % appname)
-    manage('migrate %s' % appname)
+    appname = env.project
+    manage('schemamigration %s --%s' % (appname, south))
+    if (fake):
+        manage('migrate %s --fake' % appname)
+    else:
+        manage('migrate %s' % appname)
 
 def manage(command):
     require('code_root', provided_by=('dev', 'stag', 'prod'))
