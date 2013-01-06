@@ -117,8 +117,9 @@ INSTALLED_APPS = (
 # breaks migrate (?)
 #    'cms.plugins.googlemap',
     'sekizai',
+    'bootstrap_toolkit',
     'app_public',
-    'app_dashboard'
+    'app_dashboard',
 )
 
 # A sample logging configuration. The only tangible logging
