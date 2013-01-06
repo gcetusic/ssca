@@ -5,7 +5,7 @@ from fabric.contrib import files, console
 from fabric import utils
 from fabric.decorators import hosts
 
-env.project = 'ssca'
+env.project = 'app_public'
 
 def _setup_path():
     env.root = env.home

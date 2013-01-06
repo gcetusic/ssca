@@ -66,13 +66,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
 )
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'ssca.wsgi.application'
+WSGI_APPLICATION = 'app_public.wsgi.application'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -85,10 +86,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 CMS_TEMPLATES = (
-    ('example.html', 'Example Template'),
+    ('example.html', 'Base Public Template'),
 )
 
-ROOT_URLCONF = 'ssca.urls'
+ROOT_URLCONF = 'app_public.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR, 'templates'),
@@ -116,7 +117,8 @@ INSTALLED_APPS = (
 # breaks migrate (?)
 #    'cms.plugins.googlemap',
     'sekizai',
-    'ssca',
+    'app_public',
+    'app_dashboard'
 )
 
 # A sample logging configuration. The only tangible logging
