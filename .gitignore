@@ -1,5 +1,4 @@
-fabfile.pyc
 env
-idea
 .idea
 *.iml
+*.pyc

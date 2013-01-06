@@ -57,6 +57,10 @@ def bootstrap():
     update_db(env.project)
     touch()
 
+def build():
+    """ Rebuild """
+    manage('syncdb')
+
 def create_virtualenv():
     """ setup virtualenv on remote host """
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))

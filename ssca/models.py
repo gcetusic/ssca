@@ -11,3 +11,7 @@ class Account(models.Model):
     user = models.ForeignKey(User)
     subscription = models.ForeignKey(Subscription)
 
+class Person(models.Model):
+    user = models.ForeignKey(User)
+    # openid identity string, used to find which User has logged in
+    identity = models.TextField()
