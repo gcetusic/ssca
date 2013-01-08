@@ -1,1 +1,16 @@
-hello
+{% extends "base.html" %}
+ 
+{% block head %}
+    <title>Dashboard</title>
+{% endblock %}
+ 
+{% block body %}
+    <header>
+        <h1>Welcome to the Dashboard. </h1> 
+        <span>Want to logout ? <a href="/logout/">Click here</a></span>
+    </header>
+ 
+    <section>
+        <p>Items to be added here. Cool!</p>
+    </section>
+{% endblock %}

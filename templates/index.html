@@ -2,6 +2,19 @@
  
 {% block head %}
     <title>SSCA</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+          $("#providers").change(function(){
+              var url = $("#providers").val();
+              if(url != ""){
+                 window.location.href = url;
+              }
+          });
+      });
+    </script>
+    
 {% endblock %}
  
 {% block body %}
@@ -10,6 +23,13 @@
     </header>
  
     <section>
-        <p>Welcome to SSCA. Please click <a href="/dashboard/">here</a></p>
+        <p>Welcome to SSCA. Please login to proceed further.</a></p>
+
+        <select id="providers" name="providers_list">
+          <option value="">Select a Provider</option>
+          <option value="{% url socialauth_begin 'google' %}">Login with Google</option>
+          <option value="" disabled="disabled">Login with Yahoo</option>
+          <option value="" disabled="disabled">Login with AOL</option>
+        </select>
     </section>
 {% endblock %}

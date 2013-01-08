@@ -83,6 +83,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'cms.context_processors.media',
     'sekizai.context_processors.sekizai',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
 )
 
 CMS_TEMPLATES = (
@@ -120,6 +124,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'app_public',
     'app_dashboard',
+    'social_auth',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -150,6 +155,13 @@ LOGGING = {
         },
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 deployment_env = os.environ.get('DEPLOYMENT_ENV')
 print('using deployment_env ' + deployment_env)
