@@ -7,4 +7,5 @@ django-cms
 django-mptt
 pil
 django-bootstrap-toolkit
+django-gmapi
 #-e git://github.com/divio/django-cms.git@2.3.4#egg=django-cms
