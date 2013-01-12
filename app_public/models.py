@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from gmapi import maps
-from gmapi.forms.widgets import GoogleMap
 
 
 class CoordinatesManager(models.Manager):

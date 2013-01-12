@@ -1,16 +1,14 @@
 from django.contrib.auth import logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
-from django import forms
-from gmapi import maps
-from gmapi.forms.widgets import GoogleMap
 from app_public.models import Coordinates
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
+from numpy import vstack
+from scipy.cluster.vq import kmeans, vq
 from math import sqrt, pi, log
-import itertools
 from decimal import *
-from numpy import vstack, array
-from scipy.cluster.vq import kmeans,vq
-import random
+import json
 
 
 def dashboard_main_page(request):
@@ -21,10 +19,6 @@ def logout_page(request):
     """ Log users out and re-direct them to the main page. """
     logout(request)
     return HttpResponseRedirect('/')
-
-
-class MapForm(forms.Form):
-    map = forms.Field(widget=GoogleMap(attrs={'width': 510, 'height': 510}))
 
 
 def pixel_distance(lat1, lon1, lat2, lon2, zoom):
@@ -59,32 +53,28 @@ def cluster_locations(locations):
     return pixel_distance(location1.latitude, location1.longitude, location2.latitude, location2.longitude, 3)
 
 
+@csrf_exempt
 def gmaps(request):
-    gmap = maps.Map(
-        opts={
-            'center': maps.LatLng(38, -97),
-            'mapTypeId': maps.MapTypeId.ROADMAP,
-            'zoom': 3,
-            'mapTypeControlOptions': {
-                'style': maps.MapTypeControlStyle.DROPDOWN_MENU
-            },
+    context = {}
+    if request.is_ajax and request.POST:
+        coordinates = Coordinates.objects.filter(latitude__gte=float(request.POST['south']), latitude__lte=float(request.POST['north']), longitude__gte=float(request.POST['west']), longitude__lte=float(request.POST['east']))
+
+        locations = vstack(map(list, coordinates.values_list('latitude', 'longitude'))).astype('float')
+        clusters, _ = kmeans(locations, sqrt(len(locations) / 2))
+        idx, _ = vq(locations, clusters)
+
+        markers = []
+        for location in clusters:
+            markers.append({
+                'position': ("%.1f" % location[0], "%.1f" % location[1]),
+                'title': "Hello World"
+            })
+
+        return HttpResponse(json.dumps(markers))
+    else:
+        google_map = {
+            'center': (0, 0),
+            'zoom': 6,
         }
-    )
-
-    locations1 = Coordinates.objects.all()
-    locations = vstack(map(list, Coordinates.objects.values_list('latitude', 'longitude'))).astype('float')
-    clusters, _ = kmeans(locations, sqrt(len(locations) / 2))
-    idx, _ = vq(locations, clusters)
-
-    # for pair in itertools.product(locations, repeat=2):
-    #     print cluster_locations(*pair)
-
-    markers = []
-    for location in locations1:
-        markers.append(maps.Marker(opts={
-            'map': gmap,
-            'position': maps.LatLng(location.latitude, location.longitude),
-        }))
-
-    context = {'form': MapForm(initial={'map': gmap, 'marker': markers})}
-    return render_to_response('map.html', context)
+        context['gmap'] = google_map
+    return render_to_response('map.html', RequestContext(request, context))
