@@ -9,6 +9,7 @@ from numpy import vstack
 from scipy.cluster.vq import kmeans
 from decimal import *
 import json
+from django.core import serializers
 
 
 def dashboard_main_page(request):
@@ -55,14 +56,15 @@ def gmaps(request):
     else:
         google_map = {
             'center': (0, 0),
-            'zoom': 4,
+            'zoom': 2,
         }
         context['gmap'] = google_map
         context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
     return render_to_response('map.html', RequestContext(request, context))
 
 
-def marker_info(request, marker_id=None):
-    if marker_id:
-        coordinates = Coordinates.objects.filter(id=marker_id)
-        return HttpResponse(json.dumps(coordinates))
+@csrf_exempt
+def marker_info(request):
+    if 'id' in request.POST:
+        data = serializers.serialize("json", Coordinates.objects.filter(id=request.POST['id']))
+        return HttpResponse(data)

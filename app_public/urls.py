@@ -8,7 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', logout_page),
-    url(r'^map/(\d+)/$', marker_info, name="marker_info"),
+    url(r'^marker/$', marker_info, name="marker_info"),
     url(r'^map/$', gmaps, name="gmaps_viewer"),
     url(r'^dashboard/', include('app_dashboard.urls')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
