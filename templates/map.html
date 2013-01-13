@@ -39,7 +39,8 @@
                         addMarker(
                             new google.maps.LatLng(item.position[0], item.position[1]),
                             item.title,
-                            item.is_cluster
+                            item.is_cluster,
+                            item.id
                         );
                     });
                     showOverlays();
@@ -47,7 +48,7 @@
             });
         }
 
-        function addMarker(location, title, is_cluster) {
+        function addMarker(location, title, is_cluster, id) {
             marker = new google.maps.Marker({
                 position: location,
                 map: map
@@ -55,6 +56,8 @@
             google.maps.event.addListener(marker, 'click', function() {
                 if (is_cluster) {
                     map.setZoom(map.getZoom()+1);
+                }
+                else {
                 }
                 map.panTo(this.getPosition())
             });
@@ -94,7 +97,7 @@
     function loadScript() {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "http://maps.googleapis.com/maps/api/js?sensor=true&callback=initialize";
+        script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
         document.body.appendChild(script);
     }
 

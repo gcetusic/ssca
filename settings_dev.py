@@ -5,6 +5,8 @@ TEMPLATE_DEBUG = DEBUG
 
 STATIC_ROOT = 'static'
 
+GOOGLE_MAPS_KEY = 'AIzaSyBAWy5kbUgK0t3Ly6VplTrem-dvpi-YuW8'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
