@@ -6,7 +6,7 @@ from app_public.models import Coordinates
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from numpy import vstack
-from scipy.cluster.vq import kmeans
+from Pycluster import kcluster, clustercentroids
 from decimal import *
 import json
 from django.core import serializers
@@ -33,10 +33,11 @@ def gmaps(request):
             longitude__gte=float(request.POST['west']), \
             longitude__lte=float(request.POST['east']))
         markers = []
-        cluster_number = 200
+        cluster_number = 100
         if len(coordinates) >= cluster_number:
             locations = vstack(map(list, coordinates.values_list('latitude', 'longitude'))).astype('float')
-            clusters, _ = kmeans(locations, cluster_number)
+            clustermap, _, _ = kcluster(locations, cluster_number)
+            clusters, _ = clustercentroids(locations, clusterid=clustermap)
             for location in clusters:
                 markers.append({
                     'position': ("%.1f" % location[0], "%.1f" % location[1]),

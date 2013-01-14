@@ -7,6 +7,6 @@ django-cms
 django-mptt
 pil
 django-bootstrap-toolkit
-numpy>=1.6.2
-scipy>=0.10.1
+numpy
+Pycluster
 #-e git://github.com/divio/django-cms.git@2.3.4#egg=django-cms
