@@ -1,0 +1,79 @@
+/*
+Author: Craig Erskine
+Description: Default Styles
+*/
+
+/* Reset */
+* { margin: 0; padding: 0; font-size: 100%; }
+
+
+a { color: #009; text-decoration: underline; }
+a:hover,a:focus,a:active { color: #900; text-decoration: underline; }
+a:focus,a:active { overflow: hidden; }
+
+h1,h2,h3,h4,h5,h6 { margin: 0 0 15px; font-size: 26px; line-height: 1em; color: #333; }
+h1 { font-weight: normal; letter-spacing: -1px; }
+h2 { border-bottom: 2px solid #999; padding: 0 0 6px; font-size: 18px; letter-spacing: -1px; }
+h3 { font-size: 16px; letter-spacing: -1px; }
+h4 { font-size: 14px; }
+h5 { font-size: 12px; }
+h6 { font-size: 10px; }
+
+p { margin: 0 0 20px; }
+ul,ol { margin: 0 30px 20px; }
+ul ul,ol ol,ul ol,ol ul { margin-bottom: 0; }
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
+dl { margin: 0 40px 20px; }
+dl dt { font-weight: bold; }
+dl dd { margin: 0 0 0 20px; }
+abbr,acronym { border-bottom: 1px dotted #000; cursor: help; }
+address { margin: 0 0 20px; font-style: italic; }
+del {}
+blockquote { margin: 0 40px; }
+strong { font-weight: bold; }
+em,dfn { font-style: italic; }
+dfn { font-weight: bold; }
+pre { margin: 0 0 20px; }
+pre,code { font: 11px/1.5 monospace; white-space: pre; }
+caption { background: #FFC; }
+img { border: 0 none; }
+hr { margin: 0 0 20px; }
+
+/* Clear */
+.clear { clear: both; }
+.clearfix,#page,#nav,#body,#content,#foot { display: inline-block; }
+.clearfix:after,#page:after,#nav:after,#body:after,#content:after,#foot:after { clear: both; display: block; font: 0px/0px serif; content: "."; height: 0; visibility: hidden; }
+html[xmlns] .clearfix,html[xmlns] #page,html[xmlns] #nav,html[xmlns] #body,html[xmlns] #content,html[xmlns] #foot { display: block; }
+
+/* Some classes */
+.small { font-size: .8em; }
+.large { font-size: 2em; }
+.quiet { color: #999; }
+.highlight { background: #FFC; }
+.top { margin-top: 0; padding-top: 0; }
+.bottom { margin-bottom: 0; padding-bottom: 0; }
+.left { margin: 0 20px 20px 0; float: left; }
+.right { margin: 0 0 20px 20px; float: right; }
+.hide { display: none; }
+
+.links { margin: 0; padding: 20px 0; list-style: none; clear: both; }
+.links p { margin: 0; color: #009; text-decoration: underline; cursor: pointer; }
+.links code { margin: 0 0 20px; border: 1px dotted #DDD; padding: 6px; background: #EEE; max-height: 150px; overflow: auto; }
+
+/* Layout */
+#page { margin: 0 auto; width: auto; text-align: left; position: relative; }
+
+/* Head */
+#head { padding: 20px; background: #DDD; position: relative; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; }
+#head h1 { margin: 0; }
+#head h1 span { display: block; font-size: 15px; color: #888; }
+
+/* Body */
+#content { padding: 20px 20px 1px; }
+
+/* Foot */
+#foot { padding: 20px; background: #666; color: #FFF; clear: both; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; }
+#foot p { margin: 0; }
+#foot a { color: #CCC; font-weight: bold; }
+#foot a:hover,#foot a:focus,#foot a:active { color: #000; }
