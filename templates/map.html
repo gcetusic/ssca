@@ -48,35 +48,13 @@
             });
         }
 
-        function addMarker(location, title, is_cluster, id) {
+        function addMarker(position, title, is_cluster, id) {
             marker = new google.maps.Marker({
-                position: location,
-                map: map
+                position: position,
+                map: map,
             });
-            if (is_cluster) {
-                google.maps.event.addListener(marker, 'click', function() {
-                    map.setZoom(map.getZoom()+1);
-                    map.panTo(this.getPosition());
-                });
-            }
-            else {
-                google.maps.event.addListener(marker, 'click', function() {
-                    $.ajax({
-                        async: false,
-                        type: "POST",
-                        url: "{% url marker_info %}",
-                        dataType: "json",
-                        data: {
-                            "id": id
-                        },
-                        success: function(data) {
-                            infowindow = new google.maps.InfoWindow();
-                            infowindow.setContent("Data");
-                            infowindow.open(map, marker);
-                        }
-                    });
-                });
-            }
+            marker.id = id;
+            marker.is_cluster = is_cluster;
             markersArray.push(marker);
         }
 
@@ -94,6 +72,30 @@
             if (markersArray) {
                 for (i in markersArray) {
                     markersArray[i].setMap(map);
+                    if (markersArray[i].is_cluster) {
+                        google.maps.event.addListener(markersArray[i], 'click', function() {
+                        map.setZoom(map.getZoom()+1);
+                        map.panTo(this.getPosition());
+                        });
+                    }
+                    else { (function(marker) {
+                        google.maps.event.addListener(marker, 'click', function () {
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "{% url marker_info %}",
+                                dataType: "json",
+                                data: {
+                                    "id": marker.id
+                                },
+                                success: function (data) {
+                                    infowindow = new google.maps.InfoWindow();
+                                    infowindow.setContent("Data");
+                                    infowindow.open(map, marker);
+                                }
+                            });
+                        });
+                    })(markersArray[i]);}
                 }
             }
         }
