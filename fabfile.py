@@ -35,6 +35,16 @@ def dev_rf():
     env.root = '/home/rfirmin/code/ssca/'
     _setup_path()
 
+
+def dev_gc():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.root = '/home/cetko/projects/ssca/'
+    env.home = '/home/cetko/projects/ssca/'
+    env.git_branch = 'develop_goran'
+    _setup_path()
+
 def stag():
    """ use stag environment on remote host"""
    utils.abort('Staging deployment not yet implemented.')
