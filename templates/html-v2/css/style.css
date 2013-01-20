@@ -1,0 +1,105 @@
+@charset "utf-8";
+/* CSS Document */
+body  {width:100%; height:auto; margin:0 auto;}
+.wapper {width:980px; height:auto; margin:0 auto; }
+.header{width:980px; height:40px; float:left;  }
+.header-rig {
+	width:230px;
+	height:auto;
+	float:left;
+}
+.sear-left {width:128px; height:121px; float:left; background:url(../images/logo.png) no-repeat 0 0;}
+.ss0text {width:80px; height:auto; float:left; font-size:11px; height:20px; border:1px solid #e2e2e2; color:#999999; padding:0 0 0 5px;}
+.ssotet{width:50px; height:22px; float:left; font-size:11px; border:1px solid #e2e2e2; color:#999999; cursor:pointer;} 
+.search {
+	width:980px;
+	height:128px;
+	float:left;
+	/*background:url(../images/header.png) no-repeat 0 0;*/
+}
+.logo {width:600px; height:130px; float:left; color:#cf112e;}
+.sear-right {width:132px; height:77px; float:right; background:url(../images/fla.png) no-repeat 0 0; margin:71px 0 0 0;}
+.search-con {width:280px; height:auto; float:right; margin:100px 120px 0 0;}
+.sea {width:215px; height:18px; float:left; border:1px solid #e2e2e2; font-size:11px; color:#999999;}
+.sea-buton {width:23px; height:20px; background:url(../images/seach.png) no-repeat 0 0; border:1px solid #e2e2e2; cursor:pointer;}
+.ss-content {
+	width:975px;
+	height:auto;
+	float:left;
+	border-left:3px dashed #f8f3ea;
+	border-right:3px dashed #f8f3ea;
+}
+.ss-midd-con {
+	width:900px;
+	height:auto;
+	float:left;
+	box-shadow:0px 0px 5px #666;
+	margin:20px 40px;
+}
+.con-left-con {width:500px; height:auto; float:left;}
+.con-left-con h1 {width:460px; height:auto; float:left; margin:20px 0 10px 20px; font-family:Arial, Helvetica, sans-serif;  color:#7d8d9b;}
+.con-left-con p {font-size:13px; width:460px; height:auto; float:left; margin:0px 20px 10px 20px; line-height:22px; font-family:Arial, Helvetica, sans-serif;}
+.con-right-con {width:400px; height:auto; float:right;}
+.con-rig-con  {width:380px; height:auto; float:right; margin:10px;}
+.con-rig-con img {width:auto; height:auto; float:left; float:right;}
+.con-right-bottom-con {width:380px; height:auto; float:right;  margin:10px;}
+.con-right-bottom-con  h1 {width:380px; height:30px; float:left; background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:normal; line-height:30px; padding:0 0 0 10px; }
+.con-right-bott {width:380px; height:auto; float:left;}
+.con-right-bott ul {margin:0px; padding:0px; }
+.con-right-bott ul li {display:block; }
+.con-right-bott ul li a {text-decoration:none; line-height:25px;}
+.con-right-bott ul li a:hover {color:#000; text-decoration:underline;}
+.ssibottom { width:380px; height:auto; float:right;}
+.ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(../images/arrow.png) no-repeat 0 0;}
+.ssibottom a:hover {color: #000; text-decoration:underline;}
+.ss-bottom {
+	width:980px;
+	height:auto;
+	float:left;
+}
+.ss-botto {width:910px; height:70px; float:left; border:1px solid #cccccc; margin:10px 30px; border-radius:10px;}
+.ss-first { width:auto; height:auto; float:left; border-right: 1px solid #ccc;}
+.ss-first img {width:auto; height:auto; float:left; margin:13px 15px;}
+.social {width:980px; height:inherit; float:left;}
+.social-left {
+	width:150px;
+	height:auto;
+	float:left;
+}
+.social-icon {width:auto; height:auto; float:left; margin:10px 2px;}
+.social-right {
+	width:150px;
+	height:auto;
+	float:right;
+}
+.social-icons {width:auto; height:auto; float:right; margin:10px 2px;}
+/*.subpage-menu {width:900px; height:18px; float:left; margin:1px 0px; }
+.subpage-menu ul {margin:0px; padding:0px; }
+.subpage-menu ul li {display:inline;}
+.subpage-menu ul li a { padding:3px 88px; background:#000;text-decoration:none; color:#fff;  font-family:Arial, Helvetica, sans-serif; font-size:14px;  border-radius:none;}
+.subpage-menu ul li a:hover { background-color:#FFFFFF; color:#000000;}
+.sub-con {
+	width:900px;
+	height:auto;
+	float:left;
+}
+.sub-con-left {width:550px; height:400px; float:left; overflow:scroll; margin:10px;}
+.sub-con-left h1 {font-family:Arial, Helvetica, sans-serif; font-size:18px; color:#7d8d9b; margin:20px 15px;}
+.sub-con-right {
+	width:300px;
+	height:auto;
+	float:left; margin:10px;
+}
+.sub-con-left p {font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; margin:0 0 10px 15px ;}
+.sub-con-butt {border:1px solid #000; background:url(../images/sea-le.png) no-repeat 0 0; width:35px; height:20px; float:left;} 
+.sub-con-tex {width:auto; height:18px; border:1px solid #000; border-left:none;  float:left;}
+.sub-leftcon {width:200px; height:100px; float:left; border:1px dashed #cccccc; margin:15px 0 0 0; border-left:none; border-right:none;}
+.sub-leftcon h2 {font-size:75px; color:#cccccc; margin:10px; font-weight:normal; border:none;}
+.ss-bottos{width:910px; height:auto; float:left; border:1px solid #cccccc; margin:10px 30px; border-radius:10px;}
+.sub-con1 {
+	width:220px;
+	height:250px;
+	float:left; margin:0 5px 0 0; border-right:1px solid #ccc; border-left:1px solid #ccc; border-bottom:1px solid #ccc;
+}
+.sub-con1 h4 {width:210px; height:auto; padding:10px 5px; background:#7d8d9b; font-family:Arial, Helvetica, sans-serif; color:#fff;}
+.span-con {width:210px; height:150px; float:left; overflow:scroll;}*/
