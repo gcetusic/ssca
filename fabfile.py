@@ -43,6 +43,7 @@ def dev_gc():
     env.root = '/home/cetko/projects/ssca/'
     env.home = '/home/cetko/projects/ssca/'
     env.git_branch = 'develop_goran'
+    env.custompip = 'numpy'
     _setup_path()
 
 def stag():
@@ -89,10 +90,14 @@ def update_requirements():
     cmd = ['%(virtualenv_root)s/bin/pip install --upgrade distribute &&' % env]
     cmd += ['%(virtualenv_root)s/bin/pip install' % env]
     #cmd += ['-E %(virtualenv_root)s' % env]
+    if (env.custompip):
+	customcmd = '%(virtualenv_root)s/bin/pip install %(custompip)s' % env
     cmd += ['--requirement %s' % os.path.join(env.root, 'requirements.txt')]
     if (env.local):
+	local(customcmd)
         local(' '.join(cmd))
     else:
+	run(customcmd)
         run(' '.join(cmd))
 
 def update_db(south, fake):
