@@ -22,6 +22,7 @@ def dev():
     env.hosts = ['localhost']
     env.home = '~/code/ssca'
     env.git_branch = 'develop'
+    env.custompip = 'numpy'
     # forces local operations. set to false and override hosts if you want to deploy out to a server
     env.local = True
     if not(hasattr(env, 'dev')) or not(env.dev):
@@ -43,7 +44,6 @@ def dev_gc():
     env.root = '/home/cetko/projects/ssca/'
     env.home = '/home/cetko/projects/ssca/'
     env.git_branch = 'develop_goran'
-    env.custompip = 'numpy'
     _setup_path()
 
 def stag():
