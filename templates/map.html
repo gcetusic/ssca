@@ -1,6 +1,14 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+var center_latitude = {{ gmap.center.0 }};
+var center_longitude = {{ gmap.center.1 }};
+var map_zoom = {{ gmap.zoom }};
+var gmaps_viewer = "{% url gmaps_viewer %}";
+var marker_info = "{% url marker_info %}";
+</script>
 
+<script type="text" src="{{ STATIC_URL }}js/gmaps.js"></script>
 <script type="text/javascript">
     window.onload = loadScript;
 
@@ -8,8 +16,8 @@
 
     function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng({{ gmap.center.0 }}, {{ gmap.center.1 }}),
-          zoom: {{ gmap.zoom }},
+          center: new google.maps.LatLng(center_latitude, center_longitude),
+          zoom: map_zoom,
           mapTypeId: google.maps.MapTypeId.SATELLITE
         };
         var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -29,7 +37,7 @@
             $.ajax({
                 async: false,
                 type: "POST",
-                url: "{% url gmaps_viewer %}",
+                url: gmaps_viewer,
                 dataType: "json",
                 data: boundaries,
                 success: function(data) {
@@ -83,7 +91,7 @@
                             $.ajax({
                                 async: false,
                                 type: "POST",
-                                url: "{% url marker_info %}",
+                                url: marker_info,
                                 dataType: "json",
                                 data: {
                                     "id": marker.id
