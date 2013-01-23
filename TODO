@@ -1,0 +1,37 @@
+models:
+
+    1. replace Coordinates with Location but set person to null temporarily
+        - be careful to set the correct max_digits (lat 7, lon 8)
+        - use ranges -89--89 and -179--179
+
+    2. modify random data generator to insert date and person in Location
+        - don't use a function from inside the model to do that
+        - print usage (optional since generated only once)
+
+    3. export fixtures
+
+    4. Person should be a profile of user?
+        - it depends on what the admin interface should look like
+
+
+views:
+
+    1. set the zoom and center on first load of map
+        - initial zoom?
+        - initial center?
+
+    2. one view for marker info and marker list - pass parameter for former
+
+    3. compare clustering algorithms
+        - which one is more efficient?
+        - does scipy differently than Pycluster (more markers in center)?
+        - numpy doesn't play well with virtualenv - this is a reported bug
+
+
+javascript:
+
+    1. close other popups when clicking on new ones
+
+    2. move javascript to a separate static file
+
+    3. implement markerClusterer
