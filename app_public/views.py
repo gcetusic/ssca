@@ -3,9 +3,9 @@ from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
-from app_public.models import Person, Account, Subscription
+from app_public.models import Person, Account
 from datetime import datetime
-from app_public.models import Coordinates
+from app_public.models import Location
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from numpy import vstack
@@ -78,12 +78,13 @@ def post_auth_process(request, backend, *args, **kwargs):
 
     return render_to_response('error.html', {"message": message})
 
+
 @csrf_exempt
 def gmaps(request):
     context = {}
 
     if request.is_ajax and request.POST:
-        coordinates = Coordinates.objects.filter( \
+        coordinates = Location.objects.filter( \
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
@@ -123,5 +124,5 @@ def gmaps(request):
 @csrf_exempt
 def marker_info(request):
     if 'id' in request.POST:
-        data = serializers.serialize("json", Coordinates.objects.filter(id=request.POST['id']))
+        data = serializers.serialize("json", Location.objects.filter(id=request.POST['id']))
         return HttpResponse(data)
