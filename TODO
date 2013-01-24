@@ -1,16 +1,6 @@
 models:
 
-    1. replace Coordinates with Location but set person to null temporarily
-        - be careful to set the correct max_digits (lat 7, lon 8)
-        - use ranges -89--89 and -179--179
-
-    2. modify random data generator to insert date and person in Location
-        - don't use a function from inside the model to do that
-        - print usage (optional since generated only once)
-
-    3. export fixtures
-
-    4. Person should be a profile of user?
+    1. Person should be a profile of user?
         - it depends on what the admin interface should look like
 
 
