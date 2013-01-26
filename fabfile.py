@@ -6,6 +6,7 @@ from fabric import utils
 from fabric.decorators import hosts
 
 env.project = 'app_public'
+vps = 'ps154456.dreamhost.com'
 
 def _setup_path():
     env.root = env.home
@@ -35,7 +36,6 @@ def dev_rf():
     env.root = '/home/rfirmin/code/ssca/'
     _setup_path()
 
-
 def dev_gc():
     env.dev = True
     dev()
@@ -46,8 +46,14 @@ def dev_gc():
     _setup_path()
 
 def stag():
-   """ use stag environment on remote host"""
-   utils.abort('Staging deployment not yet implemented.')
+    env.user = 'rfirmin'
+    env.environment = 'stag'
+    env.hosts = [vps]
+    env.home = '/home/rfirmin/sscadev.dreamhosters.com/'
+    env.git_branch = 'develop'
+    env.local = False
+    env.root = '/home/rfirmin/sscadev.dreamhosters.com/'
+    _setup_path()
 
 def prod():
     """ use prod environment on remote host"""
