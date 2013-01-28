@@ -1,6 +1,5 @@
 from .models import Location
 from datetime import datetime
-from django.db.models.query import QuerySet
 import decimal
 import random
 
@@ -18,3 +17,7 @@ def write_data(latrange=(-89, 89), lonrange=(-179, 179), limit=10000):
         position = gen_random_position(latrange, lonrange)
         locations.append(Location(date=datetime.now(), latitude=position[0], longitude=position[1]))
     Location.objects.bulk_create(locations)
+
+
+def delete_data():
+    Location.objects.all().delete()
