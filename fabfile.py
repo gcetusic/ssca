@@ -23,7 +23,6 @@ def dev():
     env.hosts = ['localhost']
     env.home = '~/code/ssca'
     env.git_branch = 'develop'
-    env.custompip = 'numpy'
     # forces local operations. set to false and override hosts if you want to deploy out to a server
     env.local = True
     if not(hasattr(env, 'dev')) or not(env.dev):
@@ -60,6 +59,13 @@ def prod():
     """ use prod environment on remote host"""
     utils.abort('Production deployment not yet implemented.')
 
+def preinstall():
+    cmd = '%(virtualenv_root)s/bin/pip install numpy' % env
+    if (env.local):
+        local(cmd)
+    else:
+        remote(cmd)
+
 def bootstrap():
     """ initialize remote host environment (virtualenv, deploy, update) """
     require('root', provided_by=('dev', 'stag', 'prod'))
@@ -68,6 +74,7 @@ def bootstrap():
     else:
         run('mkdir -p %(root)s' % env)
     create_virtualenv()
+    preinstall()
     update_requirements()
     manage('collectstatic --noinput')
     manage('syncdb --all')
@@ -76,6 +83,7 @@ def bootstrap():
 
 def build():
     """ Rebuild. Don't be alarmed if it fails on south, if no models have changed """
+    preinstall()
     update_requirements()
     update_db('auto', False)
 
@@ -96,14 +104,10 @@ def update_requirements():
     cmd = ['%(virtualenv_root)s/bin/pip install --upgrade distribute &&' % env]
     cmd += ['%(virtualenv_root)s/bin/pip install' % env]
     #cmd += ['-E %(virtualenv_root)s' % env]
-    if (env.custompip):
-	customcmd = '%(virtualenv_root)s/bin/pip install %(custompip)s' % env
     cmd += ['--requirement %s' % os.path.join(env.root, 'requirements.txt')]
     if (env.local):
-	local(customcmd)
         local(' '.join(cmd))
     else:
-	run(customcmd)
         run(' '.join(cmd))
 
 def update_db(south, fake):
