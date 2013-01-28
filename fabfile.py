@@ -22,7 +22,6 @@ def dev():
     env.hosts = ['localhost']
     env.home = '~/code/ssca'
     env.git_branch = 'develop'
-    env.custompip = 'numpy'
     # forces local operations. set to false and override hosts if you want to deploy out to a server
     env.local = True
     if not(hasattr(env, 'dev')) or not(env.dev):
@@ -90,14 +89,10 @@ def update_requirements():
     cmd = ['%(virtualenv_root)s/bin/pip install --upgrade distribute &&' % env]
     cmd += ['%(virtualenv_root)s/bin/pip install' % env]
     #cmd += ['-E %(virtualenv_root)s' % env]
-    if (env.custompip):
-	customcmd = '%(virtualenv_root)s/bin/pip install %(custompip)s' % env
     cmd += ['--requirement %s' % os.path.join(env.root, 'requirements.txt')]
     if (env.local):
-	local(customcmd)
         local(' '.join(cmd))
     else:
-	run(customcmd)
         run(' '.join(cmd))
 
 def update_db(south, fake):
