@@ -4,6 +4,7 @@
 var center_latitude = {{ gmap.center.0 }};
 var center_longitude = {{ gmap.center.1 }};
 var map_zoom = {{ gmap.zoom }};
+var min_zoom = {{ gmap.minzoom }}
 var gmaps_viewer = "{% url gmaps_viewer %}";
 var marker_info = "{% url marker_info %}";
 </script>
@@ -18,6 +19,7 @@ var marker_info = "{% url marker_info %}";
         var mapOptions = {
           center: new google.maps.LatLng(center_latitude, center_longitude),
           zoom: map_zoom,
+          minZoom: min_zoom,
           mapTypeId: google.maps.MapTypeId.SATELLITE
         };
         var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -32,6 +34,7 @@ var marker_info = "{% url marker_info %}";
                 "south": sw.lat(),
                 "east": ne.lng(),
                 "west": sw.lng(),
+                "zoom": map.getZoom()
             }
 
             $.ajax({
@@ -127,4 +130,4 @@ var marker_info = "{% url marker_info %}";
     }
 
 </script>
-<div id="map_canvas" style="width:100%; height:100%"></div>
+<div id="map_canvas" style="width:900px; height:600px"></div>

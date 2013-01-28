@@ -119,6 +119,7 @@ def gmaps(request):
         google_map = {
             'center': (20, 0),
             'zoom': 3,
+            'minzoom': 2
         }
         context['gmap'] = google_map
         context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
