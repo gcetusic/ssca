@@ -23,18 +23,19 @@ def logout_page(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+
 def post_auth_process(request, backend, *args, **kwargs):
     """Post authentication process"""
 
-    try: # Get the identity from the response returned by the OpenId provider.
+    try:  # Get the identity from the response returned by the OpenId provider.
         openid_identity = request.REQUEST['openid.identity']
         print openid_identity
 
-        try: # Check whether an user exists with this Identity.
-            person = Person.objects.get(identity = openid_identity)
+        try:  # Check whether an user exists with this Identity.
+            person = Person.objects.get(identity=openid_identity)
 
             # If exists, check whether the user has subscribed.
-            account = Account.objects.get(user = person.user)
+            account = Account.objects.get(user=person.user)
 
             # If subscribed, check whether the subscription is not expired.
             # If the subscription is not expired, login the user.
@@ -46,12 +47,11 @@ def post_auth_process(request, backend, *args, **kwargs):
                 login(request, person.user)
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
-
-            else: # If the subscription seems to be expired, ask the user to renew it.
+            else:  # If the subscription seems to be expired, ask the user to renew it.
                 message = {
-		            'title': 'Subscription Expired',
-		            'description': 'Your subscription seems to be expired. Please renew it.'
-		}
+                    'title': 'Subscription Expired',
+                    'description': 'Your subscription seems to be expired. Please renew it.'
+        }
 
         except Person.DoesNotExist:
             # TODO: If an user with such identity not exists, register the new user
@@ -68,7 +68,7 @@ def post_auth_process(request, backend, *args, **kwargs):
                         'description': 'You seem to be not chosen any subscription. Please subscribe.'
             }
 
-    except KeyError: # Handle the case of no identity found in the Openid provider response.
+    except KeyError:  # Handle the case of no identity found in the Openid provider response.
         # Message to the user as error in authentication.
         message = {
             'title': 'Authentication Error',
