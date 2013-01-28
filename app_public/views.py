@@ -8,9 +8,8 @@ from datetime import datetime
 from app_public.models import Location
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
-from numpy import vstack
-from Pycluster import kcluster, clustercentroids
 from decimal import *
+from clustering import distance
 import json
 from django.core import serializers
 
@@ -79,42 +78,47 @@ def post_auth_process(request, backend, *args, **kwargs):
     return render_to_response('error.html', {"message": message})
 
 
+def decimal_to_float(location, *args):
+    for arg in args:
+        location[arg] = float(location[arg])
+    return location
+
+
 @csrf_exempt
 def gmaps(request):
     context = {}
 
     if request.is_ajax and request.POST:
-        coordinates = Location.objects.filter( \
+        locations = Location.objects.filter( \
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
-            longitude__lte=float(request.POST['east']))
+            longitude__lte=float(request.POST['east'])).values()
+
         markers = []
-        cluster_number = 100
-        if len(coordinates) >= cluster_number:
-            locations = vstack(map(list, coordinates.values_list('latitude', 'longitude'))).astype('float')
-            clustermap, _, _ = kcluster(locations, cluster_number)
-            clusters, _ = clustercentroids(locations, clusterid=clustermap)
-            for location in clusters:
+        locations = map(lambda x: decimal_to_float(x, 'latitude', 'longitude'), locations)
+        clusters = distance.cluster(locations, 80, int(request.POST.get('zoom', 3)), 'latitude', 'longitude')
+
+        for cluster in clusters:
+            if len(cluster) > 1:
+                centroid = distance.centroid(cluster, 'latitude', 'longitude')
                 markers.append({
-                    'position': ("%.1f" % location[0], "%.1f" % location[1]),
-                    'title': "Hello World",
+                    'position': ("%.3f" % centroid[0], "%.3f" % centroid[1]),
                     'is_cluster': True
                 })
-        else:
-            locations = coordinates.values('id', 'latitude', 'longitude')
-            for location in locations:
+            else:
+                location = cluster[0]
                 markers.append({
                     'id': location['id'],
-                    'position': ("%.1f" % location['latitude'], "%.1f" % location['longitude']),
-                    'title': "Hello World",
+                    'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
                     'is_cluster': False
                 })
         return HttpResponse(json.dumps(markers))
+
     else:
         google_map = {
-            'center': (0, 0),
-            'zoom': 2,
+            'center': (20, 0),
+            'zoom': 3,
         }
         context['gmap'] = google_map
         context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
