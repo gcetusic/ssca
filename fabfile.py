@@ -59,13 +59,6 @@ def prod():
     """ use prod environment on remote host"""
     utils.abort('Production deployment not yet implemented.')
 
-def preinstall():
-    cmd = '%(virtualenv_root)s/bin/pip install numpy' % env
-    if (env.local):
-        local(cmd)
-    else:
-        remote(cmd)
-
 def bootstrap():
     """ initialize remote host environment (virtualenv, deploy, update) """
     require('root', provided_by=('dev', 'stag', 'prod'))
@@ -74,7 +67,6 @@ def bootstrap():
     else:
         run('mkdir -p %(root)s' % env)
     create_virtualenv()
-    preinstall()
     update_requirements()
     manage('collectstatic --noinput')
     manage('syncdb --all')
@@ -83,7 +75,6 @@ def bootstrap():
 
 def build():
     """ Rebuild. Don't be alarmed if it fails on south, if no models have changed """
-    preinstall()
     update_requirements()
     update_db('auto', False)
 
