@@ -15,6 +15,7 @@
     <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
+    <script src="/static/admin/js/creditcard.js"></script>
     <script>
         var bulletinChecked = false;
 
@@ -36,6 +37,15 @@
             var selectValue2  = selectBox2.options[selectBox2.selectedIndex].value;	
             document.getElementById("purchase").innerHTML=selectValue2;
         }
+
+        function verifyCreditCard(){		  
+            var creditCardNum  = document.getElementById('cardNumber').value; 
+            var creditCardtype = document.getElementById('cardType').value;
+            if (checkCreditCard(creditCardNum,creditCardtype)) {
+                return validateForm();
+            } 
+            else {alert (ccErrors[ccErrorNo])};
+        } 
     </script>
 
 	
@@ -251,7 +261,7 @@
               <tr>
                   <td style="padding-left: 24px; padding-bottom: 24px;"> $80 </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                      <button class="btn btn-primary" onclick="testCreditCard();">Pay and Login</button>
+                      <button class="btn btn-primary" onclick="verifyCreditCard();">Pay and Login</button>
                   </td>
               </tr>
           </table>          
