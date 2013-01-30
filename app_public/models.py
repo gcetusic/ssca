@@ -2,11 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class CoordinatesManager(models.Manager):
-    def get_query_set(self):
-        return self.filter(has_star=True)
-
-
 class Subscription(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
