@@ -16,7 +16,8 @@
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
     <script>
-        bulletinChecked = false;
+        var bulletinChecked = false;
+
         function checkedAll () {
             bulletinChecked = !bulletinChecked;
             for (var i = 0; i < document.getElementById('myform').elements.length; i++) {
@@ -29,6 +30,12 @@
             var selectValue  = selectBox.options[selectBox.selectedIndex].value;
             document.getElementById("mail_cost_label").innerHTML=selectValue;
 	}
+
+        function updateSSCAPurchase(){
+            var selectBox2    = document.getElementById("selectContainer");	
+            var selectValue2  = selectBox2.options[selectBox2.selectedIndex].value;	
+            document.getElementById("purchase").innerHTML=selectValue2;
+        }
     </script>
 
 	
@@ -57,7 +64,7 @@
                 <input type="text" id="inputEmail" placeholder="First name " name ="fname">
               </div>
             </div>
-			<div class="control-group">
+            <div class="control-group">
               <label class="control-label" for="inputEmail">Last name: </label>
               <div class="controls">
                 <input type="text" id="inputEmail" placeholder="Last name " name ="lname">
@@ -159,13 +166,13 @@
                   </div>
                   <div>
                       <table><tr><td>
-                                  <select id="selectContainer" onchange="selectionBox2();">
+                                  <select id="selectContainer" onchange="updateSSCAPurchase();">
                                       <option value="(Add $25)" selected="selected">Large (18" x 24")</option>
                                       <option value="(Add $25)">Medium (12" x 18")</option>
                                       <option value="(Add $17)">Small (10" x 15")</option>
                                   </select>
                               </td>
-                              <td><p id="label2">(Add $25)</p></td>
+                              <td><p id="purchase">(Add $25)</p></td>
                           </tr>
                       </table>
                   </div>
