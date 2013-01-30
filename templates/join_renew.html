@@ -20,6 +20,7 @@
   </head>
 
   <body>
+      <!-- Step 1 dialog begins -->
          <div id="myModal" class="modal hide fade">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -63,5 +64,65 @@
          <div class="bs-docs-example" >
             <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">JOIN/RENEW</a>
          </div>	  
+      <!-- Step 1 dialog ends -->
+
+      <!-- Step 2 dialog begins -->
+      <div id="myModal2" class="modal hide fade">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Join SSCA</h3>
+          </div>
+          <div class="modal-body">
+              <h4>Subscribe to SSCA (Step 2 to 3)</h4>
+              <p>SSCA publishes the monthly commodore's bulletin, which keeps you upto date on the latest cruising news and happenings.</p>
+              <br>
+              <p>You may chosse to have a paper copy delivered to you.</p>
+              <br>
+              <p>Membership fee: $55 / year</p>
+              <div class="control-group">
+                  <form id="myform">
+                      <div class="controls" style="float:left;">
+                          <label class="checkbox">
+                              <input type="checkbox" name="checkall" onclick="checkedAll();"> Main bulletins to me &nbsp;&nbsp;&nbsp;
+                          </label>
+                      </div>
+
+                      <div>
+                          <table><tr><td>
+                                      <select id="selectionBox" onchange="selectionBox1();">
+                                          <option value="(Add $5)" selected="selected" >in the United States</option>
+                                          <option value="(Add $15)">in Canada or Mexico</option>
+                                          <option value="(Add $15)">Overseas (surface mail) </option>
+                                      </select>
+                                  </td>
+                                  <td><p id="label1">(Add $5)</p></td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div style="float:clear;">
+                      </div>
+                      <div class="control-group">
+                          <div class="controls">
+                              <label class="checkbox">
+                                  <input type="checkbox"> Send via First Class Mail (Add $5) 
+                              </label>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+
+          <hr>
+          <table width="100%">
+              <tr>
+                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $55 / year </td>			  
+                  <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
+                      <a data-toggle="modal" href="#myModal3" data-dismiss="modal" class="btn btn-primary">Continue to Step 3</a>
+                  </td>
+              </tr>
+          </table>
+
+      </div>
+      <!-- Step 2 dialog ends -->
  </body>
 </html>
