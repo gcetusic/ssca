@@ -126,3 +126,17 @@ def marker_info(request):
     if 'id' in request.POST:
         data = serializers.serialize("json", Location.objects.filter(id=request.POST['id']))
         return HttpResponse(data)
+
+def join_renew(request):
+    """
+    Function handles join or reniew popups.  join form is shown if user has
+    not already joined.
+    Otherwise, renew form is shown
+
+    :param request: django HttpRequest
+
+    :return: django HttpResponse 
+    """
+    #assuming new user
+    user_exist = False
+    return render_to_response('join_renew.html', {})
