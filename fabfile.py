@@ -28,6 +28,15 @@ def dev():
     if not(hasattr(env, 'dev')) or not(env.dev):
         utils.abort('Create your own dev env; see dev_rfirmin for example');
 
+def dev_navjot():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.root = '/home/wb/work/reuben/ssca/'
+    env.home = '/home/wb/work/reuben/ssca/'
+    env.git_branch = 'develop_navjot1'
+    _setup_path()
+
 # feel free to make your own envs
 def dev_rf():
     env.dev = True
