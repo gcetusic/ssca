@@ -6,7 +6,10 @@ from app_public.views import *
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
+    url(r'^base/$', 'django.views.generic.simple.direct_to_template', {'template': 'base.html'}),
+    url(r'^public/$', 'django.views.generic.simple.direct_to_template', {'template': 'public.html'}),
+    url(r'^member/$', 'django.views.generic.simple.direct_to_template', {'template': 'member.html'}),
+
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', logout_page),
     url(r'^dashboard/', include('app_dashboard.urls')),
