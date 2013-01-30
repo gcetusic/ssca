@@ -15,6 +15,15 @@
     <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
+    <script>
+        bulletinChecked = false;
+        function checkedAll () {
+            bulletinChecked = !bulletinChecked;
+            for (var i = 0; i < document.getElementById('myform').elements.length; i++) {
+                document.getElementById('myform').elements[i].checked = bulletinChecked;
+            }
+        }
+    </script>
 
 	
   </head>
