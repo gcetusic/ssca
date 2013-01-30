@@ -124,5 +124,116 @@
 
       </div>
       <!-- Step 2 dialog ends -->
+
+      <!-- Step 3 dialog begins -->
+      <div id="myModal3" class="modal hide fade">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Join SSCA</h3>
+          </div>
+          <div class="modal-body">
+              <h4>Subscribe to SSCA (Step 3 to 3)</h4>
+              <p>Almost done. Decide whether you'd like to fly the SSCA burgee, and provide your payment details to checkout.</p>
+              <form name="firstForm">
+                  <div class="control-group">
+                      <div class="controls" style="float:left;">
+                          <label class="checkbox">
+                              <input type="checkbox" name="chkPurchaseSSCABurgee"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
+                          </label>
+                      </div>
+                  </div>
+                  <div>
+                      <table><tr><td>
+                                  <select id="selectContainer" onchange="selectionBox2();">
+                                      <option value="(Add $25)" selected="selected">Large (18" x 24")</option>
+                                      <option value="(Add $25)">Medium (12" x 18")</option>
+                                      <option value="(Add $17)">Small (10" x 15")</option>
+                                  </select>
+                              </td>
+                              <td><p id="label2">(Add $25)</p></td>
+                          </tr>
+                      </table>
+                  </div>
+                  <div style="float:clear;">
+                  </div>
+
+                  <div class="control-group">
+
+                      <div class="controls" style="float:left;" >
+                          <label class="control-label" for="inputEmail">Name on card: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+                      <div class="controls">
+                          <input type="text" id="inputEmail" placeholder="Name on card" name="cardName">
+                      </div>
+                      <div style="float:clear;">
+                      </div>
+                      <div class="controls" style="float:left;">
+                          <label class="checkbox">
+                              <input type="checkbox" name="chkCreditCardType"> Credit card type: &nbsp;&nbsp;&nbsp;&nbsp;
+                          </label>
+                      </div>
+
+                      <div>
+                          <select id="cardType">
+                              <option>Visa</option>
+                              <option>MasterCard</option>
+                              <option>American Express</option>
+                              <option>Discover</option>
+                              <option>Diners Club</option>
+                              <option>JCB</option>
+                          </select> 
+                      </div>
+                      <div style="float:clear;">
+                      </div>
+                      <div class="controls" style="float:left;">
+                          <label class="control-label" for="inputEmail" >Credit card number: &nbsp;&nbsp;</label>
+                      </div>
+                      <div class="controls">
+                          <input type="text" id="cardNumber" placeholder="" name="cardNumber">
+                      </div>
+                      <div style="float:clear;">
+                      </div>
+                  </form>
+                  <form class="form-inline" name="secondForm">
+                      <label class="control-label" for="inputEmail">Expiry date: &nbsp;&nbsp;</label>
+                      <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                          <input class="span2" size="16" type="text" value="" readonly="" name="date">
+                          <span class="add-on"><img src="assets/calendar.png" alt="calendar" class="icon-calendar" data-date-format="yyyy-mm-dd" data-date="2012-02-20"></span>
+                      </div>
+
+                      <label class="control-label" for="inputEmail">CSV: &nbsp;&nbsp;</label>
+                      <input type="text" class="input-small" placeholder="" name="csv">
+                  </form>
+              </div>
+              <div class="control-group">
+                  <div class="controls" style="float:left;">
+                      <p>my total:$65 / year &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                  </div>
+                  <form name="thirdForm">
+                      <div>
+                          <label class="checkbox">
+                              <input type="checkbox" name="chkRenewEveryYear"> Automatically renew every year 
+                          </label>
+                      </div>
+                      <div style="float:clear;">
+                      </div>
+                  </form>
+                  <div>
+                      <p>$25 (Large Burgee)</p>
+                  </div>
+              </div>
+          </div>
+
+          <hr>
+          <table width="100%">
+              <tr>
+                  <td style="padding-left: 24px; padding-bottom: 24px;"> $80 </td>			  
+                  <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
+                      <button class="btn btn-primary" onclick="testCreditCard();">Pay and Login</button>
+                  </td>
+              </tr>
+          </table>          
+      </div>
+      <!-- Step 3 dialog ends -->
  </body>
 </html>
