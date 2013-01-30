@@ -23,6 +23,12 @@
                 document.getElementById('myform').elements[i].checked = bulletinChecked;
             }
         }
+
+	function updateMailCostLabel(){	    
+            var selectBox    = document.getElementById("selectionBox");	
+            var selectValue  = selectBox.options[selectBox.selectedIndex].value;
+            document.getElementById("mail_cost_label").innerHTML=selectValue;
+	}
     </script>
 
 	
@@ -98,13 +104,13 @@
 
                       <div>
                           <table><tr><td>
-                                      <select id="selectionBox" onchange="selectionBox1();">
+                                      <select id="selectionBox" onchange="updateMailCostLabel();">
                                           <option value="(Add $5)" selected="selected" >in the United States</option>
                                           <option value="(Add $15)">in Canada or Mexico</option>
                                           <option value="(Add $15)">Overseas (surface mail) </option>
                                       </select>
                                   </td>
-                                  <td><p id="label1">(Add $5)</p></td>
+                                  <td><p id="mail_cost_label">(Add $5)</p></td>
                               </tr>
                           </table>
                       </div>
