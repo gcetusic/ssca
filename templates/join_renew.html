@@ -16,39 +16,69 @@
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
     <script src="/static/admin/js/creditcard.js"></script>
-    <script>
-        var bulletinChecked = false;
 
-        function checkedAll () {
-            bulletinChecked = !bulletinChecked;
-            for (var i = 0; i < document.getElementById('myform').elements.length; i++) {
-                document.getElementById('myform').elements[i].checked = bulletinChecked;
-            }
+    <script>		
+        function bulletinClicked() {
+            var cbFirstClass = document.getElementById('cbFirstClass');
+            var cbBulletins = document.getElementById('cbBulletins');
+            cbFirstClass.checked = cbBulletins.checked;
+            updateTotal();
         }
 
-	function updateMailCostLabel(){	    
-            var selectBox    = document.getElementById("selectionBox");	
-            var selectValue  = selectBox.options[selectBox.selectedIndex].value;
-            document.getElementById("mail_cost_label").innerHTML=selectValue;
-	}
+        function updateTotal() {		
+
+            var total = 55;
+            var bulletinVal = parseInt($('#selectionBox').val());
+            var cbFirstClass = document.getElementById('cbFirstClass');
+            var cbBulletins = document.getElementById('cbBulletins');
+
+            $('#mail_cost_label').text(bulletinVal);
+
+            if (cbBulletins.checked){
+                total += bulletinVal;
+            }
+            if (cbFirstClass.checked){
+                total += 5;
+            }
+
+            $('#total').text(total);
+        }
+
 
         function updateSSCAPurchase(){
-            var selectBox2    = document.getElementById("selectContainer");	
-            var selectValue2  = selectBox2.options[selectBox2.selectedIndex].value;	
-            document.getElementById("purchase").innerHTML=selectValue2;
+            var valueSelected = $('#selectContainer').val();
+            var textSelected = $('#selectContainer option:selected').text();
+            $('#purchase').text(valueSelected);
+            $('#burgeeCostBottom').text(valueSelected);
+            $('#burgeeSize').text(textSelected);
         }
 
-        function verifyCreditCard(){		  
-            var creditCardNum  = document.getElementById('cardNumber').value; 
-            var creditCardtype = document.getElementById('cardType').value;
-            if (checkCreditCard(creditCardNum,creditCardtype)) {
-                return validateForm();
-            } 
-            else {alert (ccErrors[ccErrorNo])};
-        } 
-    </script>
+        function setTotalOnSelectOfCheckBoxes(){
+            var valueSelected = $('#selectionBox').val();
+            $('#mail_cost_label').text(valueSelected);
+            var total = parseInt(valueSelected, 10)+55+5;
+            $('#total').text(total);			
+        }
 
-	
+        function setTotalOnUnSelectOfCheckBoxes(){
+            var valueSelected = $('#selectionBox').val();
+            $('#mail_cost_label').text(valueSelected);
+            var total = 55;
+            $('#total').text(total);
+        }
+
+        function setTotalCostForBurgeeOnUnSelect(){
+            var valueSelected = $('#selectContainer').val();
+            var total = 80;
+            $('#costTotal').text(total);
+        }
+
+        function setTotalCostForBurgee(){	    
+            var valueSelected = $('#selectContainer').val();
+            var total = parseInt(valueSelected, 10)+65;
+            $('#costTotal').text(total);
+        }
+    </script>
   </head>
 
   <body>
@@ -115,19 +145,19 @@
                   <form id="myform">
                       <div class="controls" style="float:left;">
                           <label class="checkbox">
-                              <input type="checkbox" name="checkall" onclick="checkedAll();"> Main bulletins to me &nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="checkall" id="cbBulletins" onclick="bulletinClicked();"> Main bulletins to me &nbsp;&nbsp;&nbsp;
                           </label>
                       </div>
 
                       <div>
                           <table><tr><td>
-                                      <select id="selectionBox" onchange="updateMailCostLabel();">
-                                          <option value="(Add $5)" selected="selected" >in the United States</option>
-                                          <option value="(Add $15)">in Canada or Mexico</option>
-                                          <option value="(Add $15)">Overseas (surface mail) </option>
+                                      <select id="selectionBox" onchange="updateTotal();">
+                                          <option value="5" selected="selected" >in the United States</option>
+                                          <option value="15">in Canada or Mexico</option>
+                                          <option value="15">Overseas (surface mail) </option>
                                       </select>
                                   </td>
-                                  <td><p id="mail_cost_label">(Add $5)</p></td>
+                                  <td>(Add $<font id="mail_cost_label">5</font>)</td>
                               </tr>
                           </table>
                       </div>
@@ -136,7 +166,7 @@
                       <div class="control-group">
                           <div class="controls">
                               <label class="checkbox">
-                                  <input type="checkbox"> Send via First Class Mail (Add $5) 
+                                  <input type="checkbox" id="cbFirstClass" onclick="updateTotal();"> Send via First Class Mail (Add $5) 
                               </label>
                           </div>
                       </div>
@@ -147,7 +177,7 @@
           <hr>
           <table width="100%">
               <tr>
-                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $55 / year </td>			  
+                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<font id="total">55 </font>/ year </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
                       <a data-toggle="modal" href="#myModal3" data-dismiss="modal" class="btn btn-primary">Continue to Step 3</a>
                   </td>
@@ -177,14 +207,14 @@
                   <div>
                       <table><tr><td>
                                   <select id="selectContainer" onchange="updateSSCAPurchase();">
-                                      <option value="(Add $25)" selected="selected">Large (18" x 24")</option>
-                                      <option value="(Add $25)">Medium (12" x 18")</option>
-                                      <option value="(Add $17)">Small (10" x 15")</option>
-                                  </select>
-                              </td>
-                              <td><p id="purchase">(Add $25)</p></td>
-                          </tr>
-                      </table>
+                                      <option value="25" selected="selected">Large (18" x 24")</option>
+									  <option value="25">Medium (12" x 18")</option>
+									  <option value="17">Small (10" x 15")</option>
+						          </select>
+						</td>
+						<td>(Add $<font id="purchase">25</font>)</td>
+						</tr>
+						</table>
                   </div>
                   <div style="float:clear;">
                   </div>
@@ -244,15 +274,16 @@
                   <form name="thirdForm">
                       <div>
                           <label class="checkbox">
-                              <input type="checkbox" name="chkRenewEveryYear"> Automatically renew every year 
+                              <input type="checkbox" name="chkRenewEveryYear" onclick="setTotalCostForBurgee();"> Automatically renew every year 
                           </label>
                       </div>
                       <div style="float:clear;">
                       </div>
                   </form>
                   <div>
-                      <p>$25 (Large Burgee)</p>
-                  </div>
+						$<font id="burgeeCostBottom">25 </font>
+						<font id="burgeeSize">Large (18" x 24")</font>
+				</div>
               </div>
           </div>
 
@@ -261,7 +292,7 @@
               <tr>
                   <td style="padding-left: 24px; padding-bottom: 24px;"> $80 </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                      <button class="btn btn-primary" onclick="verifyCreditCard();">Pay and Login</button>
+                      <button class="btn btn-primary" onclick="testCreditCard();">Pay and Login</button>
                   </td>
               </tr>
           </table>          
