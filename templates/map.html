@@ -102,7 +102,7 @@ var marker_info = "{% url marker_info %}";
                                 },
                                 success: function (data) {
                                     infowindow = new google.maps.InfoWindow();
-                                    infowindow.setContent("Data");
+                                    infowindow.setContent(JSON.stringify(data));
                                     infowindow.open(map, marker);
                                 }
                             });

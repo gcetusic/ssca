@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 from decimal import *
 from clustering import distance
 import json
-from django.core import serializers
 
 
 def dashboard_main_page(request):
@@ -93,7 +92,7 @@ def gmaps(request):
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
-            longitude__lte=float(request.POST['east'])).values()
+            longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
         markers = []
         locations = map(lambda x: decimal_to_float(x, 'latitude', 'longitude'), locations)
@@ -129,5 +128,10 @@ def gmaps(request):
 @csrf_exempt
 def marker_info(request):
     if 'id' in request.POST:
-        data = serializers.serialize("json", Location.objects.filter(id=request.POST['id']))
-        return HttpResponse(data)
+        data = Location.objects.filter(id=request.POST['id'])
+        info = {
+            'person': data[0].person.user.username,
+            'date': data[0].date.strftime("%Y-%m-%d"),
+            'position': ("%.3f" % data[0].latitude, "%.3f" % data[0].longitude),
+        }
+        return HttpResponse(json.dumps(info))
