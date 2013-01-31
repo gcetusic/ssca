@@ -28,7 +28,7 @@
         function updateTotal() {		
 
             var total = 55;
-            var bulletinVal = parseInt($('#selectionBox').val());
+            var bulletinVal = parseInt($('#id_mail_location').val());
             var cbFirstClass = document.getElementById('cbFirstClass');
             var cbBulletins = document.getElementById('cbBulletins');
 
@@ -137,11 +137,14 @@
 
                       <div>
                           <table><tr><td>
-                                      <select id="selectionBox" onchange="updateTotal();">
+                                      <!--
+                                      <select id="mail_location" onchange="updateTotal();">
                                           <option value="5" selected="selected" >in the United States</option>
                                           <option value="15">in Canada or Mexico</option>
                                           <option value="15">Overseas (surface mail) </option>
                                       </select>
+                                      -->
+                                      {{ form.mail_location }}
                                   </td>
                                   <td>(Add $<font id="mail_cost_label">5</font>)</td>
                               </tr>

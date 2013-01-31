@@ -12,6 +12,10 @@ class SSCAJoinForm(forms.Form):
             ('Diners Club', 'Diners Club'),
             ('JCB', 'JCB')]
 
+    mail_locations = [('5', 'in the United States'),
+            ('15', 'in Canada or Mexico'),
+            ('15', 'Overseas (surface mail)')]
+
     # for step 1 dialog
     firstname = forms.CharField(max_length=32, widget=forms.TextInput(
         attrs={'placeholder': 'First Name'}))
@@ -22,6 +26,8 @@ class SSCAJoinForm(forms.Form):
 
     # for step 2 dialog
     membership_fee = forms.IntegerField()
+    mail_location = forms.ChoiceField(choices = mail_locations,
+            widget=forms.Select(attrs={'onchange':'updateTotal();'}))
 
     # for step 3 dialog
     name_on_card = forms.CharField(max_length=32)
