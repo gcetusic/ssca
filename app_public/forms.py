@@ -5,9 +5,12 @@ class SSCAJoinForm(forms.Form):
     SSCA Join Form defines fields to be used in Join SSCA js popups.
     """
     # for step 1 dialog
-    firstname = forms.CharField(max_length=32)
-    lastname = forms.CharField(max_length=32)
-    email = forms.EmailField()
+    firstname = forms.CharField(max_length=32, widget=forms.TextInput(
+        attrs={'placeholder': 'First Name'}))
+    lastname = forms.CharField(max_length=32, widget=forms.TextInput(
+        attrs={'placeholder': 'Last Name'}))
+    email = forms.EmailField( widget=forms.TextInput(
+        attrs={'placeholder': 'Email Address'}))
 
     # for step 2 dialog
     membership_fee = forms.IntegerField()
