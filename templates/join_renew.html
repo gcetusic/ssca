@@ -53,20 +53,6 @@
             $('#burgeeSize').text(textSelected);
         }
 
-        function setTotalOnSelectOfCheckBoxes(){
-            var valueSelected = $('#selectionBox').val();
-            $('#mail_cost_label').text(valueSelected);
-            var total = parseInt(valueSelected, 10)+55+5;
-            $('#total').text(total);			
-        }
-
-        function setTotalOnUnSelectOfCheckBoxes(){
-            var valueSelected = $('#selectionBox').val();
-            $('#mail_cost_label').text(valueSelected);
-            var total = 55;
-            $('#total').text(total);
-        }
-
         function setTotalCostForBurgeeOnUnSelect(){
             var valueSelected = $('#selectContainer').val();
             var total = 80;
