@@ -46,21 +46,21 @@
 
 
         function updateSSCAPurchase(){
-            var valueSelected = $('#selectContainer').val();
-            var textSelected = $('#selectContainer option:selected').text();
+            var valueSelected = $('#id_burgee_type').val();
+            var textSelected = $('#id_burgee_type option:selected').text();
             $('#purchase').text(valueSelected);
             $('#burgeeCostBottom').text(valueSelected);
             $('#burgeeSize').text(textSelected);
         }
 
         function setTotalCostForBurgeeOnUnSelect(){
-            var valueSelected = $('#selectContainer').val();
+            var valueSelected = $('#id_burgee_type').val();
             var total = 80;
             $('#costTotal').text(total);
         }
 
         function setTotalCostForBurgee(){	    
-            var valueSelected = $('#selectContainer').val();
+            var valueSelected = $('#id_burgee_type').val();
             var total = parseInt(valueSelected, 10)+65;
             $('#costTotal').text(total);
         }
@@ -194,16 +194,11 @@
                       </div>
                   </div>
                   <div>
-                      <table><tr><td>
-                                  <select id="selectContainer" onchange="updateSSCAPurchase();">
-                                      <option value="25" selected="selected">Large (18" x 24")</option>
-									  <option value="25">Medium (12" x 18")</option>
-									  <option value="17">Small (10" x 15")</option>
-						          </select>
-						</td>
-						<td>(Add $<font id="purchase">25</font>)</td>
-						</tr>
-						</table>
+                      <table><tr>
+                              <td> {{ form.burgee_type }} </td>
+                              <td>(Add $<font id="purchase">25</font>)</td>
+                          </tr>
+                      </table>
                   </div>
                   <div style="float:clear;">
                   </div>

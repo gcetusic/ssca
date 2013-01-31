@@ -16,6 +16,10 @@ class SSCAJoinForm(forms.Form):
             ('15', 'in Canada or Mexico'),
             ('15', 'Overseas (surface mail)')]
 
+    burgee_types = [('25', 'Large (18" x 24")'),
+            ('25', 'Medium (12" x 18")'),
+            ('17', 'Small (10" x 15")')]
+
     # for step 1 dialog
     firstname = forms.CharField(max_length=32, widget=forms.TextInput(
         attrs={'placeholder': 'First Name'}))
@@ -30,6 +34,8 @@ class SSCAJoinForm(forms.Form):
             widget=forms.Select(attrs={'onchange':'updateTotal();'}))
 
     # for step 3 dialog
+    burgee_type = forms.ChoiceField(choices = burgee_types,
+            widget=forms.Select(attrs={'onchange':'updateSSCAPurchase();'}))
     name_on_card = forms.CharField(max_length=32)
     card_type = forms.ChoiceField(widget = forms.Select(), choices = card_types, required = True,)
     card_number = forms.CharField(max_length=32)
