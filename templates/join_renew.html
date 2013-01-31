@@ -69,10 +69,10 @@
 
   <body>
       <!-- Step 1 dialog begins -->
-         <div id="myModal" class="modal hide fade">
+         <div id="modalStep1" class="modal hide fade">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Join SSCA</h3>
+              <h3>Join SSCA</h3>
             </div>
             <div class="modal-body">
               <h4>Subscribe to SSCA (Step 1 to 3)</h4>
@@ -85,20 +85,20 @@
 			
 	   <form class="bs-docs-example form-horizontal" >
             <div class="control-group">
-              <label class="control-label" for="inputEmail" >First name: </label>
+              <label class="control-label" for="firstname" >First name: </label>
               <div class="controls">
                 {{ form.firstname }}
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="inputEmail">Last name: </label>
+              <label class="control-label" for="lastname">Last name: </label>
               <div class="controls">
                 {{ form.lastname }}
               </div>
             </div>
 			
             <div class="control-group">
-              <label class="control-label" for="inputPassword">Email Address: </label>
+              <label class="control-label" for="email">Email Address: </label>
               <div class="controls">
                 {{ form.email }}
               </div>
@@ -106,19 +106,19 @@
           </form>
 
            <div class="modal-footer">
-               <a data-toggle="modal"  href="#myModal2" data-dismiss="modal" class="btn btn-primary" >Continue to Step 2</a>
+               <a data-toggle="modal"  href="#modalStep2" data-dismiss="modal" class="btn btn-primary" >Continue to Step 2</a>
             </div>
         </div>
          <div class="bs-docs-example" >
-            <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">JOIN/RENEW</a>
+            <a data-toggle="modal" href="#modalStep1" class="btn btn-primary btn-large">JOIN/RENEW</a>
          </div>	  
       <!-- Step 1 dialog ends -->
 
       <!-- Step 2 dialog begins -->
-      <div id="myModal2" class="modal hide fade">
+      <div id="modalStep2" class="modal hide fade">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Join SSCA</h3>
+              <h3>Join SSCA</h3>
           </div>
           <div class="modal-body">
               <h4>Subscribe to SSCA (Step 2 to 3)</h4>
@@ -136,16 +136,8 @@
                       </div>
 
                       <div>
-                          <table><tr><td>
-                                      <!--
-                                      <select id="mail_location" onchange="updateTotal();">
-                                          <option value="5" selected="selected" >in the United States</option>
-                                          <option value="15">in Canada or Mexico</option>
-                                          <option value="15">Overseas (surface mail) </option>
-                                      </select>
-                                      -->
-                                      {{ form.mail_location }}
-                                  </td>
+                          <table><tr>
+                                  <td> {{ form.mail_location }} </td>
                                   <td>(Add $<font id="mail_cost_label">5</font>)</td>
                               </tr>
                           </table>
@@ -168,7 +160,7 @@
               <tr>
                   <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<font id="total">55 </font>/ year </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                      <a data-toggle="modal" href="#myModal3" data-dismiss="modal" class="btn btn-primary">Continue to Step 3</a>
+                      <a data-toggle="modal" href="#modalStep3" data-dismiss="modal" class="btn btn-primary">Continue to Step 3</a>
                   </td>
               </tr>
           </table>
@@ -177,10 +169,10 @@
       <!-- Step 2 dialog ends -->
 
       <!-- Step 3 dialog begins -->
-      <div id="myModal3" class="modal hide fade">
+      <div id="modalStep3" class="modal hide fade">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Join SSCA</h3>
+              <h3>Join SSCA</h3>
           </div>
           <div class="modal-body">
               <h4>Subscribe to SSCA (Step 3 to 3)</h4>
@@ -209,14 +201,13 @@
                           <label class="control-label" for="inputEmail">Name on card: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                       </div>
                       <div class="controls">
-                          <input type="text" id="inputEmail" placeholder="Name on card" name="cardName">
+                          {{ form.name_on_card }}
                       </div>
-                      <div style="float:clear;">
+
+                      <div class="controls" style="float:clear;">
                       </div>
                       <div class="controls" style="float:left;">
-                          <label class="checkbox">
-                              <input type="checkbox" name="chkCreditCardType"> Credit card type: &nbsp;&nbsp;&nbsp;&nbsp;
-                          </label>
+                          <label class="control-label" for="inputEmail">Credit card type:</label> 
                       </div>
 
                       <div>
@@ -228,7 +219,7 @@
                           <label class="control-label" for="inputEmail" >Credit card number: &nbsp;&nbsp;</label>
                       </div>
                       <div class="controls">
-                          <input type="text" id="cardNumber" placeholder="" name="cardNumber">
+                          {{ form.card_number }}
                       </div>
                       <div style="float:clear;">
                       </div>
@@ -241,7 +232,7 @@
                       </div>
 
                       <label class="control-label" for="inputEmail">CSV: &nbsp;&nbsp;</label>
-                      <input type="text" class="input-small" placeholder="" name="csv">
+                          {{ form.card_csv }}
                   </form>
               </div>
               <div class="control-group">
