@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from app_public.models import Person, Account
 from datetime import datetime
 from app_public.models import Location
+from app_public.forms import SSCAJoinForm
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from numpy import vstack
@@ -139,4 +140,5 @@ def join_renew(request):
     """
     #assuming new user
     user_exist = False
-    return render_to_response('join_renew.html', {})
+    form = SSCAJoinForm()
+    return render_to_response('join_renew.html', {'form': form})
