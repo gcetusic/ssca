@@ -71,6 +71,15 @@
             var total = parseInt(valueSelected, 10)+65;
             $('#costTotal').text(total);
         }
+
+        function verifyCreditCard(){		  
+            var creditCardNum  = document.getElementById('id_card_number').value; 
+            var creditCardtype = document.getElementById('id_card_type').value;
+            if (checkCreditCard(creditCardNum,creditCardtype)) {
+                return validateForm();
+            } 
+            else {alert (ccErrors[ccErrorNo])};
+        } 
     </script>
   </head>
 
@@ -267,7 +276,7 @@
               <tr>
                   <td style="padding-left: 24px; padding-bottom: 24px;"> $80 </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                      <button class="btn btn-primary" onclick="testCreditCard();">Pay and Login</button>
+                      <button class="btn btn-primary" onclick="verifyCreditCard();">Pay and Login</button>
                   </td>
               </tr>
           </table>          
