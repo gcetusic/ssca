@@ -7,6 +7,7 @@
 
     <link href="/static/bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
     <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+    <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
 	
     <!-- 
         java script for modal
@@ -15,9 +16,13 @@
     <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
+    <script src="/static/bootstrap_toolkit/js/bootstrap-datepicker.js"></script>
     <script src="/static/admin/js/creditcard.js"></script>
 
     <script>		
+		$(function(){		
+			$('#dp3').datepicker();
+		});
         function bulletinClicked() {
             var cbFirstClass = document.getElementById('cbFirstClass');
             var cbBulletins = document.getElementById('cbBulletins');
@@ -176,7 +181,7 @@
           </div>
           <div class="modal-body">
               <h4>Subscribe to SSCA (Step 3 to 3)</h4>
-              <p>Almost done. Decide whether you'd like to fly the SSCA burgee, and provide your payment details to checkout.</p>
+              <p>Almost done. Decide whether you'd like to fly the SSCA burgee, <br>and provide your payment details to checkout.</p>
               <form name="firstForm">
                   <div class="control-group">
                       <div class="controls" style="float:left;">
