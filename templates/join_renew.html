@@ -20,9 +20,11 @@
     <script src="/static/admin/js/creditcard.js"></script>
 
     <script>		
-		$(function(){		
-			$('#dp3').datepicker();
-		});
+        /* datepicker launcher */
+        $(function(){		
+            $('#dp3').datepicker();
+        });
+
         function bulletinClicked() {
             var cbFirstClass = document.getElementById('cbFirstClass');
             var cbBulletins = document.getElementById('cbBulletins');
@@ -32,7 +34,7 @@
 
         function updateTotal() {		
 
-            var total = 55;
+            var total = {{ basic_mail_cost }};
             var bulletinVal = parseInt($('#id_mail_location').val());
             var cbFirstClass = document.getElementById('cbFirstClass');
             var cbBulletins = document.getElementById('cbBulletins');
@@ -131,7 +133,7 @@
               <br>
               <p>You may chosse to have a paper copy delivered to you.</p>
               <br>
-              <p>Membership fee: $55 / year</p>
+              <p>Membership fee: ${{ basic_mail_cost }} / year</p>
               <div class="control-group">
                   <form id="myform">
                       <div class="controls" style="float:left;">
@@ -163,7 +165,7 @@
           <hr>
           <table width="100%">
               <tr>
-                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<font id="total">55 </font>/ year </td>			  
+                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<font id="total">{{ basic_mail_cost }} </font>/ year </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
                       <a data-toggle="modal" href="#modalStep3" data-dismiss="modal" class="btn btn-primary">Continue to Step 3</a>
                   </td>

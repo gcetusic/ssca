@@ -141,4 +141,5 @@ def join_renew(request):
     #assuming new user
     user_exist = False
     form = SSCAJoinForm()
-    return render_to_response('join_renew.html', {'form': form})
+    c = {'form': form, 'basic_mail_cost': 55}
+    return render_to_response('join_renew.html', c)
