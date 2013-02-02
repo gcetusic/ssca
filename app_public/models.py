@@ -21,7 +21,7 @@ class Person(models.Model):
 
 
 class Location(models.Model):
-    date = models.DateField()
+    date = models.DateTimeField()
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
     person = models.ForeignKey(Person, blank=True, null=True)

@@ -131,7 +131,7 @@ def marker_info(request):
         data = Location.objects.filter(id=request.POST['id'])
         info = {
             'person': data[0].person.user.username,
-            'date': data[0].date.strftime("%Y-%m-%d"),
+            'date': data[0].date.strftime("%Y-%m-%d %H:%m %z"),
             'position': ("%.3f" % data[0].latitude, "%.3f" % data[0].longitude),
         }
         return HttpResponse(json.dumps(info))
