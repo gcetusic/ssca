@@ -25,3 +25,24 @@ class Location(models.Model):
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
     person = models.ForeignKey(Person, blank=True, null=True)
+
+
+class Port(models.Model):
+    latitude = models.DecimalField(max_digits=7, decimal_places=5)
+    longitude = models.DecimalField(max_digits=8, decimal_places=5)
+    name = models.CharField(max_length=150)
+
+
+class Guide(models.Model):
+    port = models.ForeignKey(Port)
+    title = models.CharField(max_length=150)
+    date = models.DateTimeField()
+    author = models.ForeignKey(Person)
+    url = models.URLField(max_length=150)
+
+
+class CruisingStation(models.Model):
+    port = models.ForeignKey(Port)
+    name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(max_length=100, blank=True)
