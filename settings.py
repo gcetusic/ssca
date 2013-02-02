@@ -169,6 +169,9 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 
+USE_TZ = True
+
+
 deployment_env = os.environ.get('DEPLOYMENT_ENV')
 print('using deployment_env ' + deployment_env)
 if deployment_env == 'prod':
