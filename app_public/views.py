@@ -128,9 +128,9 @@ def marker_info(request):
         data = serializers.serialize("json", Location.objects.filter(id=request.POST['id']))
         return HttpResponse(data)
 
-def join_renew(request):
+def join(request):
     """
-    Function handles join or reniew popups.  join form is shown if user has
+    Function handles join popups.  join form is shown if user has
     not already joined.
     Otherwise, renew form is shown
 
@@ -142,4 +142,4 @@ def join_renew(request):
     user_exist = False
     form = SSCAJoinForm()
     c = {'form': form, 'basic_mail_cost': 55}
-    return render_to_response('join_renew.html', c)
+    return render_to_response('join.html', c)
