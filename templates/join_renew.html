@@ -73,8 +73,8 @@
         }
 
         function verifyCreditCard(){		  
-            var creditCardNum  = document.getElementById('id_card_number').value; 
-            var creditCardtype = document.getElementById('id_card_type').value;
+            var creditCardNum  = $('#id_card_number').val(); 
+            var creditCardtype = $('#id_card_type').val();
             if (checkCreditCard(creditCardNum,creditCardtype)) {
                 return validateForm();
             } 
