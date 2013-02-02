@@ -26,6 +26,9 @@ urlpatterns = patterns('',
     # Join
     url(r'^join/', join),
 
+    # Renew
+    url(r'^renew/', renew),
+
     url(r'^', include('cms.urls')),
 )
 

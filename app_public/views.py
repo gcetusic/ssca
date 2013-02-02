@@ -130,9 +130,8 @@ def marker_info(request):
 
 def join(request):
     """
-    Function handles join popups.  join form is shown if user has
+    Function handles join popups. join form is shown if user has
     not already joined.
-    Otherwise, renew form is shown
 
     :param request: django HttpRequest
 
@@ -143,3 +142,13 @@ def join(request):
     form = SSCAJoinForm()
     c = {'form': form, 'basic_mail_cost': 55}
     return render_to_response('join.html', c)
+
+def renew(request):
+    """
+    Function handles renew popups.
+
+    :param request: django HttpRequest
+
+    :return: django HttpResponse 
+    """
+    return render_to_response('renew.html')
