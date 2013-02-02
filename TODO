@@ -12,16 +12,9 @@ views:
 
     2. one view for marker info and marker list - pass parameter for former
 
-    3. compare clustering algorithms
-        - which one is more efficient?
-        - does scipy differently than Pycluster (more markers in center)?
-        - numpy doesn't play well with virtualenv - this is a reported bug
-
-
 javascript:
 
     1. close other popups when clicking on new ones
 
     2. move javascript to a separate static file
 
-    3. implement markerClusterer
