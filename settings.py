@@ -39,9 +39,9 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 # this breaks fab bootstrap...
-#STATICFILES_DIRS = (
-#    os.path.join(PROJECT_DIR, "staticfiles"),
-#)
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_DIR, "staticfiles"),
+)
 
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
