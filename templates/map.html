@@ -4,11 +4,11 @@
 var center_latitude = {{ gmap.center.0 }};
 var center_longitude = {{ gmap.center.1 }};
 var map_zoom = {{ gmap.zoom }};
+var min_zoom = {{ gmap.minzoom }};
 var gmaps_viewer = "{% url gmaps_viewer %}";
 var marker_info = "{% url marker_info %}";
 </script>
 
-<script type="text" src="{{ STATIC_URL }}js/gmaps.js"></script>
 <script type="text/javascript">
     window.onload = loadScript;
 
@@ -16,14 +16,16 @@ var marker_info = "{% url marker_info %}";
 
     function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng(center_latitude, center_longitude),
-          zoom: map_zoom,
-          mapTypeId: google.maps.MapTypeId.SATELLITE
+            center: new google.maps.LatLng(center_latitude, center_longitude),
+            zoom: map_zoom,
+            minZoom: min_zoom,
+            mapTypeId: google.maps.MapTypeId.SATELLITE
         };
         var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
         google.maps.event.addListener(map, 'idle', getMarkers);
 
         function getMarkers() {
+            var center = map.getCenter().lat();
             var bounds = map.getBounds();
             var ne = bounds.getNorthEast();
             var sw = bounds.getSouthWest();
@@ -32,6 +34,8 @@ var marker_info = "{% url marker_info %}";
                 "south": sw.lat(),
                 "east": ne.lng(),
                 "west": sw.lng(),
+                "zoom": map.getZoom(),
+                "center": map.getCenter().lng()
             }
 
             $.ajax({
@@ -98,7 +102,7 @@ var marker_info = "{% url marker_info %}";
                                 },
                                 success: function (data) {
                                     infowindow = new google.maps.InfoWindow();
-                                    infowindow.setContent("Data");
+                                    infowindow.setContent(JSON.stringify(data));
                                     infowindow.open(map, marker);
                                 }
                             });
@@ -127,4 +131,4 @@ var marker_info = "{% url marker_info %}";
     }
 
 </script>
-<div id="map_canvas" style="width:100%; height:100%"></div>
+<div id="map_canvas" style="width:900px; height:600px"></div>
