@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
 var center_latitude = {{ gmap.center.0 }};
@@ -60,6 +60,12 @@ var marker_info = "{% url marker_info %}";
             });
         }
 
+        function getTimezoneName() {
+            timezone = jstz.determine();
+            return timezone.name();
+        }
+
+
         function prettyData(data) {
             var string = data.person + '<br />' + data.date + '<br />' + data.position;
             return string
@@ -103,7 +109,8 @@ var marker_info = "{% url marker_info %}";
                                 url: marker_info,
                                 dataType: "json",
                                 data: {
-                                    "id": marker.id
+                                    "id": marker.id,
+                                    "timezone": getTimezoneName()
                                 },
                                 success: function (data) {
                                     infowindow = new google.maps.InfoWindow();

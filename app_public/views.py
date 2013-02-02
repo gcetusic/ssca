@@ -7,6 +7,7 @@ from app_public.models import Person, Account
 from datetime import datetime
 from app_public.models import Location
 from django.template import RequestContext
+from django.utils.timezone import activate, get_current_timezone, get_current_timezone_name
 from django.views.decorators.csrf import csrf_exempt
 from decimal import *
 from clustering import distance
@@ -129,9 +130,12 @@ def gmaps(request):
 def marker_info(request):
     if 'id' in request.POST:
         data = Location.objects.filter(id=request.POST['id'])
+        timezone = request.POST.get('timezone', get_current_timezone_name())
+        activate(timezone)
+        usertime = data[0].date.astimezone(get_current_timezone())
         info = {
             'person': data[0].person.user.username,
-            'date': data[0].date.strftime("%Y-%m-%d %H:%m %z"),
+            'date': usertime.strftime("%Y-%m-%d %H:%m"),
             'position': ("%.3f" % data[0].latitude, "%.3f" % data[0].longitude),
         }
         return HttpResponse(json.dumps(info))
