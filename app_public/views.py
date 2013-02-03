@@ -135,9 +135,9 @@ def marker_info(request):
             latitude = "S" + " " + Location().format_coordinates(data.latitude)
 
         if data.longitude >= 0:
-            longitude = "E" + " " + Location().format_coordinates(data.latitude)
+            longitude = "E" + " " + Location().format_coordinates(data.longitude)
         else:
-            longitude = "W" + " " + Location().format_coordinates(data.latitude)
+            longitude = "W" + " " + Location().format_coordinates(data.longitude)
 
         info = {
             'person': data.person.user.username,
