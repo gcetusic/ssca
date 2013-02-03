@@ -3,9 +3,8 @@ from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
-from app_public.models import Person, Account
+from app_public.models import Person, Account, Location
 from datetime import datetime
-from app_public.models import Location
 from django.template import RequestContext
 from django.utils.timezone import activate, get_current_timezone, get_current_timezone_name
 from django.views.decorators.csrf import csrf_exempt
@@ -78,12 +77,6 @@ def post_auth_process(request, backend, *args, **kwargs):
     return render_to_response('error.html', {"message": message})
 
 
-def decimal_to_float(location, *args):
-    for arg in args:
-        location[arg] = float(location[arg])
-    return location
-
-
 @csrf_exempt
 def gmaps(request):
     context = {}
@@ -96,7 +89,7 @@ def gmaps(request):
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
         markers = []
-        locations = map(lambda x: decimal_to_float(x, 'latitude', 'longitude'), locations)
+        locations = map(lambda x: Location().decimal_to_float(x, 'latitude', 'longitude'), locations)
         clusters = distance.cluster(locations, 80, int(request.POST.get('zoom', 3)), 'latitude', 'longitude')
 
         for cluster in clusters:

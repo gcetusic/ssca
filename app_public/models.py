@@ -26,6 +26,11 @@ class Location(models.Model):
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
     person = models.ForeignKey(Person, blank=True, null=True)
 
+    def decimal_to_float(self, location, *args):
+        for arg in args:
+            location[arg] = float(location[arg])
+        return location
+
 
 class Port(models.Model):
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
