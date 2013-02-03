@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+import math
 
 
 class Subscription(models.Model):
@@ -30,6 +31,12 @@ class Location(models.Model):
         for arg in args:
             location[arg] = float(location[arg])
         return location
+
+    def format_coordinates(self, coordinate):
+        minutes, degrees = math.modf(round(coordinate, 4))
+        degrees = "%d" % degrees
+        minutes = "%.2f" % round(minutes * 60, 2)
+        return degrees + " " + minutes
 
 
 class Port(models.Model):

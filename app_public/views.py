@@ -6,11 +6,12 @@ from django.contrib.auth import login
 from app_public.models import Person, Account, Location
 from datetime import datetime
 from django.template import RequestContext
-from django.utils.timezone import activate, get_current_timezone, get_current_timezone_name
+from django.utils.timezone import activate, deactivate, get_current_timezone, get_current_timezone_name
 from django.views.decorators.csrf import csrf_exempt
 from decimal import *
 from clustering import distance
 import json
+import math
 
 
 def dashboard_main_page(request):
@@ -122,13 +123,25 @@ def gmaps(request):
 @csrf_exempt
 def marker_info(request):
     if 'id' in request.POST:
-        data = Location.objects.filter(id=request.POST['id'])
+        data = Location.objects.get(id=request.POST['id'])
+
         timezone = request.POST.get('timezone', get_current_timezone_name())
         activate(timezone)
-        usertime = data[0].date.astimezone(get_current_timezone())
+        usertime = data.date.astimezone(get_current_timezone())
+
+        if data.latitude >= 0:
+            latitude = "N" + " " + Location().format_coordinates(data.latitude)
+        else:
+            latitude = "S" + " " + Location().format_coordinates(data.latitude)
+
+        if data.longitude >= 0:
+            longitude = "E" + " " + Location().format_coordinates(data.latitude)
+        else:
+            longitude = "W" + " " + Location().format_coordinates(data.latitude)
+
         info = {
-            'person': data[0].person.user.username,
+            'person': data.person.user.username,
             'date': usertime.strftime("%Y-%m-%d %H:%m"),
-            'position': ("%.3f" % data[0].latitude, "%.3f" % data[0].longitude),
+            'position': ("%s" % latitude, "%s" % longitude),
         }
         return HttpResponse(json.dumps(info))
