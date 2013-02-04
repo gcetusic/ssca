@@ -1,4 +1,5 @@
-from .models import Location, Person
+from app_dashboard.models import Location
+from app_public.models import Person
 from django.contrib.auth.models import User
 from django.utils import timezone
 import decimal
