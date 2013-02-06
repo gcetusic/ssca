@@ -18,3 +18,7 @@ class Person(models.Model):
     user = models.ForeignKey(User)
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
+    friend = models.ManyToManyField('self')
+
+    def __unicode__(self):
+        return u'%s' % (self.user.username)

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from django.utils.timezone import activate, get_current_timezone, get_current_timezone_name
+from datetime import timedelta
 from app_dashboard.models import Location
 from clustering import distance
 import json
@@ -29,6 +30,7 @@ def gmaps(request):
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
         markers = []
+
         locations = map(lambda x: Location().decimal_to_float(x, 'latitude', 'longitude'), locations)
         clusters = distance.cluster(locations, 80, int(request.POST.get('zoom', 3)), 'latitude', 'longitude')
 
