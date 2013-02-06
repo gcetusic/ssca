@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.timezone import get_current_timezone
+
 from app_public.models import Person
 import math
 
@@ -40,6 +42,27 @@ class Location(models.Model):
         minutes = "%.2f" % round(minutes * 60, 2)
         return degrees + " " + minutes
 
+    def get_info(self):
+        usertime = self.date.astimezone(get_current_timezone())
+
+        if self.latitude >= 0:
+            latitude = "N" + " " + Location().format_coordinates(self.latitude)
+        else:
+            latitude = "S" + " " + Location().format_coordinates(self.latitude)
+
+        if self.longitude >= 0:
+            longitude = "E" + " " + Location().format_coordinates(self.longitude)
+        else:
+            longitude = "W" + " " + Location().format_coordinates(self.longitude)
+
+        info = {
+            'name': self.person.user.username,
+            'date': usertime.strftime("%Y-%m-%d %H:%m"),
+            'position': ("%s" % latitude, "%s" % longitude),
+        }
+
+        return info
+
 
 class Port(models.Model):
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
@@ -57,6 +80,18 @@ class Guide(models.Model):
 
 class CruisingStation(models.Model):
     port = models.ForeignKey(Port)
+    latitude = models.DecimalField(max_digits=7, decimal_places=5)
+    longitude = models.DecimalField(max_digits=8, decimal_places=5)
     name = models.CharField(max_length=150)
     phone = models.CharField(max_length=30, blank=True)
     email = models.EmailField(max_length=100, blank=True)
+
+    def get_info(self):
+        info = {
+            'portname': self.port.name,
+            'name': self.name,
+            'phone': self.phone,
+            'email': self.email
+        }
+
+        return info

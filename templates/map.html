@@ -62,7 +62,7 @@ var marker_info = "{% url marker_info %}";
                             item.category
                         );
                     });
-                    //showOverlays();
+                    showOverlays();
                 }
             });
         }
@@ -74,7 +74,7 @@ var marker_info = "{% url marker_info %}";
 
 
         function prettyData(data) {
-            var string = data.person + '<br />' + data.date + '<br />' + data.position;
+            var string = data.name + '<br />' + data.date + '<br />' + data.position;
             return string
         }
 
@@ -83,7 +83,6 @@ var marker_info = "{% url marker_info %}";
                 position: position,
                 map: map,
             });
-            console.log($("input[value='" + category + "']").prop("checked"));
             if ($("#filter input[value='" + category + "']").prop("checked") == false) {
                 marker.setVisible(false);
             }
@@ -103,13 +102,13 @@ var marker_info = "{% url marker_info %}";
         }
 
         // Shows any overlays currently in the array
-        function showOverlays(category) {
+        function showOverlays() {
             if (markersArray) {
                 for (i in markersArray) {
                     if (markersArray[i].is_cluster) {
                         google.maps.event.addListener(markersArray[i], 'click', function() {
-                        map.setZoom(map.getZoom()+1);
-                        map.panTo(this.getPosition());
+                            map.setZoom(map.getZoom()+1);
+                            map.panTo(this.getPosition());
                         });
                     }
                     else { (function(marker) {
@@ -121,6 +120,7 @@ var marker_info = "{% url marker_info %}";
                                 dataType: "json",
                                 data: {
                                     "id": marker.id,
+                                    "category": marker.category,
                                     "timezone": getTimezoneName()
                                 },
                                 success: function (data) {
