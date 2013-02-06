@@ -9,6 +9,12 @@ var gmaps_viewer = "{% url gmaps_viewer %}";
 var marker_info = "{% url marker_info %}";
 </script>
 
+<noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b>
+    However, it seems JavaScript is either disabled or not supported by your browser.
+    To view Google Maps, enable JavaScript by changing your browser options, and then
+    try again.
+</noscript>
+
 <script type="text/javascript">
     window.onload = loadScript;
 
@@ -52,10 +58,11 @@ var marker_info = "{% url marker_info %}";
                             new google.maps.LatLng(item.position[0], item.position[1]),
                             item.title,
                             item.is_cluster,
-                            item.id
+                            item.id,
+                            item.category
                         );
                     });
-                    showOverlays();
+                    //showOverlays();
                 }
             });
         }
@@ -71,13 +78,18 @@ var marker_info = "{% url marker_info %}";
             return string
         }
 
-        function addMarker(position, title, is_cluster, id) {
+        function addMarker(position, title, is_cluster, id, category) {
             marker = new google.maps.Marker({
                 position: position,
                 map: map,
             });
+            console.log($("input[value='" + category + "']").prop("checked"));
+            if ($("#filter input[value='" + category + "']").prop("checked") == false) {
+                marker.setVisible(false);
+            }
             marker.id = id;
             marker.is_cluster = is_cluster;
+            marker.category = category;
             markersArray.push(marker);
         }
 
@@ -91,10 +103,9 @@ var marker_info = "{% url marker_info %}";
         }
 
         // Shows any overlays currently in the array
-        function showOverlays() {
+        function showOverlays(category) {
             if (markersArray) {
                 for (i in markersArray) {
-                    markersArray[i].setMap(map);
                     if (markersArray[i].is_cluster) {
                         google.maps.event.addListener(markersArray[i], 'click', function() {
                         map.setZoom(map.getZoom()+1);
@@ -133,6 +144,36 @@ var marker_info = "{% url marker_info %}";
                 markersArray.length = 0;
             }
         }
+
+        function show(category) {
+            for (var i=0; i<markersArray.length; i++) {
+                if (markersArray[i].category == category) {
+                    markersArray[i].setVisible(true)
+                }
+            }
+        }
+
+        // == hides all markers of a particular category, and ensures the checkbox is cleared ==
+        function hide(category) {
+            for (var i=0; i<markersArray.length; i++) {
+                if (markersArray[i].category == category) {
+                    markersArray[i].setVisible(false);
+                }
+            }
+        }
+
+
+        $(document).ready(function() {
+            $("input[name='filter']").prop("checked", true);
+            $("input[name='filter']").live('click', function () {
+                if ($(this).is(":checked")) {
+                    show(this.value);
+                }
+                else {
+                    hide(this.value);
+                }
+            });
+        });
     };
 
     function loadScript() {
@@ -141,6 +182,19 @@ var marker_info = "{% url marker_info %}";
         script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
         document.body.appendChild(script);
     }
-
 </script>
-<div id="map_canvas" style="width:900px; height:600px"></div>
+
+
+<div class="content">
+    <div id="map_canvas" style="width:900px; height:600px"></div>
+</div>
+
+
+<div class="controls">
+    <form id="filter">
+        <input type="checkbox" name="filter" value="friends">My friends</input><br />
+        <input type="checkbox" name="filter" value="members">All members</input><br />
+        <input type="checkbox" name="filter" value="guides">Port Guides</input><br />
+        <input type="checkbox" name="filter" value="stations">Cruising Stations</input>
+    </form>
+</div>

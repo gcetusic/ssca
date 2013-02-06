@@ -37,14 +37,16 @@ def gmaps(request):
                 centroid = distance.centroid(cluster, 'latitude', 'longitude')
                 markers.append({
                     'position': ("%.3f" % centroid[0], "%.3f" % centroid[1]),
-                    'is_cluster': True
+                    'is_cluster': True,
+                    'category': "cluster"
                 })
             else:
                 location = cluster[0]
                 markers.append({
                     'id': location['id'],
                     'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
-                    'is_cluster': False
+                    'is_cluster': False,
+                    'category': "members"
                 })
         return HttpResponse(json.dumps(markers))
 
