@@ -9,4 +9,4 @@ pil
 django-bootstrap-toolkit
 #-e git://github.com/divio/django-cms.git@2.3.4#egg=django-cms
 django-social-auth
-Pycluster
+pytz

@@ -2,11 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class CoordinatesManager(models.Manager):
-    def get_query_set(self):
-        return self.filter(has_star=True)
-
-
 class Subscription(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
@@ -26,7 +21,7 @@ class Person(models.Model):
 
 
 class Location(models.Model):
-    date = models.DateField()
+    date = models.DateTimeField()
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
     person = models.ForeignKey(Person, blank=True, null=True)
