@@ -65,15 +65,6 @@
             $('#costTotal').text(total);
         }
 
-        function verifyCreditCard(){		  
-            var creditCardNum  = $('#id_card_number').val(); 
-            var creditCardtype = $('#id_card_type').val();
-            if (checkCreditCard(creditCardNum,creditCardtype)) {
-                return validateForm();
-            } 
-            else {alert (ccErrors[ccErrorNo])};
-        } 
-
         function validateStep1() {
 
             if(!$("#id_firstname").val()) {
@@ -107,6 +98,35 @@
 
             return true;
         }
+
+        function validateStep3() {
+
+            if(!$("#id_name_on_card").val()) {
+                alert("Please Enter Name On Card");
+                return false;
+            }
+
+            if(!$("#id_card_number").val()) {
+                alert("Please Enter Card Number");
+                return false;
+            }
+
+            if(!$("#id_card_csv").val()) {
+                alert("Please Enter CSV");
+                return false;
+            }
+
+            //checking card number and type
+            var cardNum  = $('#id_card_number').val(); 
+            var cardType = $('#id_card_type').val();
+            if (! checkCreditCard(cardNum, cardType)) {
+                alert(ccErrors[ccErrorNo]);
+                return false;
+            }
+
+            return true;
+        }
+
 
     </script>
 {% endblock %}
@@ -304,7 +324,7 @@
               <tr>
                   <td style="padding-left: 24px; padding-bottom: 24px;"> $80 </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                      <button class="btn btn-primary" onclick="verifyCreditCard();">Pay and Login</button>
+                      <button class="btn btn-primary" onclick="validateStep3();">Pay and Login</button>
                   </td>
               </tr>
           </table>          
