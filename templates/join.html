@@ -97,6 +97,17 @@
             return true;
         }
 
+        function validateStep2() {
+            //placeholder for step 2 validation
+            //todo - do valdaation later; if needed
+
+            $("#a_step3").attr("href", "#modalStep3");
+            $("#a_step3").attr("data-dismiss", "modal");
+            $("#a_step3").attr("data-toggle", "modal");
+
+            return true;
+        }
+
     </script>
 {% endblock %}
 
@@ -193,7 +204,7 @@
               <tr>
                   <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<font id="total">{{ basic_mail_cost }} </font>/ year </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                      <a data-toggle="modal" href="#modalStep3" data-dismiss="modal" class="btn btn-primary">Continue to Step 3</a>
+                      <a id="a_step3" href="return validateStep2();" class="btn btn-primary" onclick="return validateStep2();">Continue to Step 3</a>
                   </td>
               </tr>
           </table>
