@@ -73,6 +73,30 @@
             } 
             else {alert (ccErrors[ccErrorNo])};
         } 
+
+        function validateStep1() {
+
+            if(!$("#id_firstname").val()) {
+                alert("Please Enter Firstname");
+                return false;
+            }
+
+            if(!$("#id_lastname").val()) {
+                alert("Please Enter Lastname");
+                return false;
+            }
+
+            if(!$("#id_email").val()) {
+                alert("Please Enter Email");
+                return false;
+            }
+
+            $("#a_step2").attr("href", "#modalStep2");
+            $("#a_step2").attr("data-dismiss", "modal");
+            $("#a_step2").attr("data-toggle", "modal");
+            return true;
+        }
+
     </script>
 {% endblock %}
 
@@ -92,7 +116,7 @@
             </div>
 			
 			
-	   <form class="bs-docs-example form-horizontal" >
+	   <form class="bs-docs-example form-horizontal">
             <div class="control-group">
               <label class="control-label" for="firstname" >First name: </label>
               <div class="controls">
@@ -115,7 +139,7 @@
           </form>
 
            <div class="modal-footer">
-               <a data-toggle="modal"  href="#modalStep2" data-dismiss="modal" class="btn btn-primary" >Continue to Step 2</a>
+               <a id="a_step2" href="return validateStep1();" class="btn btn-primary" onclick="return validateStep1();">Continue to Step 2</a>
             </div>
         </div>
          <div class="bs-docs-example" >
