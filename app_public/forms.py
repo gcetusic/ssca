@@ -10,9 +10,16 @@ class SSCAJoinForm(forms.Form):
             ('Diners Club', 'Diners Club'),
             ('JCB', 'JCB')]
 
-    mail_locations = [('5', 'in the United States'),
-            ('15', 'in Canada or Mexico'),
-            ('15', 'Overseas (surface mail)')]
+    # string constants to be used in templates
+    loc_usa = 'in the United States'
+    loc_canada = 'in Canada or Mexico'
+    loc_overseas = 'Overseas (surface mail)'
+    send_first_class = 'Send via First Class Mail (Add $5)'
+    send_international = 'Send via International Airmail (Add $15)'
+
+    mail_locations = [('5', loc_usa),
+            ('15', loc_canada),
+            ('15', loc_overseas)]
 
     burgee_types = [('25', 'Large (18" x 24")'),
             ('25', 'Medium (12" x 18")'),
@@ -32,7 +39,7 @@ class SSCAJoinForm(forms.Form):
     membership_fee = forms.IntegerField()
 
     mail_location = forms.ChoiceField(choices = mail_locations,
-            widget=forms.Select(attrs={'onchange':'updateTotal();'}))
+            widget=forms.Select(attrs={'onchange':'onMailLocationChange();'}))
 
     # fields for step 3 dialog
     burgee_type = forms.ChoiceField(choices = burgee_types,

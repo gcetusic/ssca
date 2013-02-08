@@ -18,10 +18,32 @@
             $('#dp3').datepicker();
         });
 
+        function onMailLocationChange() {
+            var mailLocation = $('#id_mail_location').find(":selected").text();
+
+            var divSeconday = $('#div_chk_secondary');
+            //hiding seconday checkbox
+            if(mailLocation == "{{ form.loc_usa }}") {
+                divSeconday.show();
+            }
+            else
+            if(mailLocation == "{{ form.loc_canada }}") {
+                divSeconday.hide();
+                $("#spnSecondary").html("{{ form.send_first_class }}");
+            }
+            else
+            if(mailLocation == "{{ form.loc_overseas }}") {
+                divSeconday.show();
+                $("#spnSecondary").html("{{ form.send_international }}");
+            }
+
+            updateTotal();
+        }
+
         function bulletinClicked() {
-            var cbFirstClass = document.getElementById('cbFirstClass');
+            var chkSecondary = document.getElementById('chkSecondary');
             var cbBulletins = document.getElementById('cbBulletins');
-            cbFirstClass.checked = cbBulletins.checked;
+            chkSecondary.checked = cbBulletins.checked;
             updateTotal();
         }
 
@@ -29,7 +51,7 @@
 
             var total = {{ basic_mail_cost }};
             var bulletinVal = parseInt($('#id_mail_location').val());
-            var cbFirstClass = document.getElementById('cbFirstClass');
+            var chkSecondary = document.getElementById('chkSecondary');
             var cbBulletins = document.getElementById('cbBulletins');
 
             $('#mail_cost_label').text(bulletinVal);
@@ -37,7 +59,7 @@
             if (cbBulletins.checked){
                 total += bulletinVal;
             }
-            if (cbFirstClass.checked){
+            if (chkSecondary.checked){
                 total += 5;
             }
 
@@ -209,9 +231,10 @@
                       <div style="float:clear;">
                       </div>
                       <div class="control-group">
-                          <div class="controls">
+                          <div class="controls" id="div_chk_secondary">
                               <label class="checkbox">
-                                  <input type="checkbox" id="cbFirstClass" onclick="updateTotal();"> Send via First Class Mail (Add $5) 
+                                  <input type="checkbox" id="chkSecondary" onclick="updateTotal();"> 
+                                  <span id="spnSecondary">{{ form.send_first_class }}</span>
                               </label>
                           </div>
                       </div>
