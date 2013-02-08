@@ -13,8 +13,7 @@
     <script src="/static/admin/js/creditcard.js"></script>
 
     <script>		
-        //default yearly total is 55
-        var yearlyTotal = 55;
+        var yearlyTotal = {{ basic_mail_cost }};
 
         /* datepicker launcher */
         $(function(){		
@@ -51,8 +50,8 @@
         }
 
         function updateYearlyTotal() {		
+            yearlyTotal = {{ basic_mail_cost }};
 
-            var yearlyTotal = {{ basic_mail_cost }};
             var bulletinVal = parseInt($('#id_mail_location').val());
             var chkSecondary = document.getElementById('chkSecondary');
             var cbBulletins = document.getElementById('cbBulletins');
@@ -131,6 +130,7 @@
             $("#a_step3").attr("data-dismiss", "modal");
             $("#a_step3").attr("data-toggle", "modal");
 
+            $('#spnYearlytotal1').html(yearlyTotal);
             return true;
         }
 
@@ -258,7 +258,7 @@
           <hr>
           <table width="100%">
               <tr>
-                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<span id="spnYearlytotal">{{ basic_mail_cost }}</span>/ year </td>			  
+                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<span id="spnYearlytotal">{{ basic_mail_cost }}</span>/year </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
                       <a id="a_step3" href="return validateStep2();" class="btn btn-primary" onclick="return validateStep2();">Continue to Step 3</a>
                   </td>
@@ -337,7 +337,7 @@
               </div>
               <div class="control-group">
                   <div class="controls" style="float:left;">
-                      <p>my total:$65 / year &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                      <p>My Total: $<span id="spnYearlytotal1">{{ basic_mail_cost }}</span>/year &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                   </div>
                   <form name="thirdForm">
                       <div>
