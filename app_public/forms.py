@@ -43,7 +43,7 @@ class SSCAJoinForm(forms.Form):
 
     # fields for step 3 dialog
     burgee_type = forms.ChoiceField(choices = burgee_types,
-            widget=forms.Select(attrs={'onchange':'updateSSCAPurchase();'}))
+            widget=forms.Select(attrs={'onchange':'onBurgeeChanged();'}))
 
     name_on_card = forms.CharField(max_length=32, required = True)
 

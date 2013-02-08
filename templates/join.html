@@ -78,7 +78,7 @@
             $('#spnYearlytotal').html(yearlyTotal);
         }
 
-        function updateBurgeeTotal() {
+        function onPurchaseBurgeeChanged() {
             var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
             if(chkPurchaseSSCABurgee.checked) {
                 $('#divBurgeeCostBotton').show();
@@ -86,12 +86,14 @@
             else {
                 $('#divBurgeeCostBotton').hide();
             }
-            updateSSCAPurchase();
+
+            updateTotalCost();
         }
 
 
-        function updateSSCAPurchase(){
+        function onBurgeeChanged(){
             var valueSelected = $('#id_burgee_type').val();
+
             var textSelected = $('#id_burgee_type option:selected').text();
             $('#spnBurgeeCost').html(valueSelected);
             $('#spnBurgeeCostBottom').html(valueSelected);
@@ -107,18 +109,19 @@
             if(textSelected.indexOf("Large") == 0 ) {
                 $('#spnBurgeeSize').html("Large Burgee");
             }
+
+            updateTotalCost();
         }
 
-        function setTotalCostForBurgeeOnUnSelect(){
-            var valueSelected = $('#id_burgee_type').val();
-            var total = 80;
-            $('#costTotal').text(total);
-        }
 
-        function setTotalCostForBurgee(){	    
-            var valueSelected = $('#id_burgee_type').val();
-            var total = parseInt(valueSelected, 10)+65;
-            $('#costTotal').text(total);
+        function updateTotalCost(){
+            var totalCost = yearlyTotal;
+            var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
+            if(chkPurchaseSSCABurgee.checked) {
+                var burgeeCost = parseInt($('#id_burgee_type').val());
+                totalCost += burgeeCost;
+            }
+            $('#spnTotalCost').html(totalCost);
         }
 
         function validateStep1() {
@@ -154,7 +157,8 @@
 
             $('#spnYearlytotal1').html(yearlyTotal);
 
-            updateBurgeeTotal();
+            onPurchaseBurgeeChanged();
+            onBurgeeChanged();
 
             return true;
         }
@@ -306,7 +310,7 @@
                   <div class="control-group">
                       <div class="controls" style="float:left;">
                           <label class="checkbox">
-                              <input type="checkbox" id="chkPurchaseSSCABurgee" onclick="updateBurgeeTotal();"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" id="chkPurchaseSSCABurgee" onclick="onPurchaseBurgeeChanged();"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
                           </label>
                       </div>
                   </div>
@@ -367,7 +371,7 @@
                   <form name="thirdForm">
                       <div>
                           <label class="checkbox">
-                              <input type="checkbox" name="chkRenewEveryYear" onclick="setTotalCostForBurgee();"> Automatically renew every year 
+                              <input type="checkbox" id="chkRenewEveryYear"> Automatically renew every year 
                           </label>
                       </div>
                       <div style="float:clear;">
@@ -382,7 +386,7 @@
           <hr>
           <table width="100%">
               <tr>
-                  <td style="padding-left: 24px; padding-bottom: 24px;"> $80 </td>			  
+                  <td style="padding-left: 24px; padding-bottom: 24px;">$<span id="spnTotalCost"></span> </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
                       <button class="btn btn-primary" onclick="validateStep3();">Pay and Login</button>
                   </td>
