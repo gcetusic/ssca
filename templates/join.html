@@ -37,17 +37,17 @@
                 $("#spnSecondary").html("{{ form.send_international }}");
             }
 
-            updateTotal();
+            updateYearlyTotal();
         }
 
         function bulletinClicked() {
             var chkSecondary = document.getElementById('chkSecondary');
             var cbBulletins = document.getElementById('cbBulletins');
             chkSecondary.checked = cbBulletins.checked;
-            updateTotal();
+            updateYearlyTotal();
         }
 
-        function updateTotal() {		
+        function updateYearlyTotal() {		
 
             var total = {{ basic_mail_cost }};
             var bulletinVal = parseInt($('#id_mail_location').val());
@@ -243,7 +243,7 @@
                       <div class="control-group">
                           <div class="controls" id="div_chk_secondary">
                               <label class="checkbox">
-                                  <input type="checkbox" id="chkSecondary" onclick="updateTotal();"> 
+                                  <input type="checkbox" id="chkSecondary" onclick="updateYearlyTotal();"> 
                                   <span id="spnSecondary">{{ form.send_first_class }}</span>
                               </label>
                           </div>
