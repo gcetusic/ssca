@@ -82,9 +82,20 @@
         function updateSSCAPurchase(){
             var valueSelected = $('#id_burgee_type').val();
             var textSelected = $('#id_burgee_type option:selected').text();
-            $('#purchase').text(valueSelected);
-            $('#burgeeCostBottom').text(valueSelected);
-            $('#burgeeSize').text(textSelected);
+            $('#spnBurgeeCost').html(valueSelected);
+            $('#spnBurgeeCostBottom').html(valueSelected);
+
+            if(textSelected.indexOf("Small") == 0 ) {
+                $('#spnBurgeeSize').html("Small Burgee");
+            }
+            else
+            if(textSelected.indexOf("Medium") == 0 ) {
+                $('#spnBurgeeSize').html("Medium Burgee");
+            }
+            else
+            if(textSelected.indexOf("Large") == 0 ) {
+                $('#spnBurgeeSize').html("Large Burgee");
+            }
         }
 
         function setTotalCostForBurgeeOnUnSelect(){
@@ -281,14 +292,14 @@
                   <div class="control-group">
                       <div class="controls" style="float:left;">
                           <label class="checkbox">
-                              <input type="checkbox" name="chkPurchaseSSCABurgee"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" id="chkPurchaseSSCABurgee"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
                           </label>
                       </div>
                   </div>
                   <div>
                       <table><tr>
                               <td> {{ form.burgee_type }} </td>
-                              <td>(Add $<font id="purchase">25</font>)</td>
+                              <td>(Add $<span id="spnBurgeeCost">25</span>)</td>
                           </tr>
                       </table>
                   </div>
@@ -349,9 +360,8 @@
                       </div>
                   </form>
                   <div>
-						$<font id="burgeeCostBottom">25 </font>
-						<font id="burgeeSize">Large (18" x 24")</font>
-				</div>
+			$<span id="spnBurgeeCostBottom">25</span> (<span id="spnBurgeeSize"></span>)
+		  </div>
               </div>
           </div>
 
