@@ -1,7 +1,39 @@
 {% extends "base.html" %}
 {% block head %}
+    <link href="/static/bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
+    <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+    <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+	
+    <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
+    <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
+    <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
+    <script src="/static/bootstrap_toolkit/js/bootstrap-datepicker.js"></script>
+    <script src="/static/admin/js/creditcard.js"></script>
+    <script>
+        function doRenew() {
+            alert("renew todo");
+            return false;
+        }
+
+    </script>
 {% endblock %}
 
 {% block body %}
-Renew
+<div id="modalStep1" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Renew SSCA Membership</h3>
+    </div>
+
+    <form class="bs-docs-example form-horizontal">
+           Renew form will be placed here
+    </form>
+
+    <div class="modal-footer">
+        <a id="a_step2" href="return doRenew();" class="btn btn-primary" onclick="return doRenew();">Submit</a>
+    </div>
+</div>
+<div class="bs-docs-example" >
+    <a data-toggle="modal" href="#modalStep1" class="btn btn-primary btn-large">Click here to renew</a>
+</div>	  
 {% endblock %}
