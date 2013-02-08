@@ -59,8 +59,18 @@
             if (cbBulletins.checked){
                 total += bulletinVal;
             }
+
             if (chkSecondary.checked){
-                total += 5;
+                var mailLocation = $('#id_mail_location').find(":selected").text();
+                //for usa adding 5
+                if(mailLocation == "{{ form.loc_usa }}") {
+                    total += 5;
+                }
+                else
+                //for overseas adding 5
+                if(mailLocation == "{{ form.loc_overseas }}") {
+                    total += 15;
+                }
             }
 
             $('#total').text(total);
