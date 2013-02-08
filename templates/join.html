@@ -78,6 +78,17 @@
             $('#spnYearlytotal').html(yearlyTotal);
         }
 
+        function updateBurgeeTotal() {
+            var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
+            if(chkPurchaseSSCABurgee.checked) {
+                $('#divBurgeeCostBotton').show();
+            }
+            else {
+                $('#divBurgeeCostBotton').hide();
+            }
+            updateSSCAPurchase();
+        }
+
 
         function updateSSCAPurchase(){
             var valueSelected = $('#id_burgee_type').val();
@@ -142,6 +153,9 @@
             $("#a_step3").attr("data-toggle", "modal");
 
             $('#spnYearlytotal1').html(yearlyTotal);
+
+            updateBurgeeTotal();
+
             return true;
         }
 
@@ -292,7 +306,7 @@
                   <div class="control-group">
                       <div class="controls" style="float:left;">
                           <label class="checkbox">
-                              <input type="checkbox" id="chkPurchaseSSCABurgee"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" id="chkPurchaseSSCABurgee" onclick="updateBurgeeTotal();"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
                           </label>
                       </div>
                   </div>
@@ -359,7 +373,7 @@
                       <div style="float:clear;">
                       </div>
                   </form>
-                  <div>
+                  <div id="divBurgeeCostBotton">
 			$<span id="spnBurgeeCostBottom">25</span> (<span id="spnBurgeeSize"></span>)
 		  </div>
               </div>
