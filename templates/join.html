@@ -13,6 +13,9 @@
     <script src="/static/admin/js/creditcard.js"></script>
 
     <script>		
+        //default yearly total is 55
+        var yearlyTotal = 55;
+
         /* datepicker launcher */
         $(function(){		
             $('#dp3').datepicker();
@@ -49,31 +52,31 @@
 
         function updateYearlyTotal() {		
 
-            var total = {{ basic_mail_cost }};
+            var yearlyTotal = {{ basic_mail_cost }};
             var bulletinVal = parseInt($('#id_mail_location').val());
             var chkSecondary = document.getElementById('chkSecondary');
             var cbBulletins = document.getElementById('cbBulletins');
 
-            $('#mail_cost_label').text(bulletinVal);
+            $('#spnMailCostLabel').html(bulletinVal);
 
             if (cbBulletins.checked){
-                total += bulletinVal;
+                yearlyTotal += bulletinVal;
             }
 
             if (chkSecondary.checked){
                 var mailLocation = $('#id_mail_location').find(":selected").text();
                 //for usa adding 5
                 if(mailLocation == "{{ form.loc_usa }}") {
-                    total += 5;
+                    yearlyTotal += 5;
                 }
                 else
                 //for overseas adding 5
                 if(mailLocation == "{{ form.loc_overseas }}") {
-                    total += 15;
+                    yearlyTotal += 15;
                 }
             }
 
-            $('#total').text(total);
+            $('#spnYearlytotal').html(yearlyTotal);
         }
 
 
@@ -234,7 +237,7 @@
                       <div>
                           <table><tr>
                                   <td> {{ form.mail_location }} </td>
-                                  <td>(Add $<font id="mail_cost_label">5</font>)</td>
+                                  <td>(Add $<span id="spnMailCostLabel">5</span>)</td>
                               </tr>
                           </table>
                       </div>
@@ -255,7 +258,7 @@
           <hr>
           <table width="100%">
               <tr>
-                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<font id="total">{{ basic_mail_cost }} </font>/ year </td>			  
+                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<span id="spnYearlytotal">{{ basic_mail_cost }}</span>/ year </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
                       <a id="a_step3" href="return validateStep2();" class="btn btn-primary" onclick="return validateStep2();">Continue to Step 3</a>
                   </td>
