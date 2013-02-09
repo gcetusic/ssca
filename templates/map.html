@@ -73,9 +73,18 @@ var marker_info = "{% url marker_info %}";
         }
 
 
-        function prettyData(data) {
-            var string = data.name + '<br />' + data.date + '<br />' + data.position;
-            return string
+        function prettyData(data, category) {
+            var string;
+            if (category=='members') {
+                string = data.name + '<br />' + data.date + '<br />' + data.position;
+            }
+            else if (category=='guides') {
+                string = data.title + '<br />' + data.date + '<br />' + data.author + '<br />' + data.portname;
+            }
+            else if (category=='stations') {
+                string = data.name + '<br />' + data.phone + '<br />' + data.email +'<br />' + data.portname;
+            }
+            return string;
         }
 
         function addMarker(position, title, is_cluster, id, category) {
@@ -125,7 +134,7 @@ var marker_info = "{% url marker_info %}";
                                 },
                                 success: function (data) {
                                     infowindow = new google.maps.InfoWindow();
-                                    infowindow.setContent(prettyData(data));
+                                    infowindow.setContent(prettyData(data, marker.category));
                                     infowindow.open(map, marker);
                                 }
                             });

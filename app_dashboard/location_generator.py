@@ -1,4 +1,4 @@
-from app_dashboard.models import Location
+from app_dashboard.models import Location, Port, Guide, CruisingStation
 from app_public.models import Person
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -34,6 +34,40 @@ def write_data(latrange=(-89, 89), lonrange=(-179, 179), limit=10000):
                                 person=person))
     Location.objects.bulk_create(locations)
 
+    ports = []
+    for i in range(limit):
+        position = gen_random_position(latrange, lonrange)
+        ports.append(Port( \
+                                latitude=position[0], longitude=position[1], \
+                                name=str(random.randint(0, 1000000))))
+    Port.objects.bulk_create(ports)
+
+    if Port.objects.all().exists():
+        ports = Port.objects.order_by('?')
+
+    guides = []
+    stations = []
+    for port in ports:
+        guides.append(Guide( \
+                                date=timezone.now(), \
+                                title=str(random.randint(0, 1000000)), \
+                                url="http://localhost:8000",
+                                author=person,
+                                port=port))
+        position = gen_random_position(latrange, lonrange)
+        stations.append(CruisingStation( \
+                                latitude=position[0], longitude=position[1], \
+                                name=str(random.randint(0, 1000000)), \
+                                phone=str(random.randint(0, 1000000)), \
+                                email="no@mail.com",
+                                port=port))
+
+    Guide.objects.bulk_create(guides)
+    CruisingStation.objects.bulk_create(stations)
+
 
 def delete_data():
     Location.objects.all().delete()
+    Port.objects.all().delete()
+    Guide.objects.all().delete()
+    CruisingStation.objects.all().delete()

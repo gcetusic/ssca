@@ -69,6 +69,9 @@ class Port(models.Model):
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
     name = models.CharField(max_length=150)
 
+    def __unicode__(self):
+        return u'%s' % (self.name)
+
 
 class Guide(models.Model):
     port = models.ForeignKey(Port)
@@ -76,6 +79,20 @@ class Guide(models.Model):
     date = models.DateTimeField()
     author = models.ForeignKey(Person)
     url = models.URLField(max_length=150)
+
+    def get_info(self):
+        usertime = self.date.astimezone(get_current_timezone())
+        info = {
+            'portname': self.port.name,
+            'title': self.title,
+            'date': usertime.strftime("%Y-%m-%d %H:%m"),
+            'author': self.author.user.username,
+        }
+
+        return info
+
+    def __unicode__(self):
+        return u'%s' % (self.title)
 
 
 class CruisingStation(models.Model):
@@ -95,3 +112,6 @@ class CruisingStation(models.Model):
         }
 
         return info
+
+    def __unicode__(self):
+        return u'%s' % (self.name)

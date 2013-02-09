@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.utils.timezone import activate, get_current_timezone_name
 from itertools import chain
 from datetime import timedelta
-from app_dashboard.models import Location, Port, CruisingStation
+from app_dashboard.models import Location, Port, CruisingStation, Guide
 from clustering import distance
 import json
 
@@ -30,17 +30,26 @@ def gmaps(request):
             longitude__gte=float(request.POST['west']), \
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
+        for location in locations:
+            location['category'] = 'members'
+
         ports = Port.objects.filter( \
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
+        for port in ports:
+            port['category'] = 'guides'
+
         stations = CruisingStation.objects.filter( \
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
+
+        for station in stations:
+            station['category'] = 'stations'
 
         markers = []
 
@@ -62,7 +71,7 @@ def gmaps(request):
                     'id': location['id'],
                     'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
                     'is_cluster': False,
-                    'category': "members"
+                    'category': location['category']
                 })
         return HttpResponse(json.dumps(markers))
 
@@ -85,7 +94,7 @@ def marker_info(request):
             if category == 'members':
                 data = Location.objects.get(id=request.POST['id'])
             elif category == 'guides':
-                data = Port.objects.get(id=request.POST['id'])
+                data = Guide.objects.get(port__id=request.POST['id'])
             elif category == 'stations':
                 data = CruisingStation.objects.get(id=request.POST['id'])
         else:

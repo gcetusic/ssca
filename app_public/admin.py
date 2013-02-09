@@ -5,4 +5,3 @@ from app_public.models import Person, Account, Subscription
 admin.site.register(Person)
 admin.site.register(Account)
 admin.site.register(Subscription)
-
