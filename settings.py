@@ -181,4 +181,4 @@ elif deployment_env == 'stag':
 # if you like, add your own custom setup here
 else:
     print('loading local config override')
-    from settings_dev import *
+    from settings_dev_wb import *
