@@ -321,79 +321,71 @@
                           </label>
                       </div>
                   </div>
-                  <div>
-                      <table><tr>
-                              <td> {{ form.burgee_type }} </td>
-                              <td>(Add $<span id="spnBurgeeCost">25</span>)</td>
+                  {{ form.burgee_type }} (Add $<span id="spnBurgeeCost">25</span>)
+                  <div class="control-group">
+                      <table width="100%" cellspacing="5" cellpadding="5">
+                          <tr>
+                              <td align="right">
+                                  <label class="control-label" for="inputEmail">Name on card:</label>
+                              </td>
+                              <td>{{ form.name_on_card }}</td>
+                          </tr>
+                          <tr>
+                              <td align="right">
+                                <label class="control-label" for="inputEmail">Credit card type:</label> 
+                              </td>
+                              <td>{{ form.card_type }}</td>
+                          </tr>
+                          <tr>
+                              <td align="right">
+                                <label class="control-label" for="inputEmail">Credit card number:</label>
+                              </td>
+                              <td>{{ form.card_number }}</td>
                           </tr>
                       </table>
-                  </div>
-                  <div style="float:clear;">
-                  </div>
 
-                  <div class="control-group">
-
-                      <div class="controls" style="float:left;" >
-                          <label class="control-label" for="inputEmail">Name on card: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                      </div>
-                      <div class="controls">
-                          {{ form.name_on_card }}
-                      </div>
-
-                      <div class="controls" style="float:clear;">
-                      </div>
-                      <div class="controls" style="float:left;">
-                          <label class="control-label" for="inputEmail">Credit card type:</label> 
-                      </div>
-
-                      <div>
-                          {{ form.card_type }}
-                      </div>
-                      <div style="float:clear;">
-                      </div>
-                      <div class="controls" style="float:left;">
-                          <label class="control-label" for="inputEmail" >Credit card number: &nbsp;&nbsp;</label>
-                      </div>
-                      <div class="controls">
-                          {{ form.card_number }}
-                      </div>
-                      <div style="float:clear;">
-                      </div>
                   </form>
                   <form class="form-inline" name="secondForm">
                       <label class="control-label" for="inputEmail">Expiry date: &nbsp;&nbsp;</label>
                       <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
                           <input class="span2" size="16" type="text" value="" readonly="" name="date">
-                          <span class="add-on"><img src="/static/images/calendar.png" alt="calendar" class="icon-calendar" data-date-format="yyyy-mm-dd" data-date="2012-02-20"></span>
+                          <span class="add-on">
+                              <img src="/static/images/calendar.png" alt="calendar" class="icon-calendar" data-date-format="yyyy-mm-dd" data-date="2012-02-20">
+                          </span>
                       </div>
-
-                      <label class="control-label" for="inputEmail">CSV: &nbsp;&nbsp;</label>
+                      &nbsp;&nbsp;
+                      <label class="control-label" for="inputEmail">CSV: </label>
                           {{ form.card_csv }}
                   </form>
               </div>
-              <div class="control-group">
-                  <div class="controls" style="float:left;">
-                      <p>My Total: $<span id="spnYearlytotal1">{{ basic_mail_cost }}</span>/year &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                  </div>
-                  <form name="thirdForm">
-                      <div>
+              <table width="100%" cellspacing="2" cellpadding="2" border="0">
+                  <tr>
+                      <td> <b>My Total: </b></td>
+                      <td align="left"> $<span id="spnYearlytotal1">{{ basic_mail_cost }}</span>/year</td>
+                      <td>
                           <label class="checkbox">
                               <input type="checkbox" id="chkRenewEveryYear"> Automatically renew every year 
                           </label>
-                      </div>
-                      <div style="float:clear;">
-                      </div>
-                  </form>
-                  <div id="divBurgeeCostBotton">
-			$<span id="spnBurgeeCostBottom">25</span> (<span id="spnBurgeeSize"></span>)
-		  </div>
-              </div>
+                      </td>
+                  </tr>
+                  <tr> <td></td>
+                      <td>
+                          <div id="divBurgeeCostBotton">
+                              $<span id="spnBurgeeCostBottom">25</span> (<span id="spnBurgeeSize"></span>)
+                          </div>
+                      </td>
+                      <td></td>
+                  </tr>
+                  <tr> <td></td>
+                  <td align="left">$<span id="spnTotalCost"></span> </td>			  
+                      <td></td>
+                  </tr>
+              </table>
           </div>
 
           <hr>
           <table width="100%">
               <tr>
-                  <td style="padding-left: 24px; padding-bottom: 24px;">$<span id="spnTotalCost"></span> </td>			  
                   <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
                       <button class="btn btn-primary" onclick="validateStep3();">Pay and Login</button>
                   </td>
