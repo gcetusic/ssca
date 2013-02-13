@@ -4,9 +4,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
-from django.utils.timezone import activate, get_current_timezone_name
+from django.utils.timezone import activate, get_current_timezone_name, get_current_timezone, utc
 from itertools import chain
-from datetime import timedelta
 from app_dashboard.models import Location, Port, CruisingStation, Guide
 from clustering import distance
 import json
@@ -24,7 +23,13 @@ def gmaps(request):
     context = {}
 
     if request.is_ajax and request.POST:
-        locations = Location.objects.filter( \
+
+        timezone = request.POST.get('timezone', get_current_timezone_name())
+        activate(timezone)
+
+        deltatime = int(request.POST.get('time', 0))
+
+        locations = Location.objects.current_location(deltatime).filter( \
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
@@ -67,12 +72,18 @@ def gmaps(request):
                 })
             else:
                 location = cluster[0]
+                date = ""
+                if 'date' in location:
+                    date = location['date'].astimezone(get_current_timezone())
+                    date = (date - datetime(1970, 1, 1).replace(tzinfo=utc)).total_seconds()
+
                 markers.append({
                     'id': location['id'],
                     'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
                     'is_cluster': False,
-                    'category': location['category']
+                    'category': location['category'],
                 })
+
         return HttpResponse(json.dumps(markers))
 
     else:

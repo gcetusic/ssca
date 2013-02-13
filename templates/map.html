@@ -30,7 +30,15 @@ var marker_info = "{% url marker_info %}";
         var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
         google.maps.event.addListener(map, 'idle', getMarkers);
 
-        function getMarkers() {
+        function getTimezoneName() {
+            timezone = jstz.determine();
+            return timezone.name();
+        }
+
+        function getMarkers(time) {
+
+            var time = time || 0;
+
             var center = map.getCenter().lat();
             var bounds = map.getBounds();
             var ne = bounds.getNorthEast();
@@ -41,7 +49,9 @@ var marker_info = "{% url marker_info %}";
                 "east": ne.lng(),
                 "west": sw.lng(),
                 "zoom": map.getZoom(),
-                "center": map.getCenter().lng()
+                "center": map.getCenter().lng(),
+                "timezone": getTimezoneName(),
+                "time": time
             }
 
             $.ajax({
@@ -67,11 +77,6 @@ var marker_info = "{% url marker_info %}";
             });
         }
 
-        function getTimezoneName() {
-            timezone = jstz.determine();
-            return timezone.name();
-        }
-
 
         function prettyData(data, category) {
             var string;
@@ -92,9 +97,10 @@ var marker_info = "{% url marker_info %}";
                 position: position,
                 map: map,
             });
-            if ($("#filter input[value='" + category + "']").prop("checked") == false) {
+            if ($("#type_filter input[value='" + category + "']").prop("checked") == false) {
                 marker.setVisible(false);
             }
+
             marker.id = id;
             marker.is_cluster = is_cluster;
             marker.category = category;
@@ -171,16 +177,27 @@ var marker_info = "{% url marker_info %}";
             }
         }
 
-
         $(document).ready(function() {
-            $("input[name='filter']").prop("checked", true);
-            $("input[name='filter']").live('click', function () {
+            $("#type_filter input[name='type']").prop("checked", true);
+            $("#time_filter input[value='current']").prop("checked", true);
+            $("#type_filter input[name='type']").live('click', function () {
                 if ($(this).is(":checked")) {
                     show(this.value);
                 }
                 else {
                     hide(this.value);
                 }
+            });
+
+            $("#time_filter input[name='time']").change(function () {
+                var time;
+                if ($(this).val() == 'current') {
+                    time = 0;
+                }
+                if ($(this).val() == 'recent') {
+                    time = 30;
+                }
+                getMarkers(time);
             });
         });
     };
@@ -199,11 +216,15 @@ var marker_info = "{% url marker_info %}";
 </div>
 
 
-<div class="controls">
-    <form id="filter">
-        <input type="checkbox" name="filter" value="friends">My friends</input><br />
-        <input type="checkbox" name="filter" value="members">All members</input><br />
-        <input type="checkbox" name="filter" value="guides">Port Guides</input><br />
-        <input type="checkbox" name="filter" value="stations">Cruising Stations</input>
-    </form>
+<div id="controls">
+    <div id="type_filter">
+        <input type="checkbox" name="type" value="friends">My friends</input><br />
+        <input type="checkbox" name="type" value="members">All members</input><br />
+        <input type="checkbox" name="type" value="guides">Port Guides</input><br />
+        <input type="checkbox" name="type" value="stations">Cruising Stations</input>
+    </div>
+    <div id="time_filter">
+        <input type="radio" name="time" value="current">Last known locations</input><br />
+        <input type="radio" name="time" value="recent">Recently updated locations</input><br />
+    </div>
 </div>

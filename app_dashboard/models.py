@@ -1,25 +1,28 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.timezone import get_current_timezone
-
+from datetime import timedelta
 from app_public.models import Person
 import math
 
 
 class LocationManager(models.Manager):
-    def current_location(self, change=None):
+    def current_location(self, change):
         '''
-            The method takes a timedelta object as the 'change' argument.
+            The method takes the number of minutes as the 'change' argument.
+            A value of 0 means the most recent record is fetched.
             E.g. to get all locations that were edited in the last 30 minutes and id of 4:
 
-            Location.objects.current_location(timezone.now() - timedelta(minutes=30)).filter(id=4)
+            Location.objects.current_location(timedelta(minutes=30)).filter(id=4)
         '''
-        if change:
+
+        if not change == 0:
             date = super(LocationManager, self).get_query_set().filter( \
-                date__gte=(timezone.now() - change) \
+                date__gte=(timezone.now() - timedelta(minutes=change)) \
                 )
         else:
-            date = super(LocationManager, self).get_query_set().annotate(models.Max('date'))
+            date_max = super(LocationManager, self).get_query_set().aggregate(models.Max('date'))['date__max']
+            date = super(LocationManager, self).get_query_set().filter(date=date_max)
         return date
 
 
