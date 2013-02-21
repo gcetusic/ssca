@@ -231,12 +231,37 @@
                 }
             };
 
+        /*
+        * adding step 2 vaidation rules
+        */
+        var step2ValidatationRules = {
+                rules: {
+                    name_on_card: {
+                        minlength: 5,
+                        required: true
+                    },
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                }
+            };
+
         $(document).ready(function(){
 
             /*
             * adding step 1 vaidation function
             */
             $('#step1-form').validate(step1ValidatationRules);
+
+            /*
+            * adding step 2 vaidation function
+            */
+            $('#step3-form').validate(step2ValidatationRules);
         });
 
 
@@ -355,7 +380,7 @@
           <div class="modal-body">
               <h4>Subscribe to SSCA (Step 3 to 3)</h4>
               <p>Almost done. Decide whether you'd like to fly the SSCA burgee, <br>and provide your payment details to checkout.</p>
-              <form name="firstForm">
+              <form name="firstForm" id="step3-form">
                   <div class="control-group">
                       <div class="controls" style="float:left;">
                           <label class="checkbox">
