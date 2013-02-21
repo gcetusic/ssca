@@ -45,12 +45,15 @@ class SSCAJoinForm(forms.Form):
     burgee_type = forms.ChoiceField(choices = burgee_types,
             widget=forms.Select(attrs={'onchange':'onBurgeeChanged();'}))
 
-    name_on_card = forms.CharField(max_length=32, required = True)
+    name_on_card = forms.CharField(max_length=32, required = True,
+            widget=forms.TextInput( attrs={'placeholder': 'Full Name','class': 'input-xlarge'}))
 
     card_type = forms.ChoiceField(required = True, 
             widget = forms.Select(), choices = card_types)
 
-    card_number = forms.CharField(max_length=32, required = True)
+    card_number = forms.CharField(max_length=32, required = True,
+            widget=forms.TextInput( attrs={'placeholder': '14-digit number','class': 'input-xlarge'}))
+
     card_expiry_date = forms.DateField(required = True)
     card_csv = forms.CharField(max_length=3, required = True,
             widget=forms.TextInput(attrs={'style':'width: 40px;'}))
