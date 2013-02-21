@@ -27,13 +27,13 @@ class SSCAJoinForm(forms.Form):
 
     # fields for step 1 dialog
     firstname = forms.CharField(max_length=32, required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'First Name'}))
+            widget=forms.TextInput( attrs={'placeholder': 'First Name','class': 'input-xlarge'}))
 
     lastname = forms.CharField(max_length=32, required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'Last Name'}))
+            widget=forms.TextInput( attrs={'placeholder': 'Last Name','class': 'input-xlarge'}))
 
     email = forms.EmailField(required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'Email Address'}))
+            widget=forms.TextInput( attrs={'placeholder': 'Email Address','class': 'input-xlarge'}))
 
     # fields for step 2 dialog
     membership_fee = forms.IntegerField()

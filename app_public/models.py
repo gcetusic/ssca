@@ -19,6 +19,17 @@ class Person(models.Model):
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
 
+    # FIXME - need to determine how to store this info in db
+    # encrypt or hash ?
+    """
+    card_number = models.CharField(max_length=32, required = True)
+    card_expiry_date = models.DateField(required = True)
+    card_csv = models.CharField(max_length=3, required = True)
+    yearly_total = models.IntegerField()
+    yearly_reniew = models.BooleanField() 
+    total = models.IntegerField()
+    """
+
 
 class Location(models.Model):
     date = models.DateTimeField()

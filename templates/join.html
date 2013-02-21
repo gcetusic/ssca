@@ -5,8 +5,26 @@
     <link href="/static/bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
     <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
     <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+
+    <style>
+        label.valid {
+            width: 24px;
+            height: 24px;
+            background: url(/static/images/valid.png) center center no-repeat;
+            display: inline-block;
+            text-indent: -9999px;
+        }
+        label.error {
+            font-weight: bold;
+            color: red;
+            padding: 2px 8px;
+            margin-top: 2px;
+        }
+
+        </style>
 	
     <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
+    <script src="/static/bootstrap_toolkit/js/jquery.validate.min.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-datepicker.js"></script>
@@ -132,26 +150,13 @@
         }
 
         function validateStep1() {
-
-            if(!$("#id_firstname").val()) {
-                alert("Please Enter Firstname");
-                return false;
+            if($('#step1-form').valid()) {
+                $("#a_step2").attr("href", "#modalStep2");
+                $("#a_step2").attr("data-dismiss", "modal");
+                $("#a_step2").attr("data-toggle", "modal");
+                return true;
             }
-
-            if(!$("#id_lastname").val()) {
-                alert("Please Enter Lastname");
-                return false;
-            }
-
-            if(!$("#id_email").val()) {
-                alert("Please Enter Email");
-                return false;
-            }
-
-            $("#a_step2").attr("href", "#modalStep2");
-            $("#a_step2").attr("data-dismiss", "modal");
-            $("#a_step2").attr("data-toggle", "modal");
-            return true;
+            return false;
         }
 
         function validateStep2() {
@@ -198,6 +203,36 @@
             return true;
         }
 
+	//------------------------------------------------------------------------------------------//
+        $(document).ready(function(){
+            $('#step1-form').validate(
+            {
+                rules: {
+                    firstname: {
+                        minlength: 5,
+                        required: true
+                    },
+                    lastname: {
+                        minlength: 2,
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                    //alert("highlight");
+                },
+                success: function(element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                    //alert("success");
+                }
+            });
+        });
 
     </script>
 {% endblock %}
@@ -210,7 +245,7 @@
               <h3>Join SSCA</h3>
             </div>
             <div class="modal-body">
-              <h4>Subscribe to SSCA (Step 1 to 3)</h4>
+              <h4>Subscribe to SSCA (Step 1 of 3)</h4>
               <p>If you were a subscriber in the past and would like to renew, <a href = "/renew/">click here</a></p>
               <br>
 		  <p>Joining SSCA is quick and easy. You'll be logged in within 5 minutes.</p>
@@ -218,7 +253,7 @@
             </div>
 			
 			
-	   <form class="bs-docs-example form-horizontal">
+	   <form class="form-horizontal" id="step1-form">
             <div class="control-group">
               <label class="control-label" for="firstname" >First name: </label>
               <div class="controls">
@@ -238,6 +273,11 @@
                 {{ form.email }}
               </div>
             </div>
+            <!--
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary ">Submit Test</button>
+            </div>
+            -->
           </form>
 
            <div class="modal-footer">
