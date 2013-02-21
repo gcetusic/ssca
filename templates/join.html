@@ -203,7 +203,6 @@
             return true;
         }
 
-	//------------------------------------------------------------------------------------------//
         $(document).ready(function(){
             $('#step1-form').validate(
             {
@@ -223,15 +222,14 @@
                 },
                 highlight: function(element) {
                     $(element).closest('.control-group').removeClass('success').addClass('error');
-                    //alert("highlight");
                 },
                 success: function(element) {
                     element
                     .text('OK!').addClass('valid')
                     .closest('.control-group').removeClass('error').addClass('success');
-                    //alert("success");
                 }
             });
+
         });
 
     </script>
@@ -273,11 +271,6 @@
                 {{ form.email }}
               </div>
             </div>
-            <!--
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary ">Submit Test</button>
-            </div>
-            -->
           </form>
 
            <div class="modal-footer">
