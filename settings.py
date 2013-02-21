@@ -167,8 +167,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+SERIALIZATION_MODULES = {
+    'json': 'wadofstuff.django.serializers.json'
+}
+
 LOGIN_REDIRECT_URL = '/dashboard/'
 
+AUTH_PROFILE_MODULE = "app_public.Person"
 deployment_env = os.environ.get('DEPLOYMENT_ENV')
 print('using deployment_env ' + deployment_env)
 if deployment_env == 'prod':

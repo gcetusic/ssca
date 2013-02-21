@@ -5,7 +5,8 @@ urlpatterns = patterns('',
     # Main web portal entrance.
     (r'^$', dashboard_main_page),
     url(r'^marker/$', marker_info, name="marker_info"),
-    url(r'^map/$', gmaps, name="gmaps_viewer"),
+    url(r'^map/$', show_gmaps, name="gmaps_viewer"),
+    url(r'^search/$', find_member, name="member_finder"),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
                                   {'document_root': 'static'}),
 )

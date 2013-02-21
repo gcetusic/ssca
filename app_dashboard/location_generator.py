@@ -14,16 +14,14 @@ def gen_random_position(latrange, lonrange):
 
 
 def write_data(latrange=(-89, 89), lonrange=(-179, 179), limit=10000):
-    if Person.objects.all().exists():
-        person = Person.objects.order_by('?')[0]
-    else:
-        if User.objects.all().exists():
-            user = User.objects.order_by('?')[0]
-        else:
-            user = User(username=str(random.randint(0, 1000000)))
-            user.save()
-        person = Person(user=user, identity=str(random.randint(0, 1000000)))
-        person.save()
+    user = User(\
+        username="usernr" + str(random.randint(0, 1000000)), \
+        email="emailnr" + str(random.randint(0, 1000000)), \
+        first_name="firstnr" + str(random.randint(0, 1000000)), \
+        last_name="lastnr" + str(random.randint(0, 1000000)))
+    user.save()
+    person = Person(user=user, identity=str(random.randint(0, 1000000)))
+    person.save()
 
     locations = []
     for i in range(limit):

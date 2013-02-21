@@ -1,5 +1,7 @@
-<script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
+<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
 <script type="text/javascript">
 var center_latitude = {{ gmap.center.0 }};
 var center_longitude = {{ gmap.center.1 }};
@@ -7,6 +9,8 @@ var map_zoom = {{ gmap.zoom }};
 var min_zoom = {{ gmap.minzoom }};
 var gmaps_viewer = "{% url gmaps_viewer %}";
 var marker_info = "{% url marker_info %}";
+var member_finder = "{% url member_finder %}";
+var searchqueue = [];
 </script>
 
 <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b>
@@ -199,6 +203,50 @@ var marker_info = "{% url marker_info %}";
                 }
                 getMarkers(time);
             });
+
+            var searchqueue = [];
+            setInterval(function () {
+                if (searchqueue.length > 0) {
+                text = searchqueue.pop();
+                text.call();
+                searchqueue = [];
+                }
+            }, 2000);
+
+            var wrapFunction = function(fn, context, params) {
+                return function() {
+                    fn.apply(context, params);
+                };
+            }
+
+            function find(query, process) {
+                var funsearch = function (query, process) {
+                    $.ajax({
+                        type: "POST",
+                        url: member_finder,
+                        data: {
+                            "search": query
+                        },
+                        dataType: "json",
+                        success: function (result) {
+                            process(result);
+                        }
+                    });
+                };
+                searchqueue.push(wrapFunction(funsearch, this, [query, process]));
+            }
+
+            $("#memberTypeahead").typeahead({
+                minLength: 3,
+                source: find,
+                updater: function(item) {
+                    console.log(item);
+                    return item;
+                },
+                matcher: function(item) {
+                    return true;
+                }
+            })
         });
     };
 
@@ -208,6 +256,7 @@ var marker_info = "{% url marker_info %}";
         script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
         document.body.appendChild(script);
     }
+
 </script>
 
 
@@ -226,5 +275,21 @@ var marker_info = "{% url marker_info %}";
     <div id="time_filter">
         <input type="radio" name="time" value="current">Last known locations</input><br />
         <input type="radio" name="time" value="recent">Recently updated locations</input><br />
+    </div>
+</div>
+
+<a href="#member_modal" role="button" class="btn" data-toggle="modal">Find member</a>
+
+<div id="member_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="member_label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Members</h3>
+    </div>
+    <div class="modal-body">
+        Search members: <input type="text" id="memberTypeahead">
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary">OK</button>
     </div>
 </div>
