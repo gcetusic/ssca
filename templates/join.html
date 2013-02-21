@@ -203,9 +203,10 @@
             return true;
         }
 
-        $(document).ready(function(){
-            $('#step1-form').validate(
-            {
+        /*
+        * adding step 1 vaidation rules
+        */
+        var step1ValidatationRules = {
                 rules: {
                     firstname: {
                         minlength: 5,
@@ -228,9 +229,17 @@
                     .text('OK!').addClass('valid')
                     .closest('.control-group').removeClass('error').addClass('success');
                 }
-            });
+            };
 
+        $(document).ready(function(){
+
+            /*
+            * adding step 1 vaidation function
+            */
+            $('#step1-form').validate(step1ValidatationRules);
         });
+
+
 
     </script>
 {% endblock %}
