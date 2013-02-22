@@ -55,7 +55,9 @@ class SSCAJoinForm(forms.Form):
             widget=forms.TextInput( attrs={'placeholder': '14-digit number','class': 'input-xlarge'}))
 
     card_expiry_date = forms.DateField(required = True)
+
     card_csv = forms.CharField(max_length=3, required = True,
-            widget=forms.TextInput(attrs={'style':'width: 40px;'}))
+            widget=forms.TextInput(attrs={'style': 'width: 40px;', 'class': 'input-xlarge'}))
+
     total_fee = forms.IntegerField() 
     yearly_reniew = forms.BooleanField() 

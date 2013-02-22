@@ -232,9 +232,9 @@
             };
 
         /*
-        * adding step 2 vaidation rules
+        * adding step 3 vaidation rules
         */
-        var step2ValidatationRules = {
+        var step3ValidatationRules = {
                 rules: {
                     name_on_card: {
                         minlength: 5,
@@ -242,6 +242,30 @@
                     },
                     card_number: {
                         minlength: 14,
+                        required: true
+                    },
+                    card_csv: {
+                        minlength: 3,
+                        required: true
+                    },
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                }
+            };
+
+        /*
+        * adding calendar, csv form validations
+        */
+        var csvValidatationRules = {
+                rules: {
+                    card_csv: {
+                        minlength: 3,
                         required: true
                     },
                 },
@@ -263,9 +287,10 @@
             $('#step1-form').validate(step1ValidatationRules);
 
             /*
-            * adding step 2 vaidation function
+            * adding step 3 vaidation function
             */
-            $('#step3-form').validate(step2ValidatationRules);
+            $('#step3-form').validate(step3ValidatationRules);
+            $('#cal-form').validate(csvValidatationRules);
         });
 
 
@@ -418,7 +443,7 @@
 
               </form>
               <div class="control-group">
-                  <form class="form-inline" name="secondForm">
+                  <form class="form-inline" name="secondForm" id="cal-form">
                       <label class="control-label" for="inputEmail">Expiry date: &nbsp;</label>
                       <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
                           <input class="span2" size="16" type="text" value="" readonly="" name="date">
