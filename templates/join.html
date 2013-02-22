@@ -240,6 +240,10 @@
                         minlength: 5,
                         required: true
                     },
+                    card_number: {
+                        minlength: 14,
+                        required: true
+                    },
                 },
                 highlight: function(element) {
                     $(element).closest('.control-group').removeClass('success').addClass('error');
@@ -380,6 +384,8 @@
           <div class="modal-body">
               <h4>Subscribe to SSCA (Step 3 to 3)</h4>
               <p>Almost done. Decide whether you'd like to fly the SSCA burgee, <br>and provide your payment details to checkout.</p>
+
+
               <form name="firstForm" id="step3-form">
                   <div class="control-group">
                       <div class="controls" style="float:left;">
@@ -387,31 +393,31 @@
                               <input type="checkbox" id="chkPurchaseSSCABurgee" onclick="onPurchaseBurgeeChanged();"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
                           </label>
                       </div>
+                      {{ form.burgee_type }} (Add $<span id="spnBurgeeCost">25</span>)
                   </div>
-                  {{ form.burgee_type }} (Add $<span id="spnBurgeeCost">25</span>)
-                  <div class="control-group">
-                      <table width="100%" cellspacing="5" cellpadding="5">
-                          <tr>
-                              <td align="right">
-                                  <label class="control-label" for="inputEmail">Name on card:</label>
-                              </td>
-                              <td>{{ form.name_on_card }}</td>
-                          </tr>
-                          <tr>
-                              <td align="right">
-                                <label class="control-label" for="inputEmail">Credit card type:</label> 
-                              </td>
-                              <td>{{ form.card_type }}</td>
-                          </tr>
-                          <tr>
-                              <td align="right">
-                                <label class="control-label" for="inputEmail">Credit card number:</label>
-                              </td>
-                              <td>{{ form.card_number }}</td>
-                          </tr>
-                      </table>
 
-                  </form>
+                  <div class="control-group">
+                      <div class="controls" style="float:left;width: 150px;">
+                          <label class="control-label" for="inputEmail" style="text-align: right;padding-right: 5px;">Name on card:</label>
+                      </div>
+                      {{ form.name_on_card }}
+                  </div>
+
+                  <div class="control-group" >
+                      <div class="controls" style="float:left;width: 150px;">
+                          <label class="control-label" for="inputEmail" style="text-align: right;padding-right: 5px;">Credit card type:</label> 
+                      </div>
+                      {{ form.card_type }}
+                  </div>
+                  <div class="control-group" >
+                      <div class="controls" style="float:left;width: 150px;">
+                          <label class="control-label" for="inputEmail" style="text-align: right;padding-right: 5px;">Credit card number:</label>
+                      </div>
+                      {{ form.card_number }}
+                  </div>
+
+              </form>
+              <div class="control-group">
                   <form class="form-inline" name="secondForm">
                       <label class="control-label" for="inputEmail">Expiry date: &nbsp;</label>
                       <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
@@ -422,7 +428,7 @@
                       </div>
                       &nbsp;&nbsp;
                       <label class="control-label" for="inputEmail">CSV: &nbsp;</label>
-                          {{ form.card_csv }}
+                      {{ form.card_csv }}
                   </form>
               </div>
               <table width="100%" cellspacing="2" cellpadding="2" border="0">
