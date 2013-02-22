@@ -1,12 +1,16 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.conf import settings
+from django.db.models import Q
+from django.core import serializers
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
-from django.utils.timezone import activate, get_current_timezone_name, get_current_timezone, utc
+from django.utils.timezone import activate, get_current_timezone_name
 from itertools import chain
 from app_dashboard.models import Location, Port, CruisingStation, Guide
+from app_public.models import Person
 from clustering import distance
 import json
 
@@ -19,7 +23,7 @@ def dashboard_main_page(request):
 
 
 @csrf_exempt
-def gmaps(request):
+def show_gmaps(request):
     context = {}
 
     if request.is_ajax and request.POST:
@@ -72,10 +76,6 @@ def gmaps(request):
                 })
             else:
                 location = cluster[0]
-                date = ""
-                if 'date' in location:
-                    date = location['date'].astimezone(get_current_timezone())
-                    date = (date - datetime(1970, 1, 1).replace(tzinfo=utc)).total_seconds()
 
                 markers.append({
                     'id': location['id'],
@@ -89,7 +89,7 @@ def gmaps(request):
     else:
         google_map = {
             'center': (20, 0),
-            'zoom': 3,
+            'zoom': 5,
             'minzoom': 2
         }
         context['gmap'] = google_map
@@ -116,3 +116,67 @@ def marker_info(request):
 
         info = data.get_info()
         return HttpResponse(json.dumps(info))
+
+
+class MemberSearch(object):
+    def __init__(self, search_data):
+        self.__dict__.update(search_data)
+
+    def search_email(self, q=None):
+        email_q = Q(email__icontains=self.search)
+        if q is not None:
+            q |= email_q
+        else:
+            q = email_q
+        return q
+
+    def search_first_name(self, q=None):
+        first_name_q = Q(first_name__icontains=self.search)
+        if q is not None:
+            q |= first_name_q
+        else:
+            q = first_name_q
+        return q
+
+    def search_last_name(self, q=None):
+        last_name_q = Q(last_name__icontains=self.search)
+        if q is not None:
+            q |= last_name_q
+        else:
+            q = last_name_q
+        return q
+
+
+@csrf_exempt
+def find_member(request):
+    if 'search' in request.POST:
+        timezone = request.POST.get('timezone', get_current_timezone_name())
+        activate(timezone)
+
+        results = None
+        searcher = MemberSearch({'search': request.POST.get('search')})
+
+        q = None
+        for key in ("email", "first_name", "last_name"):
+            dispatch = getattr(searcher, 'search_%s' % key)
+            q = dispatch(q)
+
+        if q and len(q):
+            locations = Location.objects.filter(id=0)
+            len(locations)  # just hit the db
+            user_ids = User.objects.filter(q).values_list('id', flat=True)
+            person_ids = Person.objects.filter(user_id__in=user_ids).values_list('id', flat=True)
+            for person_id in person_ids:
+                location = Location.objects.filter(person_id=person_id)
+                if location.exists():
+                    locations._result_cache.append(location.latest('date'))
+
+            Location.objects.current_location(change=0, user_ids=user_ids)
+            results = serializers.serialize('json', locations, excludes=('date'), \
+                fields=('latitude', 'longitude', 'person'), \
+                relations={'person': {'excludes': ('identity', 'friend',), \
+                'relations': {'user': {'excludes': \
+                ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',\
+                 'password', 'last_login', 'date_joined')\
+                }}}})
+        return HttpResponse(results)

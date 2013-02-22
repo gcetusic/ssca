@@ -7,23 +7,36 @@ import math
 
 
 class LocationManager(models.Manager):
-    def current_location(self, change):
+    def current_location(self, change, user_ids=None):
         '''
             The method takes the number of minutes as the 'change' argument.
             A value of 0 means the most recent record is fetched.
             E.g. to get all locations that were edited in the last 30 minutes and id of 4:
 
             Location.objects.current_location(timedelta(minutes=30)).filter(id=4)
+
+            If given a list of ids, it fetches only Locations with those user ids
         '''
 
         if not change == 0:
-            date = super(LocationManager, self).get_query_set().filter( \
+            locations = super(LocationManager, self).get_query_set().filter( \
                 date__gte=(timezone.now() - timedelta(minutes=change)) \
                 )
         else:
-            date_max = super(LocationManager, self).get_query_set().aggregate(models.Max('date'))['date__max']
-            date = super(LocationManager, self).get_query_set().filter(date=date_max)
-        return date
+            locations = super(LocationManager, self).get_query_set().filter(id=0)
+            len(locations)  # just hit the db
+
+            if user_ids:
+                person_ids = Person.objects.filter(user_id__in=user_ids).values_list('id', flat=True)
+            else:
+                person_ids = Person.objects.all().values_list('id', flat=True)
+
+            locations_by_person = super(LocationManager, self).get_query_set().filter(person_id__in=person_ids)
+            for person_id in person_ids:
+                location_by_person = locations_by_person.filter(person_id=person_id)
+                if location_by_person.exists():
+                    locations._result_cache.append(location_by_person.latest('date'))
+        return locations
 
 
 class Location(models.Model):
