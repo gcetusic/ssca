@@ -242,11 +242,8 @@
                     },
                     card_number: {
                         minlength: 14,
-                        required: true
-                    },
-                    card_csv: {
-                        minlength: 3,
-                        required: true
+                        required: true,
+                        number: true
                     },
                 },
                 highlight: function(element) {
@@ -266,7 +263,8 @@
                 rules: {
                     card_csv: {
                         minlength: 3,
-                        required: true
+                        required: true,
+                        number: true
                     },
                 },
                 highlight: function(element) {
