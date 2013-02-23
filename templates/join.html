@@ -209,11 +209,11 @@
         var step1ValidatationRules = {
                 rules: {
                     firstname: {
-                        minlength: 5,
+                    minlength: {{ form.min_firstname }},
                         required: true
                     },
                     lastname: {
-                        minlength: 2,
+                    minlength: {{ form.min_lastname }},
                         required: true
                     },
                     email: {

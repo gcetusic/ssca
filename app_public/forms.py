@@ -25,6 +25,10 @@ class SSCAJoinForm(forms.Form):
             ('25', 'Medium (12" x 18")'),
             ('17', 'Small (10" x 15")')]
 
+    # validation parameters to be used in js
+    min_firstname = 5
+    min_lastname = 5
+
     # fields for step 1 dialog
     firstname = forms.CharField(max_length=32, required = True,
             widget=forms.TextInput( attrs={'placeholder': 'First Name','class': 'input-xlarge'}))
