@@ -32,11 +32,13 @@ def show_gmaps(request):
 
         deltatime = int(request.POST.get('time', 0))
 
-        locations = Location.objects.current_location(deltatime).filter( \
+        location_ids = Location.objects.current_location(change=deltatime)
+        locations = Location.objects.filter( \
             latitude__gte=float(request.POST['south']), \
             latitude__lte=float(request.POST['north']), \
             longitude__gte=float(request.POST['west']), \
-            longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
+            longitude__lte=float(request.POST['east']), \
+            id__in=location_ids).values('id', 'latitude', 'longitude')
 
         for location in locations:
             location['category'] = 'members'
@@ -163,7 +165,9 @@ def find_member(request):
         if q and len(q):
             user_ids = User.objects.filter(q).values_list('id', flat=True)
 
-            locations = Location.objects.current_location(change=0, user_ids=user_ids)
+            location_ids = Location.objects.current_location(change=0, user_ids=user_ids)
+            locations = Location.objects.filter(id__in=location_ids)
+
             results = serializers.serialize('json', locations, excludes=('date'), \
                 fields=('latitude', 'longitude', 'person'), \
                 relations={'person': {'excludes': ('identity', 'friend',), \
