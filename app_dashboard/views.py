@@ -10,7 +10,6 @@ from django.template import RequestContext
 from django.utils.timezone import activate, get_current_timezone_name
 from itertools import chain
 from app_dashboard.models import Location, Port, CruisingStation, Guide
-from app_public.models import Person
 from clustering import distance
 import json
 
@@ -89,7 +88,7 @@ def show_gmaps(request):
     else:
         google_map = {
             'center': (20, 0),
-            'zoom': 5,
+            'zoom': 2,
             'minzoom': 2
         }
         context['gmap'] = google_map
@@ -162,16 +161,9 @@ def find_member(request):
             q = dispatch(q)
 
         if q and len(q):
-            locations = Location.objects.filter(id=0)
-            len(locations)  # just hit the db
             user_ids = User.objects.filter(q).values_list('id', flat=True)
-            person_ids = Person.objects.filter(user_id__in=user_ids).values_list('id', flat=True)
-            for person_id in person_ids:
-                location = Location.objects.filter(person_id=person_id)
-                if location.exists():
-                    locations._result_cache.append(location.latest('date'))
 
-            Location.objects.current_location(change=0, user_ids=user_ids)
+            locations = Location.objects.current_location(change=0, user_ids=user_ids)
             results = serializers.serialize('json', locations, excludes=('date'), \
                 fields=('latitude', 'longitude', 'person'), \
                 relations={'person': {'excludes': ('identity', 'friend',), \
@@ -179,4 +171,5 @@ def find_member(request):
                 ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',\
                  'password', 'last_login', 'date_joined')\
                 }}}})
+
         return HttpResponse(results)
