@@ -32,7 +32,7 @@ var searchqueue = [];
             minZoom: min_zoom,
             mapTypeId: google.maps.MapTypeId.SATELLITE
         };
-        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         google.maps.event.addListener(map, 'idle', getMarkers);
 
         function getTimezoneName() {
@@ -102,7 +102,7 @@ var searchqueue = [];
                 position: position,
                 map: map,
             });
-            if ($("#type_filter input[value='" + category + "']").prop("checked") == false) {
+            if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
                 marker.setVisible(false);
             }
 
@@ -183,9 +183,9 @@ var searchqueue = [];
         }
 
         $(document).ready(function() {
-            $("#type_filter input[name='type']").prop("checked", true);
-            $("#time_filter input[value='current']").prop("checked", true);
-            $("#type_filter input[name='type']").live('click', function () {
+            $("#type-filter input[name='type']").prop("checked", true);
+            $("#time-filter input[value='current']").prop("checked", true);
+            $("#type-filter input[name='type']").live('click', function () {
                 if ($(this).is(":checked")) {
                     show(this.value);
                 }
@@ -194,7 +194,7 @@ var searchqueue = [];
                 }
             });
 
-            $("#time_filter input[name='time']").change(function () {
+            $("#time-filter input[name='time']").change(function () {
                 var time;
                 if ($(this).val() == 'current') {
                     time = 0;
@@ -306,35 +306,42 @@ var searchqueue = [];
 
 
 <div class="content">
-    <div id="map_canvas" style="width:900px; height:600px"></div>
-</div>
+    <div id="map-canvas" style="width:900px; height:600px"></div>
 
 
-<div id="controls">
-    <div id="type_filter">
-        <input type="checkbox" name="type" value="friends">My friends</input><br />
-        <input type="checkbox" name="type" value="members">All members</input><br />
-        <input type="checkbox" name="type" value="guides">Port Guides</input><br />
-        <input type="checkbox" name="type" value="stations">Cruising Stations</input>
-    </div>
-    <div id="time_filter">
-        <input type="radio" name="time" value="current">Last known locations</input><br />
-        <input type="radio" name="time" value="recent">Recently updated locations</input><br />
-    </div>
-</div>
+    <div class="controls">
+        <div class="controls-header">
+            <div id="controls-left">Map controls</div>
+            <div id="controls-right"><a href="#member_modal" role="button btn-primary" class="btn" data-toggle="modal">Find member</a></div>
+        </div>
 
-<a href="#member_modal" role="button" class="btn" data-toggle="modal">Find member</a>
+        <div class="control-buttons">
+            <div id="type-filter">
+                <input type="checkbox" name="type" value="friends">&nbspMy friends</input><br />
+                <input type="checkbox" name="type" value="members">&nbspAll members</input><br />
+                <input type="checkbox" name="type" value="guides">&nbspPort Guides</input><br />
+                <input type="checkbox" name="type" value="stations">&nbspCruising Stations</input>
+            </div>
+            <div id="time-filter">
+                <input type="radio" name="time" value="current">&nbspLast known locations</input><br />
+                <input type="radio" name="time" value="recent">&nbspRecently updated locations</input><br />
+                <br />
+                Centered on ...coming soon...
+            </div>
+        </div>
+    </div>
 
-<div id="member_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="member_label" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Members</h3>
-    </div>
-    <div class="modal-body">
-        Search members: <input id="modal_search" type="text" class="memberTypeahead span6 search-query"></input>
-    </div>
-    <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn">Close</a>
-        <a href="#" id="modal_find" class="btn btn-primary">OK</a>
+    <div id="member_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="member_label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Members</h3>
+        </div>
+        <div class="modal-body">
+            Search members: <input id="modal_search" type="text" class="memberTypeahead span6 search-query"></input>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">Close</a>
+            <a href="#" id="modal_find" class="btn btn-primary">OK</a>
+        </div>
     </div>
 </div>
