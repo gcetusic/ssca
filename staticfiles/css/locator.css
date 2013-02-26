@@ -1,0 +1,53 @@
+.modal-body {
+  height: 400px;
+}
+
+.content {
+    margin: 30px;
+    padding: 20px;
+    border-style: solid;
+    border-width: 2px;
+}
+
+#map-canvas {
+    margin-bottom: 15px;
+}
+
+.controls {
+    width:900px;
+}
+
+.controls-header {
+    display: table-row;
+    padding: 2px;
+}
+
+#controls-left {
+    display: table-cell;
+    width: 700px;
+}
+
+#controls-right {
+    display: table-cell;
+    width: 200px;
+}
+
+#controls-right .btn {
+    float: right;
+}
+
+.control-buttons {
+    border-style: solid;
+    border-width: 2px;
+    padding: 15px;
+}
+
+.control-buttons #type-filter {
+    width: 50%;
+    display: table-cell;
+}
+
+.control-buttons #time-filter {
+    display: table-cell;
+    width: 50%;
+}

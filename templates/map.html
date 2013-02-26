@@ -1,5 +1,8 @@
-
+<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="{{ STATIC_URL }}css/locator.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
 <script type="text/javascript">
 var center_latitude = {{ gmap.center.0 }};
 var center_longitude = {{ gmap.center.1 }};
@@ -7,7 +10,15 @@ var map_zoom = {{ gmap.zoom }};
 var min_zoom = {{ gmap.minzoom }};
 var gmaps_viewer = "{% url gmaps_viewer %}";
 var marker_info = "{% url marker_info %}";
+var member_finder = "{% url member_finder %}";
+var searchqueue = [];
 </script>
+
+<noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b>
+    However, it seems JavaScript is either disabled or not supported by your browser.
+    To view Google Maps, enable JavaScript by changing your browser options, and then
+    try again.
+</noscript>
 
 <script type="text/javascript">
     window.onload = loadScript;
@@ -21,10 +32,18 @@ var marker_info = "{% url marker_info %}";
             minZoom: min_zoom,
             mapTypeId: google.maps.MapTypeId.SATELLITE
         };
-        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         google.maps.event.addListener(map, 'idle', getMarkers);
 
-        function getMarkers() {
+        function getTimezoneName() {
+            timezone = jstz.determine();
+            return timezone.name();
+        }
+
+        function getMarkers(time) {
+
+            var time = time || 0;
+
             var center = map.getCenter().lat();
             var bounds = map.getBounds();
             var ne = bounds.getNorthEast();
@@ -35,7 +54,9 @@ var marker_info = "{% url marker_info %}";
                 "east": ne.lng(),
                 "west": sw.lng(),
                 "zoom": map.getZoom(),
-                "center": map.getCenter().lng()
+                "center": map.getCenter().lng(),
+                "timezone": getTimezoneName(),
+                "time": time
             }
 
             $.ajax({
@@ -52,7 +73,8 @@ var marker_info = "{% url marker_info %}";
                             new google.maps.LatLng(item.position[0], item.position[1]),
                             item.title,
                             item.is_cluster,
-                            item.id
+                            item.id,
+                            item.category
                         );
                     });
                     showOverlays();
@@ -60,13 +82,33 @@ var marker_info = "{% url marker_info %}";
             });
         }
 
-        function addMarker(position, title, is_cluster, id) {
+
+        function prettyData(data, category) {
+            var string;
+            if (category=='members') {
+                string = data.name + '<br />' + data.date + '<br />' + data.position;
+            }
+            else if (category=='guides') {
+                string = data.title + '<br />' + data.date + '<br />' + data.author + '<br />' + data.portname;
+            }
+            else if (category=='stations') {
+                string = data.name + '<br />' + data.phone + '<br />' + data.email +'<br />' + data.portname;
+            }
+            return string;
+        }
+
+        function addMarker(position, title, is_cluster, id, category) {
             marker = new google.maps.Marker({
                 position: position,
                 map: map,
             });
+            if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
+                marker.setVisible(false);
+            }
+
             marker.id = id;
             marker.is_cluster = is_cluster;
+            marker.category = category;
             markersArray.push(marker);
         }
 
@@ -83,11 +125,10 @@ var marker_info = "{% url marker_info %}";
         function showOverlays() {
             if (markersArray) {
                 for (i in markersArray) {
-                    markersArray[i].setMap(map);
                     if (markersArray[i].is_cluster) {
                         google.maps.event.addListener(markersArray[i], 'click', function() {
-                        map.setZoom(map.getZoom()+1);
-                        map.panTo(this.getPosition());
+                            map.setZoom(map.getZoom()+1);
+                            map.panTo(this.getPosition());
                         });
                     }
                     else { (function(marker) {
@@ -98,11 +139,13 @@ var marker_info = "{% url marker_info %}";
                                 url: marker_info,
                                 dataType: "json",
                                 data: {
-                                    "id": marker.id
+                                    "id": marker.id,
+                                    "category": marker.category,
+                                    "timezone": getTimezoneName()
                                 },
                                 success: function (data) {
                                     infowindow = new google.maps.InfoWindow();
-                                    infowindow.setContent(JSON.stringify(data));
+                                    infowindow.setContent(prettyData(data, marker.category));
                                     infowindow.open(map, marker);
                                 }
                             });
@@ -121,6 +164,135 @@ var marker_info = "{% url marker_info %}";
                 markersArray.length = 0;
             }
         }
+
+        function show(category) {
+            for (var i=0; i<markersArray.length; i++) {
+                if (markersArray[i].category == category) {
+                    markersArray[i].setVisible(true)
+                }
+            }
+        }
+
+        // == hides all markers of a particular category, and ensures the checkbox is cleared ==
+        function hide(category) {
+            for (var i=0; i<markersArray.length; i++) {
+                if (markersArray[i].category == category) {
+                    markersArray[i].setVisible(false);
+                }
+            }
+        }
+
+        $(document).ready(function() {
+            $("#type-filter input[name='type']").prop("checked", true);
+            $("#time-filter input[value='current']").prop("checked", true);
+            $("#type-filter input[name='type']").live('click', function () {
+                if ($(this).is(":checked")) {
+                    show(this.value);
+                }
+                else {
+                    hide(this.value);
+                }
+            });
+
+            $("#time-filter input[name='time']").change(function () {
+                var time;
+                if ($(this).val() == 'current') {
+                    time = 0;
+                }
+                if ($(this).val() == 'recent') {
+                    time = 30;
+                }
+                getMarkers(time);
+            });
+
+            var searchqueue = [];
+            setInterval(function () {
+                if (searchqueue.length > 0) {
+                text = searchqueue.pop();
+                text.call();
+                searchqueue = [];
+                }
+            }, 2000);
+
+            var wrapFunction = function(fn, context, params) {
+                return function() {
+                    fn.apply(context, params);
+                };
+            }
+
+            var search_results;
+            function find(query, process) {
+                var funsearch = function (query, process) {
+                    $.ajax({
+                        type: "POST",
+                        url: member_finder,
+                        data: {
+                            "search": query,
+                            "timezone": getTimezoneName()
+                        },
+                        dataType: "json",
+                        success: function (results) {
+                            var resultsArray = new Array;
+                            if (results.length <= 20) {
+                                search_results = results;
+                                results.forEach(function (item, index) {
+                                    result = "<div pk='" + index + "' style='visibility:hidden;'>" + "</div>"
+                                        + item.fields.person.fields.user.fields.first_name + ' '
+                                        + item.fields.person.fields.user.fields.last_name + ' ('
+                                        + item.fields.person.fields.user.fields.email + ')'
+                                    resultsArray.push(result);
+                                });
+                                process(resultsArray);
+                            }
+                        }
+                    });
+                };
+                searchqueue.push(wrapFunction(funsearch, this, [query, process]));
+            }
+
+            $('#member_modal').modal({
+                show: false,
+                keyboard: false,
+                backdrop: 'static'
+            }).css({
+                width: 'auto',
+                'margin-left': function () {
+                    return -($(this).width() / 2);
+                }
+            });
+
+            $('#modal_find').on('click', function () {
+                $('#member_modal').modal('hide');
+                var member = search_results[$("#modal_search").attr("pk")];
+                var center = new google.maps.LatLng(member.fields.latitude, member.fields.longitude);
+                map.panTo(center);
+                map.setZoom(5);
+            })
+
+            $('#member_modal').on('hidden', function () {
+                $(this).find("input[type=text], textarea").val("");
+            })
+
+            // some functions aren't needed but included as templates
+            $(".memberTypeahead").typeahead({
+                minLength: 3,
+                items: 10,
+                source: find,
+                updater: function(item) {
+                    var wrapper= document.createElement('div');
+                    wrapper.innerHTML= item;
+                    var div= wrapper.firstChild;
+                    $("#modal_search").attr("pk", $(div).attr('pk'));
+                    return item.split("/div>")[1];
+                },
+                matcher: function(item) {
+                    return true;
+                },
+                sorter: function(items) {
+                    return items;
+                }
+            })
+        });
     };
 
     function loadScript() {
@@ -131,4 +303,45 @@ var marker_info = "{% url marker_info %}";
     }
 
 </script>
-<div id="map_canvas" style="width:900px; height:600px"></div>
+
+
+<div class="content">
+    <div id="map-canvas" style="width:900px; height:600px"></div>
+
+
+    <div class="controls">
+        <div class="controls-header">
+            <div id="controls-left">Map controls</div>
+            <div id="controls-right"><a href="#member_modal" role="button btn-primary" class="btn" data-toggle="modal">Find member</a></div>
+        </div>
+
+        <div class="control-buttons">
+            <div id="type-filter">
+                <input type="checkbox" name="type" value="friends">&nbspMy friends</input><br />
+                <input type="checkbox" name="type" value="members">&nbspAll members</input><br />
+                <input type="checkbox" name="type" value="guides">&nbspPort Guides</input><br />
+                <input type="checkbox" name="type" value="stations">&nbspCruising Stations</input>
+            </div>
+            <div id="time-filter">
+                <input type="radio" name="time" value="current">&nbspLast known locations</input><br />
+                <input type="radio" name="time" value="recent">&nbspRecently updated locations</input><br />
+                <br />
+                Centered on ...coming soon...
+            </div>
+        </div>
+    </div>
+
+    <div id="member_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="member_label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Members</h3>
+        </div>
+        <div class="modal-body">
+            Search members: <input id="modal_search" type="text" class="memberTypeahead span6 search-query"></input>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">Close</a>
+            <a href="#" id="modal_find" class="btn btn-primary">OK</a>
+        </div>
+    </div>
+</div>

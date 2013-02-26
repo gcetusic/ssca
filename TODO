@@ -14,7 +14,5 @@ views:
 
 javascript:
 
-    1. close other popups when clicking on new ones
-
-    2. move javascript to a separate static file
+    1. move javascript to a separate static file
 

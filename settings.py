@@ -40,7 +40,7 @@ STATIC_ROOT = ''
 
 # this breaks fab bootstrap...
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "static"),
+    os.path.join(PROJECT_DIR, "staticfiles"),
 )
 
 
@@ -167,11 +167,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+SERIALIZATION_MODULES = {
+    'json': 'wadofstuff.django.serializers.json'
+}
+
 LOGIN_REDIRECT_URL = '/dashboard/'
 
-USE_TZ = True
-
-
+AUTH_PROFILE_MODULE = "app_public.Person"
 deployment_env = os.environ.get('DEPLOYMENT_ENV')
 print('using deployment_env ' + deployment_env)
 if deployment_env == 'prod':
