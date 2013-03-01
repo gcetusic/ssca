@@ -78,7 +78,6 @@ def post_auth_process(request, backend, *args, **kwargs):
     return render_to_response('error.html', {"message": message})
 
 
-<<<<<<< HEAD
 def decimal_to_float(location, *args):
     for arg in args:
         location[arg] = float(location[arg])
