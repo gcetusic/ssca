@@ -2,10 +2,20 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
 from app_public.views import *
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+
+dajaxice_autodiscover()
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
+
+    # dajaxice urls
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+
+    # test dajax page
+    url(r'^dajax_test/', dajax_test),
+
     url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', logout_page),
@@ -30,6 +40,7 @@ urlpatterns = patterns('',
     url(r'^renew/', renew),
 
     url(r'^', include('cms.urls')),
+
 )
 
 if settings.DEBUG:

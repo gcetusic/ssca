@@ -161,3 +161,8 @@ def renew(request):
     :return: django HttpResponse 
     """
     return render_to_response('renew.html')
+
+def dajax_test(request):
+    """test view to evaluate dajax capabilities"""
+
+    return render_to_response('dajax-test.html')

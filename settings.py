@@ -51,6 +51,12 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'dajaxice.finders.DajaxiceFinder',
+)
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
@@ -63,7 +69,7 @@ SECRET_KEY = '$!9$brb74y+1wn!=ous4@w8!(bqwb8b)v7j2nv!)_s5n$0wknk'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,6 +94,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'cms.context_processors.media',
+    'django.contrib.messages.context_processors.messages',
     'sekizai.context_processors.sekizai',
     'social_auth.context_processors.social_auth_by_name_backends',
     'social_auth.context_processors.social_auth_backends',
@@ -131,6 +138,7 @@ INSTALLED_APPS = (
     'app_public',
     'app_dashboard',
     'social_auth',
+    'dajaxice',
 )
 
 # A sample logging configuration. The only tangible logging
