@@ -1,0 +1,284 @@
+<link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+<link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+
+<style>
+    label.valid {
+        width: 24px;
+        height: 24px;
+        background: url(/static/images/valid.png) center center no-repeat;
+        display: inline-block;
+        text-indent: -9999px;
+    }
+    label.error {
+        color: #B94A48;
+        padding: 2px 8px;
+        margin-top: 2px;
+    }
+</style>
+
+<script src="/static/bootstrap_toolkit/js/jquery.validate.min.js"></script>
+<script src="/static/assets/js/bootstrap-datepicker.js"></script>
+<script src="/static/admin/js/creditcard.js"></script>
+
+<script>		
+    var yearlyTotal = {{ basic_mail_cost }};
+
+    /* datepicker launcher */
+    $(function(){		
+        $('#dp3').datepicker();
+    });
+
+    function onMailLocationChange() {
+        var mailLocation = $('#id_mail_location').find(":selected").text();
+
+        var divSeconday = $('#div_chk_secondary');
+        //hiding seconday checkbox
+        if(mailLocation == "{{ form.loc_usa }}") {
+            divSeconday.show();
+        }
+        else
+        if(mailLocation == "{{ form.loc_canada }}") {
+            divSeconday.hide();
+            $("#spnSecondary").html("{{ form.send_first_class }}");
+        }
+        else
+        if(mailLocation == "{{ form.loc_overseas }}") {
+            divSeconday.show();
+            $("#spnSecondary").html("{{ form.send_international }}");
+        }
+
+        updateYearlyTotal();
+    }
+
+    function bulletinClicked() {
+        var chkSecondary = document.getElementById('chkSecondary');
+        var cbBulletins = document.getElementById('cbBulletins');
+        updateYearlyTotal();
+    }
+
+    function secondaryClicked() {
+        var chkSecondary = document.getElementById('chkSecondary');
+        var cbBulletins = document.getElementById('cbBulletins');
+        cbBulletins.checked = chkSecondary.checked;
+
+        updateYearlyTotal();
+    }
+
+    function updateYearlyTotal() {		
+        yearlyTotal = {{ basic_mail_cost }};
+
+        var bulletinVal = parseInt($('#id_mail_location').val());
+        var chkSecondary = document.getElementById('chkSecondary');
+        var cbBulletins = document.getElementById('cbBulletins');
+
+        $('#spnMailCostLabel').html(bulletinVal);
+
+        if (cbBulletins.checked){
+            yearlyTotal += bulletinVal;
+        }
+
+        if (chkSecondary.checked){
+            var mailLocation = $('#id_mail_location').find(":selected").text();
+            //for usa adding 5
+            if(mailLocation == "{{ form.loc_usa }}") {
+                yearlyTotal += 5;
+            }
+            else
+            //for overseas adding 15
+            if(mailLocation == "{{ form.loc_overseas }}") {
+                yearlyTotal += 15;
+            }
+        }
+
+        $('#spnYearlytotal').html(yearlyTotal);
+    }
+
+    function onPurchaseBurgeeChanged() {
+        var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
+        if(chkPurchaseSSCABurgee.checked) {
+            $('#divBurgeeCostBotton').show();
+        }
+        else {
+            $('#divBurgeeCostBotton').hide();
+        }
+
+        updateTotalCost();
+    }
+
+
+    function onBurgeeChanged(){
+        var valueSelected = $('#id_burgee_type').val();
+
+        var textSelected = $('#id_burgee_type option:selected').text();
+        $('#spnBurgeeCost').html(valueSelected);
+        $('#spnBurgeeCostBottom').html(valueSelected);
+
+        if(textSelected.indexOf("Small") == 0 ) {
+            $('#spnBurgeeSize').html("Small Burgee");
+        }
+        else
+        if(textSelected.indexOf("Medium") == 0 ) {
+            $('#spnBurgeeSize').html("Medium Burgee");
+        }
+        else
+        if(textSelected.indexOf("Large") == 0 ) {
+            $('#spnBurgeeSize').html("Large Burgee");
+        }
+
+        updateTotalCost();
+    }
+
+
+    function updateTotalCost(){
+        var totalCost = yearlyTotal;
+        var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
+        if(chkPurchaseSSCABurgee.checked) {
+            var burgeeCost = parseInt($('#id_burgee_type').val());
+            totalCost += burgeeCost;
+        }
+        $('#spnTotalCost').html(totalCost);
+    }
+
+    function validateStep1() {
+        if($('#step1-form').valid()) {
+            $("#a_step2").attr("href", "#modalStep2");
+            $("#a_step2").attr("data-dismiss", "modal");
+            $("#a_step2").attr("data-toggle", "modal");
+            return true;
+        }
+        return false;
+    }
+
+    function validateStep2() {
+        //placeholder for step 2 validation
+        //todo - do valdaation later; if needed
+
+        $("#a_step3").attr("href", "#modalStep3");
+        $("#a_step3").attr("data-dismiss", "modal");
+        $("#a_step3").attr("data-toggle", "modal");
+
+        $('#spnYearlytotal1').html(yearlyTotal);
+
+        onPurchaseBurgeeChanged();
+        onBurgeeChanged();
+
+        return true;
+    }
+
+    function validateStep3() {
+
+        if(!$("#id_name_on_card").val()) {
+            alert("Please Enter Name On Card");
+            return false;
+        }
+
+        if(!$("#id_card_number").val()) {
+            alert("Please Enter Card Number");
+            return false;
+        }
+
+        if(!$("#id_card_csv").val()) {
+        alert("Please Enter CSV");
+        return false;
+        }
+
+        //checking card number and type
+        var cardNum  = $('#id_card_number').val(); 
+        var cardType = $('#id_card_type').val();
+        if (! checkCreditCard(cardNum, cardType)) {
+        alert(ccErrors[ccErrorNo]);
+        return false;
+        }
+
+        return true;
+        }
+
+        /*
+        * adding step 1 vaidation rules
+        */
+        var step1ValidatationRules = {
+        rules: {
+        firstname: {
+        minlength: {{ form.min_firstname }},
+        required: true
+        },
+        lastname: {
+        minlength: {{ form.min_lastname }},
+        required: true
+        },
+        email: {
+        required: true,
+        email: true
+        },
+        },
+        highlight: function(element) {
+        $(element).closest('.control-group').removeClass('success').addClass('error');
+        },
+        success: function(element) {
+        element
+        .text('OK!').addClass('valid')
+        .closest('.control-group').removeClass('error').addClass('success');
+        }
+        };
+
+        /*
+        * adding step 3 vaidation rules
+        */
+        var step3ValidatationRules = {
+        rules: {
+        name_on_card: {
+        minlength: 5,
+        required: true
+        },
+        card_number: {
+        minlength: 14,
+        required: true,
+        number: true
+        },
+        },
+        highlight: function(element) {
+        $(element).closest('.control-group').removeClass('success').addClass('error');
+        },
+        success: function(element) {
+        element
+        .text('OK!').addClass('valid')
+        .closest('.control-group').removeClass('error').addClass('success');
+        }
+        };
+
+        /*
+        * adding calendar, csv form validations
+        */
+        var csvValidatationRules = {
+        rules: {
+        card_csv: {
+        minlength: 3,
+        required: true,
+        number: true
+        },
+        },
+        highlight: function(element) {
+        $(element).closest('.control-group').removeClass('success').addClass('error');
+        },
+        success: function(element) {
+        element
+        .text('OK!').addClass('valid')
+        .closest('.control-group').removeClass('error').addClass('success');
+        }
+        };
+
+        $(document).ready(function(){
+
+        /*
+        * adding step 1 vaidation function
+        */
+        $('#step1-form').validate(step1ValidatationRules);
+
+        /*
+        * adding step 3 vaidation function
+        */
+        $('#step3-form').validate(step3ValidatationRules);
+        $('#cal-form').validate(csvValidatationRules);
+        });
+
+    </script>

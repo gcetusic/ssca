@@ -38,6 +38,8 @@
         <script src="/static/assets/js/bootstrap-carousel.js"></script>
         <script src="/static/assets/js/bootstrap-typeahead.js"></script>
 
+        {% include "join_head.html" %}
+
         {% block extra_js %}{% endblock %}    
         {% block extra_css %}{% endblock %}    
 
@@ -49,6 +51,8 @@
             {% include "main_menu.html" %}
 
             {% include "header.html" %}
+
+            {% include "join_popups.html" %}
 
             {% block content %} {% endblock %}    
 

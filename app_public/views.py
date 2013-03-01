@@ -163,7 +163,11 @@ def renew(request):
     return render_to_response('renew.html')
 
 def public_page(request):
-    return render_to_response('public.html')
+    #assuming new user
+    user_exist = False
+    form = SSCAJoinForm()
+    c = {'form': form, 'basic_mail_cost': 55}
+    return render_to_response('public.html', c)
 
 def dajax_test(request):
     """test view to evaluate dajax capabilities"""
