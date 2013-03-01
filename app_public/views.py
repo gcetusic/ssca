@@ -67,3 +67,7 @@ def post_auth_process(request, backend, *args, **kwargs):
         }
     
     return render_to_response('error.html', {"message": message})
+
+
+def public_page(request):
+    return render_to_response('public.html')

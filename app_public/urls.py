@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^base/$', 'django.views.generic.simple.direct_to_template', {'template': 'base.html'}),
-    url(r'^public/$', 'django.views.generic.simple.direct_to_template', {'template': 'public.html'}),
+    url(r'^public/$', public_page),
     url(r'^member/$', 'django.views.generic.simple.direct_to_template', {'template': 'member.html'}),
 
     url(r'^login/$', 'django.contrib.auth.views.login'),
