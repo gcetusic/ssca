@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %} Join/Renew {% endblock %}
-{% block extra_js %}
-    
+
+{% block extra_css %}
     <link href="/static/bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
     <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
     <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
@@ -20,9 +20,10 @@
             padding: 2px 8px;
             margin-top: 2px;
         }
-
         </style>
-	
+{% endblock %} 
+
+{% block extra_js %}
     <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
     <script src="/static/bootstrap_toolkit/js/jquery.validate.min.js"></script>
     <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
