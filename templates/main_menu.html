@@ -1,0 +1,87 @@
+{% block main_menu %}
+
+<div style="position: static;" class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container con-menu" > <a data-target=".navbar-inverse-collapse" data-toggle="collapse" class="btn btn-navbar collapsed"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+            <div class="nav-collapse navbar-inverse-collapse collapse" style="height: 0px;">
+                <ul class="nav">
+                    <li ><a href="#">Home</a></li>
+                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">About SSCA<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Officers, Staff, & Volunteers </a></li>
+                        <li><a tabindex="-1" href="#">Contact Us</a></li>
+                        <li><a tabindex="-1" href="#">Volunteer!</a></li>
+                        <li><a tabindex="-1" href="#">History</a></li>
+                        <li><a tabindex="-1" href="#">About Clean Wakes</a></li>
+                        <li><a tabindex="-1" href="#">SSCA Foundation</a></li>
+                        <li><a tabindex="-1" href="#">SSCA Documents</a></li>
+                        <li><a tabindex="-1" href="#">Logos for Sites & Cards</a></li>
+                        <li><a tabindex="-1" href="#">Press</a></li>
+                    </ul>
+                    </li>
+                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Services <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Cruising Stations</a></li>
+                        <li><a tabindex="-1" href="#">Projects & Initiatives</a></li>
+                        <li><a tabindex="-1" href="#">Southbound</a></li>
+                        <li><a tabindex="-1" href="#">Concerned Cruiser's Committee</a></li>
+                        <li><a tabindex="-1" href="#">Seven Seas University</a></li>
+                        <li><a tabindex="-1" href="#">Other Clean Wake Projects</a></li>
+                        <li><a tabindex="-1" href="#">Member Locator</a></li>
+                        <li><a tabindex="-1" href="#">Other Clean Wake Projects</a></li>
+                    </ul>
+                    </li>
+                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Publications <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Bulletins</a></li>
+                        <li><a tabindex="-1" href="#">Port Guides</a></li>
+                        <li><a tabindex="-1" href="#">Ocean Navigator</a></li>
+                        <li><a tabindex="-1" href="#">Equipment Survey</a></li>
+                        <li><a tabindex="-1" href="#">Additional Publications</a></li>
+                        <li><a tabindex="-1" href="#">Published Articles</a></li>
+                    </ul>
+                    </li>
+                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Membership <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Join/Renew</a></li>
+                        <li><a tabindex="-1" href="#">Membership Benefits</a></li>
+                        <li><a tabindex="-1" href="#">Become a Commodore</a></li>
+                        <li><a tabindex="-1" href="#">SSCA Foundation</a></li>
+                        <li><a tabindex="-1" href="#">Awards & Recognition</a></li>
+                        <li><a tabindex="-1" href="#">Volunteer!</a></li>
+                        <li><a tabindex="-1" href="#">Update Profile</a></li>
+                        <li><a tabindex="-1" href="#">Member Locator</a></li>
+                        <li><a tabindex="-1" href="#">Administration</a></li>
+                    </ul>
+                    </li>
+                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Events <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Calendar</a></li>
+                        <li><a tabindex="-1" href="#">GAMs</a></li>
+                        <li><a tabindex="-1" href="#">Boat shows</a></li>
+                        <li><a tabindex="-1" href="#">Store</a></li>
+                        <li><a tabindex="-1" href="#">Apparal</a></li>
+                        <li><a tabindex="-1" href="#">Gear</a></li>
+                        <li><a tabindex="-1" href="#">Publications</a></li>
+                        <li><a tabindex="-1" href="#">Music</a></li>
+                    </ul>
+                    </li>
+                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Store <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">Apparal</a></li>
+                        <li><a tabindex="-1" href="#">Gear</a></li>
+                        <li><a tabindex="-1" href="#">Publications</a></li>
+                        <li><a tabindex="-1" href="#">Music</a></li>
+
+                    </ul>
+                    </li>
+                    {% block profile_dropdown %}{% endblock %}
+
+                </ul>
+
+                {% block auth_form %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
