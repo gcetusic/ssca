@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width-device-width; initial-scale=1.0" />
+
+<title>.::SSCA::.</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/res.css" />
+<link rel="stylesheet" type="text/css" href="css/logo.css" />
+<link rel="stylesheet" type="text/css" href="css/nav-v.css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/nav-h.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/nav-v.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/searc.css" type="text/css" media="screen">
+<script language="JavaScript" src="js/jquery.js" type="text/javascript"></script>
+<style>
+.container {width: 890px; float:left; height:auto;}
+ul.tabs {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 32px;
+	/*border-bottom: 1px solid #999;
+	border-left: 1px solid #999;*/
+	width: 100%;
+}
+ul.tabs li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px;
+	line-height: 31px;
+	/*border: 1px solid #999;*/
+	border-left: none;
+	margin-bottom: -1px;
+	background: #7d8d9b;
+	overflow: hidden;
+	position: relative;
+}
+ul.tabs li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 1.2em;
+	padding: 0 80px;
+	border: 1px solid #fff;
+	outline: none;
+}
+ul.tabs li a:hover {
+	background: #7d8d9b;
+}	
+html ul.tabs li.active, html ul.tabs li.active a:hover  {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+.tab_container {
+	/*border: 1px solid #999;*/
+	border-top: none;
+	clear: both;
+	float: left; 
+	width: 100%;
+	background: #fff;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+.tab_content {
+	padding: 20px;
+	font-size: 1.2em;
+}
+.tab_content h2 {
+	font-weight: normal;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #ddd;
+	font-size: 1.8em;
+}
+.tab_content h3 a{
+	color: #254588;
+}
+.tab_content img {
+	float: left;
+	margin: 0 20px 20px 0;
+	border: 1px solid #ddd;
+	padding: 5px;
+}
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	//Default Action
+	$(".tab_content").hide(); //Hide all content
+	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+	$(".tab_content:first").show(); //Show first tab content
+	
+	//On Click Event
+	$("ul.tabs li").click(function() {
+		$("ul.tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(".tab_content").hide(); //Hide all tab content
+		var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+		$(activeTab).fadeIn(); //Fade in the active content
+		return false;
+	});
+
+});
+</script>
+
+
+
+<!--[if gte IE 5.5]><script language="JavaScript" src="jquery.ienav.js" type="text/javascript"></script><![endif]-->
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function() {
+  $('.links li code').hide();  
+  $('.links li p').click(function() {
+    $(this).next().slideToggle('fast');
+  });
+});
+</script>
+ <script>
+function onBlur(el) {
+if (el.value == '') {
+el.value = el.defaultValue;
+}
+}
+function onFocus(el) {
+if (el.value == el.defaultValue) {
+el.value = '';
+}
+} 
+</script>
+</head>
+
+<body>
+<div class="wapper">
+<div class="header">
+<div style="float:left; z-index:9999;">
+<ul id="navmenu-h">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About SSCA +</a>
+          <ul>
+            <li><a href="#">Officers, Staff, & Volunteers </a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Volunteer!</a></li>
+            <li><a href="#">History</a></li>
+            <li><a href="#">About Clean Wakes</a></li>
+            <li><a href="#">SSCA Foundation</a></li>
+            <li><a href="#">SSCA Documents</a></li>
+            <li><a href="#">Logos for Sites & Cards</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            </li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Services +</a>
+          <ul>
+            <li><a href="#">Cruising Stations+</a>
+              <ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Projects & Initiatives</a></li>
+            <li><a href="#">Southbound</a></li>
+            <li><a href="#">Concerned Cruiser's Committee</a></li>
+            <li><a href="#">Seven Seas University</a></li>
+            <li><a href="#">Other Clean Wake Projects</a></li>
+            <li><a href="#">Member Locator</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            </li>
+            <li><a href="#">Other Clean Wake Projects</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Publications</a>
+        <ul>
+        	<li><a href="#">Bulletins</a></li>
+            <li><a href="#">Port Guides</a>
+            <ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            </li>
+            <li><a href="#">Ocean Navigator</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            </li>
+            <li><a href="#">Equipment Survey</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            
+            </li>
+            <li><a href="#">Additional Publications</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            
+            
+            </li>
+            <li><a href="#">Published Articles</a></li>
+        </ul>
+        
+        </li>
+        <li><a href="#">Membership</a>
+        	<ul>
+        	<li><a href="#">Join/Renew</a></li>
+            <li><a href="#">Membership Benefits</a></li>
+            <li><a href="#">Become a Commodore</a></li>
+            <li><a href="#">SSCA Foundation</a></li>
+            <li><a href="#">Awards & Recognition</a></li>
+            <li><a href="#">Volunteer!</a></li>
+            <li><a href="#">Update Profile</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            
+            </li>
+            <li><a href="#">PMember Locator</a>
+            	<ul>
+                <li><a href="#">sample 1</a></li>
+                <li><a href="#">sample 2</a></li>
+                <li><a href="#">sample 3</a></li>
+              </ul>
+            
+            </li>
+            <li><a href="#">Administration</a></li>
+        </ul>
+        
+        </li>
+        <li><a href="#">Events</a>
+        <ul>
+        	<li><a href="#">Calendar</a></li>
+            <li><a href="#">GAMs</a></li>
+            <li><a href="#">Boat shows</a></li>
+     	
+        </ul>
+        
+        
+        
+        </li>
+        <li><a href="#">Store</a>
+        	<ul>
+        	<li><a href="#">Apparal</a></li>
+            <li><a href="#">Gear</a></li>
+            <li><a href="#">Publications</a></li>
+            <li><a href="#">Music</a></li>
+            
+            </ul>
+        
+        
+        </li>
+        <li><a href="#">Login / ${member-name}</a></li>
+      </ul>
+      </div>
+   
+<div class="header-rigs">
+<select class="select-cons">
+  <option value="volvo">Reuben</option>
+  <option value="saab">Reuben</option>
+  <option value="mercedes">Reuben</option>
+  <option value="audi">Reuben</option>
+</select> 
+</div>
+  </div> 
+<div class="search">
+<div class="sear-left">
+</div>
+<div class="logo" style="z-index:-9999;">
+<div id='warped'>
+                     <span class='w0'>S</span><span class='w1'>e</span><span class='w2'>v</span><span class='w3'>e</span><span class='w4'>n</span><span class='w5'> </span><span class='w6'>S</span><span class='w7'>e</span><span class='w8'>a</span><span class='w9'>s</span><span class='w10'> </span><span class='w11'>C</span><span class='w12'>r</span><span class='w13'>u</span><span class='w14'>i</span><span class='w15'>s</span><span class='w16'>i</span><span class='w17'>n</span><span class='w18'>g</span><span class='w19'> </span><span class='w20'>A</span><span class='w21'>s</span><span class='w22'>s</span><span class='w23'>o</span><span class='w24'>c</span><span class='w25'>i</span><span class='w26'>a</span><span class='w27'>t</span><span class='w28'>i</span><span class='w29'>o</span><span class='w30'>n</span>
+              </div>
+</div>
+
+
+<div class="sear-right">
+</div>
+<div class="search-con">
+<form class="form-inline">
+  <div class="controls">
+    <div class="input-append">
+        <input class="span2" onblur="onBlur(this)" value="Search" onfocus="onFocus(this)" type="text"><button class="btn" type="button"><i class="icon-search"></i></button>
+    </div>
+  </div>
+</form>
+</div>
+
+</div>
+<div class="ss-content">
+
+	<div class="ss-midd-con">
+    
+    <div class="container">
+      <ul class="tabs">
+        <li class="active"><a href="#tab1">Melbourne GAM</a></li>
+        <li class=""><a href="#tab2">Report From Trinidad</a></li>
+        <li class=""><a href="#tab3">New Hunter Review</a></li>
+        
+    </ul>
+    <div class="tab_container">
+        <div style="display: block;" id="tab1" class="tab_content">
+            <div class="sub-con">
+    	<div class="sub-con-left">
+        	<h1>MELBOURENE GAM</h1>
+            <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+             <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+              <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+               <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                 <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+        </div>
+        <div class="sub-con-right">
+        	<input type="button" class="sub-con-butt" value="" />
+            <input type="text" class="sub-con-tex" />
+            
+            <span class="sub-leftcon">
+            	<h2>AD1</h2>
+            </span>
+             <span class="sub-leftcon">
+            	<h2>AD2</h2>
+            </span>
+             <span class="sub-leftcon">
+            	<h2>AD3</h2>
+            </span>
+            
+        </div>
+    </div>
+        </div>
+        <div style="display: none;" id="tab2" class="tab_content">
+            <div class="sub-con">
+    	<div class="sub-con-left">
+        	<h1>MELBOURENE GAM</h1>
+            <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+             <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+              <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+               <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                 <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+        </div>
+        <div class="sub-con-right">
+        	<input type="button" class="sub-con-butt" value="" />
+            <input type="text" class="sub-con-tex" />
+            
+            <span class="sub-leftcon">
+            	<h2>AD1</h2>
+            </span>
+             <span class="sub-leftcon">
+            	<h2>AD2</h2>
+            </span>
+             <span class="sub-leftcon">
+            	<h2>AD3</h2>
+            </span>
+            
+        </div>
+    </div>
+            
+        </div>
+        <div style="display: none;" id="tab3" class="tab_content">
+            <div class="sub-con">
+    	<div class="sub-con-left">
+        	<h1>MELBOURENE GAM</h1>
+            <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+             <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+              <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+               <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                 <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+        </div>
+        <div class="sub-con-right">
+        	<input type="button" class="sub-con-butt" value="" />
+            <input type="text" class="sub-con-tex" />
+            
+            <span class="sub-leftcon">
+            	<h2>AD1</h2>
+            </span>
+             <span class="sub-leftcon">
+            	<h2>AD2</h2>
+            </span>
+             <span class="sub-leftcon">
+            	<h2>AD3</h2>
+            </span>
+            
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+<div class="ss-bottom">
+	<div class="ss-bottos" style="border:none;">
+    <div class="sub-con1">
+    <h4>FORUM ACTIVITY</h4>
+    	<span class="span-con">
+        	<ul>
+            	<li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+                <li><a href="#">Association is the largest</a></li>
+            </ul>
+        </span>
+    
+    </div>
+    <div class="sub-con1">
+    <h4>PHOTO THE WEEK</h4>
+    <img src="images/sub1.png"  />
+    </div>
+    <div class="sub-con1">
+    <h4>NEREST PORT</h4>
+     <img src="images/sub2.png"  />
+    </div>
+    <div class="sub-con1">
+    <h4>NOVEMBER SALE</h4>
+     <img src="images/sub3.png"  />
+    </div>
+    
+    </div>
+</div>
+</div>
+<div class="social">
+<div class="social-left">
+	<span class="social-icon"><a href="#"><img src="images/SO1.png" alt=""  /> </a></span>
+    <span class="social-icon"><a href="#"><img src="images/SO2.png" alt=""  /> </a></span>
+    <span class="social-icon"><a href="#"><img src="images/SO3.png" alt=""  /> </a></span>
+</div>
+
+<div class="social-right">
+	<span class="social-icons"><a href="#"><img src="images/SO4.png" alt=""  /> </a></span>
+
+</div>
+</div>
+</div>
+</body>
+</html>

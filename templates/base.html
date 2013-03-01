@@ -1,10 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        {% block head %}{% endblock %}
+        <title>{% block title %} SSCA {% endblock %}</title>
+
+        {% block head %}
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="description" content="">
+			<meta name="author" content="">
+			<link href="/static/assets/css/bootstrap.css" rel="stylesheet">
+			<link href="/static/assets/css/bootstrap-responsive.css" rel="stylesheet">
+			<link href="/static/css/stylesheet.css" rel="stylesheet" type="text/css">
+			<link href="/static/css/logo.css" rel="stylesheet" type="text/css">
+			<link href="/static/css/responsive.css" rel="stylesheet" type="text/css">
+			<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+			<!--[if lt IE 9]>
+				  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+				<![endif]-->
+			<!-- Fav and touch icons -->
+			<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/assets/ico/apple-touch-icon-144-precomposed.png">
+			<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/assets/ico/apple-touch-icon-114-precomposed.png">
+			<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/assets/ico/apple-touch-icon-72-precomposed.png">
+			<link rel="apple-touch-icon-precomposed" href="/static/assets/ico/apple-touch-icon-57-precomposed.png">
+			<link rel="shortcut icon" href="/static/assets/ico/favicon.png">
+
+			<script src="/static/assets/js/jquery.js"></script>
+			<script src="/static/assets/js/bootstrap-transition.js"></script>
+			<script src="/static/assets/js/bootstrap-alert.js"></script>
+			<script src="/static/assets/js/bootstrap-modal.js"></script>
+			<script src="/static/assets/js/bootstrap-dropdown.js"></script>
+			<script src="/static/assets/js/bootstrap-scrollspy.js"></script>
+			<script src="/static/assets/js/bootstrap-tab.js"></script>
+			<script src="/static/assets/js/bootstrap-tooltip.js"></script>
+			<script src="/static/assets/js/bootstrap-popover.js"></script>
+			<script src="/static/assets/js/bootstrap-button.js"></script>
+			<script src="/static/assets/js/bootstrap-collapse.js"></script>
+			<script src="/static/assets/js/bootstrap-carousel.js"></script>
+			<script src="/static/assets/js/bootstrap-typeahead.js"></script>
+            
+           {% block extra_js %}{% endblock %}    
+
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+<div class="container">
+{% block main_menu %}
+
+<div style="position: static;" class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container con-menu" > <a data-target=".navbar-inverse-collapse" data-toggle="collapse" class="btn btn-navbar collapsed"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+      <div class="nav-collapse navbar-inverse-collapse collapse" style="height: 0px;">
+        <ul class="nav">
+          <li ><a href="#">Home</a></li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">About SSCA<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Officers, Staff, & Volunteers </a></li>
+              <li><a tabindex="-1" href="#">Contact Us</a></li>
+              <li><a tabindex="-1" href="#">Volunteer!</a></li>
+              <li><a tabindex="-1" href="#">History</a></li>
+              <li><a tabindex="-1" href="#">About Clean Wakes</a></li>
+              <li><a tabindex="-1" href="#">SSCA Foundation</a></li>
+              <li><a tabindex="-1" href="#">SSCA Documents</a></li>
+              <li><a tabindex="-1" href="#">Logos for Sites & Cards</a></li>
+              <li><a tabindex="-1" href="#">Press</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Services <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Cruising Stations</a></li>
+              <li><a tabindex="-1" href="#">Projects & Initiatives</a></li>
+              <li><a tabindex="-1" href="#">Southbound</a></li>
+              <li><a tabindex="-1" href="#">Concerned Cruiser's Committee</a></li>
+              <li><a tabindex="-1" href="#">Seven Seas University</a></li>
+              <li><a tabindex="-1" href="#">Other Clean Wake Projects</a></li>
+              <li><a tabindex="-1" href="#">Member Locator</a></li>
+              <li><a tabindex="-1" href="#">Other Clean Wake Projects</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Publications <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Bulletins</a></li>
+              <li><a tabindex="-1" href="#">Port Guides</a></li>
+              <li><a tabindex="-1" href="#">Ocean Navigator</a></li>
+              <li><a tabindex="-1" href="#">Equipment Survey</a></li>
+              <li><a tabindex="-1" href="#">Additional Publications</a></li>
+              <li><a tabindex="-1" href="#">Published Articles</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Membership <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Join/Renew</a></li>
+              <li><a tabindex="-1" href="#">Membership Benefits</a></li>
+              <li><a tabindex="-1" href="#">Become a Commodore</a></li>
+              <li><a tabindex="-1" href="#">SSCA Foundation</a></li>
+              <li><a tabindex="-1" href="#">Awards & Recognition</a></li>
+              <li><a tabindex="-1" href="#">Volunteer!</a></li>
+              <li><a tabindex="-1" href="#">Update Profile</a></li>
+              <li><a tabindex="-1" href="#">Member Locator</a></li>
+              <li><a tabindex="-1" href="#">Administration</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Events <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Calendar</a></li>
+              <li><a tabindex="-1" href="#">GAMs</a></li>
+              <li><a tabindex="-1" href="#">Boat shows</a></li>
+              <li><a tabindex="-1" href="#">Store</a></li>
+              <li><a tabindex="-1" href="#">Apparal</a></li>
+              <li><a tabindex="-1" href="#">Gear</a></li>
+              <li><a tabindex="-1" href="#">Publications</a></li>
+              <li><a tabindex="-1" href="#">Music</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Store <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Apparal</a></li>
+              <li><a tabindex="-1" href="#">Gear</a></li>
+              <li><a tabindex="-1" href="#">Publications</a></li>
+              <li><a tabindex="-1" href="#">Music</a></li>
+              
+            </ul>
+          </li>
+          {% block profile_dropdown %}{% endblock %}
+
+        </ul>
+        
+        {% block auth_form %}{% endblock %}
+	
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block header %}
+  <div class="header">
+    <div class="logo-left"> <a href="#" class="thumbnail"> <img  src="/static/images/logos.png" alt=""> </a> </div>
+    <div class="logo" style="z-index:-9999;">
+      <div id='warped'> <span class='w0'>S</span><span class='w1'>e</span><span class='w2'>v</span><span class='w3'>e</span><span class='w4'>n</span><span class='w5'> </span><span class='w6'>S</span><span class='w7'>e</span><span class='w8'>a</span><span class='w9'>s</span><span class='w10'> </span><span class='w11'>C</span><span class='w12'>r</span><span class='w13'>u</span><span class='w14'>i</span><span class='w15'>s</span><span class='w16'>i</span><span class='w17'>n</span><span class='w18'>g</span><span class='w19'> </span><span class='w20'>A</span><span class='w21'>s</span><span class='w22'>s</span><span class='w23'>o</span><span class='w24'>c</span><span class='w25'>i</span><span class='w26'>a</span><span class='w27'>t</span><span class='w28'>i</span><span class='w29'>o</span><span class='w30'>n</span>
+        <div class="search-con">
+          <form class="form-inline">
+            <div class="controls">
+              <div class="input-append">
+                <input class="span2" onBlur="onBlur(this)" value="Search" onFocus="onFocus(this)" type="text">
+                <button class="btn" type="button"><i class="icon-search"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="logo-right"> <a href="#" class="thumbnail"> <img   src="/static/images/flas.png" alt=""> </a> </div>
+  </div>
+  {% endblock %}
+
+
+  {% block content %} {% endblock %}    
+
+ 
+  {% block footer %}
+  
+    {% block icons %}
+     <div class="ss-bottom">
+      <div class="ss-botto"> <span class="ss-first"> <a href="#"><img src="/static/images/img2.png" alt=""  /></a> </span> <span class="ss-first"> <a href="#"><img src="/static/images/img3.png" alt=""  /></a> </span> <span class="ss-first"> <a href="#"><img src="/static/images/img4.png" alt=""  /></a> </span> <span class="ss-first" style="border:none;"> <a href="#"><img src="/static/images/img7.png" alt=""  /></a> </span> </div>
+    </div>
+     {% endblock %}
+     
+     {% block social_media %}
+    <div class="social">
+      <div class="social-left"> <span class="social-icon"><a href="#"><img src="/static/images/SO1.png" alt=""  /> </a></span> <span class="social-icon"><a href="#"><img src="/static/images/SO2.png" alt=""  /> </a></span> <span class="social-icon"><a href="#"><img src="/static/images/SO3.png" alt=""  /> </a></span> </div>
+      <div class="social-right"> <span class="social-icons"><a href="#"><img src="/static/images/SO1.png" alt=""  /> </a></span> </div>
+    {% endblock %}
+    
+   {% endblock %}
+  
+
+</div>
+
     </body>
 </html>
+

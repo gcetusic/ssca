@@ -78,6 +78,7 @@ def post_auth_process(request, backend, *args, **kwargs):
     return render_to_response('error.html', {"message": message})
 
 
+<<<<<<< HEAD
 def decimal_to_float(location, *args):
     for arg in args:
         location[arg] = float(location[arg])
@@ -162,7 +163,9 @@ def renew(request):
     """
     return render_to_response('renew.html')
 
+def public_page(request):
+    return render_to_response('public.html')
+
 def dajax_test(request):
     """test view to evaluate dajax capabilities"""
-
     return render_to_response('dajax-test.html')
