@@ -49,7 +49,17 @@
     <body>
         <div class="container">
 
-            {% include "main_menu.html" %}
+            <div style="position: static;" class="navbar navbar-inverse">
+                <div class="navbar-inner">
+                    <div class="container con-menu" > 
+                        <a data-target=".navbar-inverse-collapse" data-toggle="collapse" class="btn btn-navbar collapsed"> 
+                            <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+                        <div class="nav-collapse navbar-inverse-collapse collapse" style="height: 0px;">
+                            {% include "main_menu.html" %}
+                        </div>
+                        {% block auth_form %}{% endblock %}
+                    </div>
+                </div>
 
             {% include "header.html" %}
 
