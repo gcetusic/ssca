@@ -33,6 +33,15 @@ var searchqueue = [];
             mapTypeId: google.maps.MapTypeId.SATELLITE
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        console.log(document.getElementById('time-filter'));
+        var overlayMap = new google.maps.Map(
+            document.getElementById('overlayMap'),
+            {
+                mapTypeId: google.maps.MapTypeId.ROADMAP, // Always show roadmap
+
+            }
+        );
+
         google.maps.event.addListener(map, 'idle', getMarkers);
 
         function getTimezoneName() {
@@ -304,7 +313,6 @@ var searchqueue = [];
 
 </script>
 
-
 <div class="content">
     <div id="map-canvas" style="width:900px; height:600px"></div>
 
@@ -327,6 +335,11 @@ var searchqueue = [];
                 <input type="radio" name="time" value="recent">&nbspRecently updated locations</input><br />
                 <br />
                 Centered on ...coming soon...
+            </div>
+            <div id="overview_map">
+                <div id="overview_map_border">
+                    <div id="overlayMap"></div>
+                </div>
             </div>
         </div>
     </div>
