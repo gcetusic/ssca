@@ -34,11 +34,17 @@ var searchqueue = [];
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         console.log(document.getElementById('time-filter'));
+        console.log(document.getElementById('overlayMap'));
         var overlayMap = new google.maps.Map(
             document.getElementById('overlayMap'),
             {
                 mapTypeId: google.maps.MapTypeId.ROADMAP, // Always show roadmap
-
+                disableDefaultUI: true, // Turn off the controls
+                scrollwheel: false, // Disable scrollwheel zooming
+                disableDoubleClickZoom: true,
+                center: new google.maps.LatLng(center_latitude, center_longitude),
+                zoom: map_zoom,
+                minZoom: min_zoom,
             }
         );
 
@@ -337,9 +343,7 @@ var searchqueue = [];
                 Centered on ...coming soon...
             </div>
             <div id="overview_map">
-                <div id="overview_map_border">
-                    <div id="overlayMap"></div>
-                </div>
+                <div id="overlayMap"></div>
             </div>
         </div>
     </div>
