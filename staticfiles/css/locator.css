@@ -59,3 +59,10 @@
     overflow: hidden;
 }
 
+#overlayMap {
+    position: absolute;
+    z-index: 2;
+    display: table-cell;
+    width: 170px;
+    height: 100px;
+}
