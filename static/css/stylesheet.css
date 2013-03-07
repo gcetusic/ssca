@@ -21,7 +21,7 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
   color: #ffffff;
   background-color:#000;
 }
-.content_wrapper{ padding:15px; border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA; padding-top:3px; }
+.content_wrapper{ padding:1px 15px; border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA; padding-top:3px; }
 .content_wrapper .left_bar{ width:675px; float:left; }
 .content_wrapper .right_bar{ width:250px; float:right;}
 .alert{ font-family:Verdana, Geneva, sans-serif; font-size:13px; font-weight:bold; margin-bottom:10px;}
@@ -36,7 +36,7 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
     margin:100px 60px 0 0;
 }
 .logo-right {width:auto; height:auto; float:left; margin:75px 0 0 0 ;}
-.homae-rig {height: 600px; overflow-y: scroll; padding: 10px;}
+.homae-rig {height: 500px; overflow-y: scroll; padding: 10px;}
 .homae-rig h1 {font-size:24px; color:#7D8D9B; width:270px; padding:0px;}
 .homae-rig p {font-size:12px; width:100%; margin:20px 0 0 0; line-height:20px; text-align:justify;}
 .con-right-bottom-con {width:380px; height:auto; float:right;  margin:10px;}
@@ -44,10 +44,10 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
 .con-right-bott {width:380px; height:auto; float:left;}
 .con-right-bott ul {margin:0px; padding:0px; }
 .con-right-bott ul li {display:block; }
-.con-right-bott ul li a {text-decoration:none; line-height:25px; font-size:14px; }
-.con-right-bott ul li a:hover {color:#000; text-decoration:underline;}
+.con-right-bott ul li a {text-decoration:none; line-height:16px; font-size:12px; color:#003399;}
+.con-right-bott ul li a:hover {color:#f00; text-decoration:underline;}
 .ssibottom { width:380px; height:auto; float:right;}
-.ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(/static/images/arrow.png) no-repeat 0 0;}
+.ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(/static/images/arrow.png) no-repeat 0 0; font-size: 16px; color: #003399;}
 .ssibottom a:hover {color: #000; text-decoration:underline;}
 .ss-bottom {
 	width:980px;
