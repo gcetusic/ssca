@@ -47,7 +47,7 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
 .con-right-bott ul li a {text-decoration:none; line-height:16px; font-size:12px; color:#003399;}
 .con-right-bott ul li a:hover {color:#f00; text-decoration:underline;}
 .ssibottom { width:380px; height:auto; float:right;}
-.ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(/static/images/arrow.png) no-repeat 0 0; font-size: 16px; color: #003399;}
+.ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(/static/images/arrow.png) no-repeat 0 0; background-position: 0 5px; font-size: 16px; color: #003399;}
 .ssibottom a:hover {color: #000; text-decoration:underline;}
 .ss-bottom {
 	width:980px;
