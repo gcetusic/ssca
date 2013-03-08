@@ -6,7 +6,7 @@ from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 
 dajaxice_autodiscover()
 
-admin.autodiscover()
+#admin.autodiscover()
 
 urlpatterns = patterns('',
 

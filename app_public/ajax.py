@@ -1,4 +1,4 @@
-import simplejson
+import json
 
 from dajaxice.decorators import dajaxice_register
 
@@ -21,10 +21,10 @@ def bye(request):
 @dajaxice_register
 def lol(request):
     print "-- lol --"
-    return simplejson.dumps({'message': 'lol'})
+    return json.dumps({'message': 'lol'})
 
 
 @dajaxice_register(method='GET')
 def get_args(request, foo):
     print "-- owner --"
-    return simplejson.dumps({'message': 'hello get args %s' % foo})
+    return json.dumps({'message': 'hello get args %s' % foo})
