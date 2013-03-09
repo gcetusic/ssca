@@ -22,8 +22,10 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
   background-color:#000;
 }
 .content_wrapper{ padding:1px 15px; border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA; padding-top:3px; }
+/*
 .content_wrapper .left_bar{ width:675px; float:left; }
 .content_wrapper .right_bar{ width:250px; float:right;}
+*/
 .alert{ font-family:Verdana, Geneva, sans-serif; font-size:13px; font-weight:bold; margin-bottom:10px;}
 .alert span{ font-weight:normal; font-size:12px;}
 .alert-success strong{ background:url(/static/images/success_icon.png) no-repeat left center; padding-left:20px;}
@@ -50,15 +52,16 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
 .ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(/static/images/arrow.png) no-repeat 0 0; background-position: 0 5px; font-size: 16px; color: #003399;}
 .ssibottom a:hover {color: #000; text-decoration:underline;}
 .ss-bottom {
-	width:980px;
+	width:99.5%;
 	height:auto;
 	float:left;
+        border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA;
 }
 .ss-botto {width:910px; height:70px; float:left; border:1px solid #cccccc; margin:10px 30px; border-radius:10px;}
 .ss-first { width:auto; height:auto; float:left; border-right: 1px solid #ccc;}
 .ss-first img {width:auto; height:auto; float:left; margin:13px 15px;}
 .social-icons {width:auto; height:auto; float:right; margin:10px 2px;}
-.social {width:980px; height:inherit; float:left;}
+.social {width:100%; height:inherit; float:left;}
 .social-left {
 	width:150px;
 	height:auto;
