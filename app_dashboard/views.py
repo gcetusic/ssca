@@ -106,7 +106,7 @@ def marker_info(request):
             if category == 'members':
                 data = Location.objects.get(id=request.POST['id'])
             elif category == 'guides':
-                data = Guide.objects.get(port__id=request.POST['id'])
+                data = Guide.objects.filter(port__id=request.POST['id']).latest('date')
             elif category == 'stations':
                 data = CruisingStation.objects.get(id=request.POST['id'])
         else:
