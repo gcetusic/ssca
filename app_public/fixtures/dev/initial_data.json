@@ -1,5 +1,1 @@
-Project dir: /home/cetko/projects/ssca 
-Templates located at: /home/cetko/projects/ssca/templates
-using deployment_env dev
-loading local config override
 [{"pk": 1, "model": "app_public.person", "fields": {"friend": [], "user": 2, "identity": "397709"}}, {"pk": 2, "model": "app_public.person", "fields": {"friend": [], "user": 3, "identity": "6618"}}, {"pk": 3, "model": "app_public.person", "fields": {"friend": [], "user": 4, "identity": "742355"}}, {"pk": 4, "model": "app_public.person", "fields": {"friend": [], "user": 5, "identity": "706954"}}]
