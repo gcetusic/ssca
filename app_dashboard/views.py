@@ -72,6 +72,7 @@ def show_gmaps(request):
 
         for cluster in clusters:
             if len(cluster) > 1:
+                category = 'cluster'
                 centroid = distance.centroid(cluster, 'latitude', 'longitude')
                 markers.append({
                     'position': ("%.3f" % centroid[0], "%.3f" % centroid[1]),
@@ -79,12 +80,12 @@ def show_gmaps(request):
                 })
             else:
                 location = cluster[0]
+                category = location['category']
                 markers.append({
                     'id': location['id'],
                     'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
-                    'category': location['category'],
+                    'category': category,
                 })
-
         return HttpResponse(json.dumps(markers))
 
     else:

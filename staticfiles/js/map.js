@@ -29,7 +29,7 @@ function initialize() {
     }
 
     // Add marker but check if its category should be visible
-    function addMarker(position, title, id, category) {
+    function addMarker(position, id, category) {
         marker = new google.maps.Marker({
             position: position,
             map: map,
@@ -40,6 +40,9 @@ function initialize() {
 
         marker.id = id;
         marker.category = category;
+
+        console.log(marker.category);
+        console.log(position);
         markersArray.push(marker);
     }
 
@@ -153,7 +156,6 @@ function initialize() {
                 data.forEach(function(item) {
                     addMarker(
                         new google.maps.LatLng(item.position[0], item.position[1]),
-                        item.title,
                         item.id,
                         item.category
                     );
