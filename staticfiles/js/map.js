@@ -41,8 +41,6 @@ function initialize() {
         marker.id = id;
         marker.category = category;
 
-        console.log(marker.category);
-        console.log(position);
         markersArray.push(marker);
     }
 
@@ -132,7 +130,8 @@ function initialize() {
             "east": ne.lng(),
             "west": sw.lng(),
             "timezone": getTimezoneName(),
-            "time": time
+            "time": time,
+            "zoom": map.getZoom()
         }
 
         // Send gathered data to server and receive response

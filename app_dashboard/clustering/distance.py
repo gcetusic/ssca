@@ -20,11 +20,9 @@ def latitude_to_y(latitude):
     Returns the y pixel coordinate for a given latitude value.
     Latitude values are in decimal degrees format.
     """
-    y = round(MAP_OFFSET - MAP_RADIUS * \
-              math.log((1 + math.sin(latitude * math.pi / 180)) / \
-                       (1 - math.sin(latitude * math.pi / 180)) \
-                      ) / 2 \
-             )
+    y = round(MAP_OFFSET - MAP_RADIUS *
+              math.log((1 + math.sin(latitude * math.pi / 180)) /
+                       (1 - math.sin(latitude * math.pi / 180))) / 2)
 
     return y
 
