@@ -11,8 +11,9 @@
         <link href="/static/assets/css/bootstrap.css" rel="stylesheet">
         <link href="/static/assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="/static/css/stylesheet.css" rel="stylesheet" type="text/css">
-        <link href="/static/css/logo.css" rel="stylesheet" type="text/css">
         <link href="/static/css/responsive.css" rel="stylesheet" type="text/css">
+
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=ABeeZee:regular:latin'>
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -45,13 +46,22 @@
         {% block extra_css %}{% endblock %}    
 
         {% endblock %}
+        <style>
+            /* overriding document style of bootstrap (docs.css) */
+            body {
+                position: relative;
+                padding-top: 0px;
+                background: #222222;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
 
-            <div style="position: static;" class="navbar navbar-inverse">
+            <!-- todo fix navbar unwanted top space -->
+            <div style="position: static;top: 10px;" class="navbar navbar-inverse">
                 <div class="navbar-inner">
-                    <div class="container con-menu" > 
+                    <div class="container con-menu"> 
                         <a data-target=".navbar-inverse-collapse" data-toggle="collapse" class="btn btn-navbar collapsed"> 
                             <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
                         <div class="nav-collapse navbar-inverse-collapse collapse" style="height: 0px;">

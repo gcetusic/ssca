@@ -4,7 +4,7 @@
 
 {% block auth_form %}
       <div>
-        <form class="form-inline">
+          <form class="pull-right form-inline" action="">
           <input type="text" class="input-small menu-log" placeholder="Email" style="margin:7px 0 0 0; font-size:12px;">
           <input type="password" class="input-small menu-log" placeholder="Password" style="margin:7px 0 0 0; font-size:12px;">
           <button type="submit" class="btn" style="font-size:12px;">Log in</button>
@@ -17,12 +17,12 @@
  
   <div class="content_wrapper">
     <div class="hero-unit">
-      <div class="row-fluid">
+      <div class="row-fluid" style="border: solid 0px blue;">
         <div class="span12">
           <div class="row-fluid">
             
             {% block main_content %}
-            <div class="span6 homae-rig">
+            <div class="span7 homae-rig">
               <h1>WELCOME TO SSCA</h1>
               <P>For as long as mankind has memory, we have been entranced by the sea. The need to know what lies beyond the next wave and over the far horizon is pervasive. Many dream of tropical blue skies, balmy breezes, ever-gentle waves and cruising to exotic ports. Those who are living the dream and those who are planning for the day that they can release the ties to the workaday world and head off to seek paradise as well as those who only dream of such adventure join together in an organization called the Seven Seas Cruising Association</P>
               <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
@@ -36,8 +36,8 @@
             {% endblock %}
             
             {% block events %}
-            <div class="span6">
-              <div class="thumbnail" > <img src="/static/images/IMG1.png" alt="">
+            <div class="span5">
+              <div class="thumbnail" > <img src="/static/images/right_main.png" alt="">
               </div>
               <div class="con-right-bottom-con">
                 <h1>UPCOMING EVENTS</h1>
@@ -47,13 +47,10 @@
                     <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
                     <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
                     <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
-                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
-                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
-                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
                   </ul>
                 </div>
               </div>
-              <div class="ssibottom"> <a href="#">View Calender</a> </div>
+              <div class="ssibottom"><a href="#">View Calender</a> </div>
             </div>
             {% endblock %}
  

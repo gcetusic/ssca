@@ -1,40 +1,48 @@
 {% block footer %}
 
 {% block icons %}
-<div class="ss-bottom">
-    <div class="ss-botto"> 
-        <span class="ss-first"> 
-            <a data-toggle="modal" href="#modalStep1"><img src="/static/images/img2.png" alt="Join/Renew" /></a> 
-        </span> 
-        <span class="ss-first"> 
-            <a href="#"><img src="/static/images/virtual_tour.png" alt=""  /></a> 
-        </span> 
-        <span class="ss-first"> 
-            <a href="#"><img src="/static/images/img4.png" alt=""  /></a> 
-        </span> 
-        <span class="ss-first" style="border:none;"><a href="#"><img src="/static/images/img7.png" alt=""  /></a> 
-        </span> 
+<div class="row-fluid" style="border: solid 0px blue;">
+    <div class="ss-bottom">
+        <div class="ss-botto"> 
+            <span class="ss-first"> 
+                <a data-toggle="modal" href="#modalStep1"><img src="/static/images/bottom_join_renew.png" alt="Join/Renew" /></a> 
+            </span> 
+            <span class="ss-first"> 
+                <a href="#"><img src="/static/images/virtual_tour.png" alt=""  /></a> 
+            </span> 
+            <span class="ss-first"> 
+                <a href="#"><img src="/static/images/bottom_volunteer.png" alt=""  /></a> 
+            </span> 
+            <span class="ss-first" style="border:none;">
+                <a href="#"><img src="/static/images/bottom_university.png" alt=""  onmouseover="this.src='/static/images/img6.png'" onmouseout="this.src='/static/images/bottom_university.png'"/></a> 
+            </span> 
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block social_media %}
-<div class="social">
-    <div class="social-left"> 
-        <span class="social-icon"><a href="#"><img src="/static/images/SO1.png" alt=""  /> </a>
-        </span> 
-        <span class="social-icon">
-            <a href="#"><img src="/static/images/SO2.png" alt=""  /> </a>
-        </span> 
-        <span class="social-icon">
-            <a href="#"><img src="/static/images/SO3.png" alt=""  /> </a>
-        </span> 
+<div class="row-fluid" style="border: solid 0px blue;">
+    <div class="social">
+        <div class="social-left">
+            <span class="social-icon" style="z-index: 999;"><a href="#"><img src="/static/images/SO1.png" alt=""  /></a>
+            </span> 
+            <span class="social-icon">
+                <a href="#"><img src="/static/images/SO2.png" style="z-index: 999;" alt=""  /></a>
+            </span> 
+            <span class="social-icon">
+                <a href="#"><img src="/static/images/SO3.png" style="z-index: 999;" alt=""  /></a>
+            </span> 
+        </div>
+
+        <div style="border-bottom:dashed 3px #F8F3EA; width: 86%; top: 25px; position: relative; left: 99px;"></div>
+        <div class="social-right"> 
+            <span class="social-icons">
+                <a href="#"><img src="/static/images/SO1.png" alt=""  /></a>
+            </span> 
+        </div>
     </div>
-    <div class="social-right"> 
-        <span class="social-icons">
-            <a href="#"><img src="/static/images/SO1.png" alt=""  /> </a>
-        </span> 
-    </div>
+</div>
     {% endblock %}
 
     {% endblock %}
