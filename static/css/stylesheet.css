@@ -21,7 +21,7 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
   color: #ffffff;
   background-color:#000;
 }
-.content_wrapper{ padding:1px 15px; border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA; padding-top:3px; }
+.content_wrapper{ padding:1px 50px; border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA; padding-top:3px; }
 /*
 .content_wrapper .left_bar{ width:675px; float:left; }
 .content_wrapper .right_bar{ width:250px; float:right;}
@@ -38,26 +38,53 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
     margin:100px 60px 0 0;
 }
 .logo-right {width:auto; height:auto; float:left; margin:75px 0 0 0 ;}
-.homae-rig {height: 500px; overflow-y: scroll; padding: 10px;}
+.homae-rig {height: 560px; overflow-y: scroll; padding: 10px;}
 .homae-rig h1 {font-size:24px; color:#7D8D9B; width:270px; padding:0px;}
 .homae-rig p {font-size:12px; width:100%; margin:20px 0 0 0; line-height:20px; text-align:justify;}
-.con-right-bottom-con {width:380px; height:auto; float:right;  margin:10px;}
-.con-right-bottom-con  h1 {width:380px; height:30px; float:left; background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:normal; line-height:30px; padding:0 0 0 10px; }
-.con-right-bott {width:380px; height:auto; float:left;}
-.con-right-bott ul {margin:0px; padding:0px; }
+
+.con-right-bottom-con {
+    width:auto; 
+    height:auto; 
+    margin: 0px 10px;
+    border: 0px solid yellow;
+    padding: 4px;
+}
+
+.con-right-bottom-con  h1 {
+    width:100%;
+    height:30px; 
+    background:#000; 
+    color:#fff; 
+    font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:normal; 
+    line-height:30px; 
+    padding:0 0 0 10px; 
+}
+
+.con-right-bott {
+    width:100%; height:auto; 
+    border: 0px solid green;
+}
+
+.con-right-bott ul {margin:0px 10px; padding:0px; }
 .con-right-bott ul li {display:block; }
 .con-right-bott ul li a {text-decoration:none; line-height:16px; font-size:12px; color:#003399;}
 .con-right-bott ul li a:hover {color:#f00; text-decoration:underline;}
-.ssibottom { width:380px; height:auto; float:right;}
+
+.ssibottom { 
+    width:100%; 
+    height:auto; 
+    margin: 0px 10px;
+    border: 0px solid yellow;
+    padding: 4px;
+}
 .ssibottom a { text-decoration:none;width:auto; height:auto; float:left ; padding: 0 0 0 30px; margin:20px 0 0 0; background:url(/static/images/arrow.png) no-repeat 0 0; background-position: 0 5px; font-size: 16px; color: #003399;}
 .ssibottom a:hover {color: #000; text-decoration:underline;}
 .ss-bottom {
-	width:99.5%;
+	width:100%;
 	height:auto;
-	float:left;
         border-left:3px dashed #F8F3EA; border-right:3px dashed #F8F3EA;
 }
-.ss-botto {width:910px; height:70px; float:left; border:1px solid #cccccc; margin:10px 30px; border-radius:10px;}
+.ss-botto {width:auto; height:70px; border:1px solid #cccccc; margin: 10px; border-radius:10px;}
 .ss-first { width:auto; height:auto; float:left; border-right: 1px solid #ccc;}
 .ss-first img {width:auto; height:auto; float:left; margin:13px 15px;}
 .social-icons {width:auto; height:auto; float:right; margin:10px 2px;}
