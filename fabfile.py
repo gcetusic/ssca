@@ -53,7 +53,6 @@ def dev_gc():
     env.dev = True
     dev()
     # dir to install virtualenv etc
-    env.root = '/home/cetko/projects/ssca/'
     env.home = '/home/cetko/projects/ssca/'
     env.git_branch = 'develop_goran'
     _setup_path()

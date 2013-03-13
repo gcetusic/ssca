@@ -116,6 +116,7 @@ function initialize() {
 
         /* Gather all the necessary data:
             current borders, client timezone name and the time parameter.
+            Also, send zoom level for server to calculate clusters.
             The borders are used by the server to only calculate with
             those markers within the map to optimize performance.  */
 
