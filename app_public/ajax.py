@@ -7,7 +7,7 @@ from dajaxice.decorators import dajaxice_register
 @dajaxice_register(method='POST', name='other_post')
 def hello(request):
     print "-- hello --"
-    return simplejson.dumps({'message': 'hello'})
+    return json.dumps({'message': 'hello'})
 
 
 @dajaxice_register(method='GET')
@@ -15,7 +15,7 @@ def hello(request):
 def bye(request):
     print "-- bye --"
     raise Exception("PUMMMM")
-    return simplejson.dumps({'message': 'bye'})
+    return json.dumps({'message': 'bye'})
 
 
 @dajaxice_register
