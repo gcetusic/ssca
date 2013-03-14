@@ -1,6 +1,10 @@
+{% load dajaxice_templatetags %}
+{% load cms_tags sekizai_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {% dajaxice_js_import %}
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>{% block title %} SSCA {% endblock %}</title>
 
@@ -54,6 +58,7 @@
                 background: #222222;
             }
         </style>
+    {% render_block "css" %}
     </head>
     <body>
         <div class="container">
@@ -76,11 +81,13 @@
             {% include "join_popups.html" %}
             {% include "renew_popups.html" %}
 
+            {% cms_toolbar %}
             {% block content %} {% endblock %}    
 
             {% include "footer.html" %}
 
         </div>
+        {% render_block "js" %}
     </body>
 </html>
 

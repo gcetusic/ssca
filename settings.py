@@ -103,7 +103,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 CMS_TEMPLATES = (
-    ('example.html', 'Base Public Template'),
+    ('public.html', 'Public Content'),
 )
 
 ROOT_URLCONF = 'app_public.urls'

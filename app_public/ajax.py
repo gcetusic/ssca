@@ -1,6 +1,6 @@
 import json
-
 from dajaxice.decorators import dajaxice_register
+from cms.api import create_page, add_plugin
 
 
 @dajaxice_register(method='GET')
@@ -28,3 +28,8 @@ def lol(request):
 def get_args(request, foo):
     print "-- owner --"
     return json.dumps({'message': 'hello get args %s' % foo})
+
+
+@dajaxice_register(method='GET')
+def get_public(request, id):
+    pass
