@@ -76,14 +76,14 @@
                     </div>
                 </div>
 
+            {% cms_toolbar %}
             {% include "header.html" %}
 
             {% include "join_popups.html" %}
             {% include "renew_popups.html" %}
-
-            {% cms_toolbar %}
-            {% block content %} {% endblock %}    
-
+            <div class="content_wrapper">
+            {% block content %}{% endblock %}
+            </div>  
             {% include "footer.html" %}
 
         </div>

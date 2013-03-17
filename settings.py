@@ -104,6 +104,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 CMS_TEMPLATES = (
     ('public.html', 'Public Content'),
+    ('dashboard_content.html', 'Dashboard Content'),
 )
 
 ROOT_URLCONF = 'app_public.urls'
