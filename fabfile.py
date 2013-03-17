@@ -7,15 +7,16 @@ from fabric import utils
 # deprecated - use specific apps instead
 env.project = 'app_public'
 
-env.public_app = 'app_public'
-env.member_app = 'app_dashboard'
-env.apps = (env.public_app, env.member_app)
+env.public_app = {'name' : 'app_public'}
+env.member_app = {'name' : 'app_dashboard'}
+env.apps = [env.public_app, env.member_app]
 
 vps = 'ps154456.dreamhost.com'
 
 def _setup_path():
     env.root = env.home
-    env.code_root = os.path.join(env.root, env.project)
+    for app in env.apps:
+        app['code_root'] = os.path.join(env.root, app['name'])
     env.virtualenv_root = os.path.join(env.root, 'env')
     env.settings = '%(project)s.settings_%(environment)s' % env
     env.remote = 'git@bitbucket.org:reubenfirmin/ssca.git'
@@ -39,7 +40,6 @@ def dev_navjot():
     env.dev = True
     dev()
     # dir to install virtualenv etc
-    env.root = '/home/wb/work/reuben/ssca/'
     env.home = '/home/wb/work/reuben/ssca/'
     env.git_branch = 'develop_navjot1'
     _setup_path()
@@ -50,7 +50,7 @@ def dev_rf():
     env.dev = True
     dev()
     # dir to install virtualenv etc
-    env.root = '/home/rfirmin/code/ssca/'
+    env.home = '/home/rfirmin/code/ssca/'
     _setup_path()
 
 
@@ -70,7 +70,6 @@ def stag():
     env.home = '/home/rfirmin/sscadev.dreamhosters.com/'
     env.git_branch = 'develop'
     env.local = False
-    env.root = '/home/rfirmin/sscadev.dreamhosters.com/'
     _setup_path()
 
 
@@ -93,46 +92,31 @@ def bootstrap():
     update_db('initial', True)
     touch()
 
+def build():
+    update_requirements()
+    update_db('auto', False)
+    load_samples()
 
 def load_samples():
-    if env.root:
-        #activator = '%(virtualenv_root)s/bin/activate_this.py' % env
-        #local(activator)
-        sys.path.append(env.root)
-#        import settings
-#        appnames = settings.INSTALLED_APPS
-        for appname in env.apps:
-            try:
-                app = __import__(appname)
-                fixture_dirs = ['fixtures', 'fixtures/dev']
+    for app in env.apps:
+        fixture_dirs = ['fixtures']
+        if (env.dev):
+            fixture_dirs.append('fixtures/dev')
 
-                fixture_paths = []
-                for fixture_dir in fixture_dirs:
-                    fixture_paths.append(os.path.join(os.path.dirname(app.__file__), fixture_dir))
+        print ">>>> Loading fixtures for ",app['name']
+        fixture_paths = []
+        for fixture_dir in fixture_dirs:
+            fixture_paths.append(os.path.join(app['code_root'], fixture_dir))
 
-                for fixture_path in fixture_paths:
-                    try:
-                        fixtures = os.listdir(fixture_path)
+        for fixture_path in fixture_paths:
+            fixtures = os.listdir(fixture_path)
 
-                        for fixture in fixtures:
-                            directory = env.code_root
-                            virtualenv(directory, './manage.py loaddata ' + os.path.join(fixture_dir, fixture))
-                            print "Loaded data from %s" % os.path.join(fixture_path, fixture)
-                    except OSError:
-                        "Data from %s not found" % os.path.join(fixture_path, fixture)
-            except:
-                pass
-
-
-def build():
-    """ Rebuild. Don't be alarmed if it fails on south, if no models have changed """
-    update_requirements()
-    load_samples()
-    update_db('auto', False)
-
+            for fixture in fixtures:
+                print ">>>>> Loading ",fixture
+                virtualenv(fixture_path, './manage.py loaddata ' + os.path.join(fixture_path, fixture))
+                print "Loaded data from %s" % os.path.join(fixture_path, fixture)
 
 def create_virtualenv():
-    """ setup virtualenv on remote host """
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
     args = '--no-site-packages --clear --distribute'
     if env.local:
@@ -142,10 +126,7 @@ def create_virtualenv():
         run('rm -rf %(virtualenv_root)s' % env)
         run('virtualenv %s %s' % (args, env.virtualenv_root))
 
-
 def update_requirements():
-    """ update external dependencies on remote host """
-    require('code_root', provided_by=('dev', 'stag', 'prod'))
     cmd = ['%(virtualenv_root)s/bin/pip install --upgrade distribute &&' % env]
     cmd += ['%(virtualenv_root)s/bin/pip install' % env]
     #cmd += ['-E %(virtualenv_root)s' % env]
@@ -158,21 +139,19 @@ def update_requirements():
 
 def update_db(south, fake):
     """ migrate db using south """
-    for appname in env.apps:
+    for app in env.apps:
         with settings(warn_only=True):
-            manage('schemamigration %s --%s' % (appname, south))
+            manage(app, 'schemamigration %s --%s' % (app['name'], south))
 
         if (fake):
-            manage('migrate %s --fake' % appname)
+            manage(app, 'migrate %s --fake' % app['name'])
         else:
-            manage('migrate %s' % appname)
+            manage(app, 'migrate %s' % app['name'])
 
 
-def manage(command):
-    require('code_root', provided_by=('dev', 'stag', 'prod'))
-    directory = env.code_root
+def manage(app, command):
+    directory = app['code_root']
     virtualenv(directory, './manage.py ' + command)
-
 
 def virtualenv(directory, command):
     with cd(directory):
