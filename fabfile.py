@@ -4,9 +4,14 @@ import sys
 from fabric.api import *
 from fabric import utils
 
+# deprecated - use specific apps instead
 env.project = 'app_public'
-vps = 'ps154456.dreamhost.com'
 
+env.public_app = 'app_public'
+env.member_app = 'app_dashboard'
+env.apps = (env.public_app, env.member_app)
+
+vps = 'ps154456.dreamhost.com'
 
 def _setup_path():
     env.root = env.home
@@ -91,12 +96,12 @@ def bootstrap():
 
 def load_samples():
     if env.root:
-        activator = '%(virtualenv_root)s/bin/activate_this.py' % env
-        execfile(activator, dict(__file__=activator))
+        #activator = '%(virtualenv_root)s/bin/activate_this.py' % env
+        #local(activator)
         sys.path.append(env.root)
-        import settings
-        appnames = settings.INSTALLED_APPS
-        for appname in appnames:
+#        import settings
+#        appnames = settings.INSTALLED_APPS
+        for appname in env.apps:
             try:
                 app = __import__(appname)
                 fixture_dirs = ['fixtures', 'fixtures/dev']
@@ -153,12 +158,14 @@ def update_requirements():
 
 def update_db(south, fake):
     """ migrate db using south """
-    appname = env.project
-    manage('schemamigration %s --%s' % (appname, south))
-    if (fake):
-        manage('migrate %s --fake' % appname)
-    else:
-        manage('migrate %s' % appname)
+    for appname in env.apps:
+        with settings(warn_only=True):
+            manage('schemamigration %s --%s' % (appname, south))
+
+        if (fake):
+            manage('migrate %s --fake' % appname)
+        else:
+            manage('migrate %s' % appname)
 
 
 def manage(command):
