@@ -1,6 +1,6 @@
 # Django settings for sscadev project.
 
-DEBUG = True
+DEBUG = False#True
 TEMPLATE_DEBUG = DEBUG
 
 STATIC_ROOT = 'static'

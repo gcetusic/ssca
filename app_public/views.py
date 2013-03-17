@@ -94,3 +94,14 @@ def renew(request):
     :return: django HttpResponse
     """
     return render_to_response('renew.html')
+
+def public_page(request):
+    #assuming new user
+    user_exist = False
+    form = SSCAJoinForm()
+    c = {'form': form, 'basic_mail_cost': 55}
+    return render_to_response('public.html', c)
+
+def dajax_test(request):
+    """test view to evaluate dajax capabilities"""
+    return render_to_response('dajax-test.html')

@@ -2,11 +2,25 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
 from app_public.views import *
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+
+dajaxice_autodiscover()
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
+
+    # dajaxice urls
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+
+    # test dajax page
+    url(r'^dajax_test/', dajax_test),
+
+    # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
+    url(r'^$', public_page),
+    url(r'^base/$', 'django.views.generic.simple.direct_to_template', {'template': 'base.html'}),
+    url(r'^public/$', public_page),
+    url(r'^member/$', 'django.views.generic.simple.direct_to_template', {'template': 'member.html'}),
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', logout_page),
     url(r'^dashboard/', include('app_dashboard.urls')),
@@ -28,6 +42,7 @@ urlpatterns = patterns('',
     url(r'^renew/', renew),
 
     url(r'^', include('cms.urls')),
+
 )
 
 if settings.DEBUG:

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block head %}
-    
-    <title>Join/Renew</title>   
-    <link href="/static/bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
+
+{% block title %} Join/Renew {% endblock %}
+
+{% block extra_css %}
     <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
     <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
 
@@ -19,14 +19,12 @@
             padding: 2px 8px;
             margin-top: 2px;
         }
-
         </style>
-	
-    <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
+{% endblock %} 
+
+{% block extra_js %}
     <script src="/static/bootstrap_toolkit/js/jquery.validate.min.js"></script>
-    <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
-    <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
-    <script src="/static/bootstrap_toolkit/js/bootstrap-datepicker.js"></script>
+    <script src="/static/assets/js/bootstrap-datepicker.js"></script>
     <script src="/static/admin/js/creditcard.js"></script>
 
     <script>		
@@ -295,7 +293,7 @@
     </script>
 {% endblock %}
 
-{% block body %}
+{% block content %}
       <!-- Step 1 dialog begins -->
          <div id="modalStep1" class="modal hide fade">
             <div class="modal-header">
