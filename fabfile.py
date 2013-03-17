@@ -4,9 +4,6 @@ import sys
 from fabric.api import *
 from fabric import utils
 
-# deprecated - use specific apps instead
-env.project = 'app_public'
-
 env.public_app = {'name' : 'app_public'}
 env.member_app = {'name' : 'app_dashboard'}
 env.apps = [env.public_app, env.member_app]
@@ -18,7 +15,7 @@ def _setup_path():
     for app in env.apps:
         app['code_root'] = os.path.join(env.root, app['name'])
     env.virtualenv_root = os.path.join(env.root, 'env')
-    env.settings = '%(project)s.settings_%(environment)s' % env
+    env.settings = 'settings_%(environment)s' % env
     env.remote = 'git@bitbucket.org:reubenfirmin/ssca.git'
     print 'using env: %s' % env.environment
 
@@ -87,8 +84,9 @@ def bootstrap():
         run('mkdir -p %(root)s' % env)
     create_virtualenv()
     update_requirements()
-    manage('collectstatic --noinput')
-    manage('syncdb --all')
+    for app in env.apps:
+        manage(app, 'collectstatic --noinput')
+        manage(app, 'syncdb --all')
     update_db('initial', True)
     touch()
 
