@@ -88,6 +88,7 @@ def bootstrap():
         manage(app, 'collectstatic --noinput')
         manage(app, 'syncdb --all')
     update_db('initial', True)
+    load_samples()
     touch()
 
 def build():
