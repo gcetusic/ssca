@@ -27,35 +27,38 @@ def show_gmaps(request):
 
     if request.is_ajax and request.POST:
 
+        # Set the timezone to the client's or server's if none specified
         timezone = request.POST.get('timezone', get_current_timezone_name())
         activate(timezone)
 
+        # Get all markers in the last x minutes
         deltatime = int(request.POST.get('time', 0))
 
+        # Get the ids of recent locations, or latest if change parameter is 0
         location_ids = Location.objects.current_location(change=deltatime)
-        locations = Location.objects.filter( \
-            latitude__gte=float(request.POST['south']), \
-            latitude__lte=float(request.POST['north']), \
-            longitude__gte=float(request.POST['west']), \
-            longitude__lte=float(request.POST['east']), \
+        locations = Location.objects.filter(
+            latitude__gte=float(request.POST['south']),
+            latitude__lte=float(request.POST['north']),
+            longitude__gte=float(request.POST['west']),
+            longitude__lte=float(request.POST['east']),
             id__in=location_ids).values('id', 'latitude', 'longitude')
 
         for location in locations:
             location['category'] = 'members'
 
-        ports = Port.objects.filter( \
-            latitude__gte=float(request.POST['south']), \
-            latitude__lte=float(request.POST['north']), \
-            longitude__gte=float(request.POST['west']), \
+        ports = Port.objects.filter(
+            latitude__gte=float(request.POST['south']),
+            latitude__lte=float(request.POST['north']),
+            longitude__gte=float(request.POST['west']),
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
         for port in ports:
             port['category'] = 'guides'
 
-        stations = CruisingStation.objects.filter( \
-            latitude__gte=float(request.POST['south']), \
-            latitude__lte=float(request.POST['north']), \
-            longitude__gte=float(request.POST['west']), \
+        stations = CruisingStation.objects.filter(
+            latitude__gte=float(request.POST['south']),
+            latitude__lte=float(request.POST['north']),
+            longitude__gte=float(request.POST['west']),
             longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
 
         for station in stations:
@@ -69,22 +72,20 @@ def show_gmaps(request):
 
         for cluster in clusters:
             if len(cluster) > 1:
+                category = 'cluster'
                 centroid = distance.centroid(cluster, 'latitude', 'longitude')
                 markers.append({
                     'position': ("%.3f" % centroid[0], "%.3f" % centroid[1]),
-                    'is_cluster': True,
                     'category': "cluster"
                 })
             else:
                 location = cluster[0]
-
+                category = location['category']
                 markers.append({
                     'id': location['id'],
                     'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
-                    'is_cluster': False,
-                    'category': location['category'],
+                    'category': category,
                 })
-
         return HttpResponse(json.dumps(markers))
 
     else:
@@ -106,7 +107,7 @@ def marker_info(request):
             if category == 'members':
                 data = Location.objects.get(id=request.POST['id'])
             elif category == 'guides':
-                data = Guide.objects.get(port__id=request.POST['id'])
+                data = Guide.objects.filter(port__id=request.POST['id']).latest('date')
             elif category == 'stations':
                 data = CruisingStation.objects.get(id=request.POST['id'])
         else:
@@ -168,12 +169,12 @@ def find_member(request):
             location_ids = Location.objects.current_location(change=0, user_ids=user_ids)
             locations = Location.objects.filter(id__in=location_ids)
 
-            results = serializers.serialize('json', locations, excludes=('date'), \
-                fields=('latitude', 'longitude', 'person'), \
-                relations={'person': {'excludes': ('identity', 'friend',), \
-                'relations': {'user': {'excludes': \
-                ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',\
-                 'password', 'last_login', 'date_joined')\
+            results = serializers.serialize('json', locations,
+                excludes=('date'), fields=('latitude', 'longitude', 'person'),
+                relations={'person': {'excludes': ('identity', 'friend',),
+                'relations': {'user': {'excludes':
+                ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',
+                 'password', 'last_login', 'date_joined')
                 }}}})
 
         return HttpResponse(results)

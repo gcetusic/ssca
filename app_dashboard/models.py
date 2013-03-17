@@ -13,17 +13,12 @@ class LocationManager(models.Manager):
             A value of 0 means the most recent record is fetched.
 
             If given a list of ids, it fetches only Locations with those user ids
-            The returned valu is a list with location ids
+            The returned value is a list with location ids
         '''
-
         if not change == 0:
-            location_ids = super(LocationManager, self).get_query_set().filter( \
-                date__gte=(timezone.now() - timedelta(minutes=change)) \
-                ).values_list('id', flat=True)
+            location_ids = super(LocationManager, self).get_query_set().filter(
+                date__gte=(timezone.now() - timedelta(minutes=change))).values_list('id', flat=True)
         else:
-            locations = super(LocationManager, self).get_query_set().filter(id=0)
-            len(locations)  # just hit the db
-
             if user_ids:
                 person_ids = Person.objects.filter(user_id__in=user_ids).values_list('id', flat=True)
             else:
@@ -31,6 +26,7 @@ class LocationManager(models.Manager):
 
             location_ids = []
             locations_by_person = super(LocationManager, self).get_query_set().filter(person_id__in=person_ids)
+
             for person_id in person_ids:
                 location_by_person = locations_by_person.filter(person_id=person_id)
                 if location_by_person.exists():

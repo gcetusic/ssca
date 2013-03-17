@@ -1,20 +1,24 @@
 import os
+import sys
 
 from fabric.api import *
-from fabric.contrib import files, console
 from fabric import utils
-from fabric.decorators import hosts
 
-env.project = 'app_public'
+env.public_app = {'name' : 'app_public'}
+env.member_app = {'name' : 'app_dashboard'}
+env.apps = [env.public_app, env.member_app]
+
 vps = 'ps154456.dreamhost.com'
 
 def _setup_path():
     env.root = env.home
-    env.code_root = os.path.join(env.root, env.project)
+    for app in env.apps:
+        app['code_root'] = os.path.join(env.root, app['name'])
     env.virtualenv_root = os.path.join(env.root, 'env')
-    env.settings = '%(project)s.settings_%(environment)s' % env
+    env.settings = 'settings_%(environment)s' % env
     env.remote = 'git@bitbucket.org:reubenfirmin/ssca.git'
     print 'using env: %s' % env.environment
+
 
 def dev():
     """ use dev environment on localhost """
@@ -26,33 +30,35 @@ def dev():
     # forces local operations. set to false and override hosts if you want to deploy out to a server
     env.local = True
     if not(hasattr(env, 'dev')) or not(env.dev):
-        utils.abort('Create your own dev env; see dev_rfirmin for example');
+        utils.abort('Create your own dev env; see dev_rfirmin for example')
+
 
 def dev_navjot():
     env.dev = True
     dev()
     # dir to install virtualenv etc
-    env.root = '/home/wb/work/reuben/ssca/'
     env.home = '/home/wb/work/reuben/ssca/'
     env.git_branch = 'develop_navjot1'
     _setup_path()
+
 
 # feel free to make your own envs
 def dev_rf():
     env.dev = True
     dev()
     # dir to install virtualenv etc
-    env.root = '/home/rfirmin/code/ssca/'
+    env.home = '/home/rfirmin/code/ssca/'
     _setup_path()
+
 
 def dev_gc():
     env.dev = True
     dev()
     # dir to install virtualenv etc
-    env.root = '/home/cetko/projects/ssca/'
     env.home = '/home/cetko/projects/ssca/'
     env.git_branch = 'develop_goran'
     _setup_path()
+
 
 def stag():
     env.user = 'rfirmin'
@@ -61,12 +67,13 @@ def stag():
     env.home = '/home/rfirmin/sscadev.dreamhosters.com/'
     env.git_branch = 'develop'
     env.local = False
-    env.root = '/home/rfirmin/sscadev.dreamhosters.com/'
     _setup_path()
+
 
 def prod():
     """ use prod environment on remote host"""
     utils.abort('Production deployment not yet implemented.')
+
 
 def bootstrap():
     """ initialize remote host environment (virtualenv, deploy, update) """
@@ -77,18 +84,37 @@ def bootstrap():
         run('mkdir -p %(root)s' % env)
     create_virtualenv()
     update_requirements()
-    manage('collectstatic --noinput')
-    manage('syncdb --all')
+    for app in env.apps:
+        manage(app, 'collectstatic --noinput')
+        manage(app, 'syncdb --all')
     update_db('initial', True)
     touch()
 
 def build():
-    """ Rebuild. Don't be alarmed if it fails on south, if no models have changed """
     update_requirements()
     update_db('auto', False)
+    load_samples()
+
+def load_samples():
+    for app in env.apps:
+        fixture_dirs = ['fixtures']
+        if (env.dev):
+            fixture_dirs.append('fixtures/dev')
+
+        print ">>>> Loading fixtures for ",app['name']
+        fixture_paths = []
+        for fixture_dir in fixture_dirs:
+            fixture_paths.append(os.path.join(app['code_root'], fixture_dir))
+
+        for fixture_path in fixture_paths:
+            fixtures = os.listdir(fixture_path)
+
+            for fixture in fixtures:
+                print ">>>>> Loading ",fixture
+                virtualenv(fixture_path, './manage.py loaddata ' + os.path.join(fixture_path, fixture))
+                print "Loaded data from %s" % os.path.join(fixture_path, fixture)
 
 def create_virtualenv():
-    """ setup virtualenv on remote host """
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
     args = '--no-site-packages --clear --distribute'
     if env.local:
@@ -99,8 +125,6 @@ def create_virtualenv():
         run('virtualenv %s %s' % (args, env.virtualenv_root))
 
 def update_requirements():
-    """ update external dependencies on remote host """
-    require('code_root', provided_by=('dev', 'stag', 'prod'))
     cmd = ['%(virtualenv_root)s/bin/pip install --upgrade distribute &&' % env]
     cmd += ['%(virtualenv_root)s/bin/pip install' % env]
     #cmd += ['-E %(virtualenv_root)s' % env]
@@ -110,18 +134,21 @@ def update_requirements():
     else:
         run(' '.join(cmd))
 
+
 def update_db(south, fake):
     """ migrate db using south """
-    appname = env.project
-    manage('schemamigration %s --%s' % (appname, south))
-    if (fake):
-        manage('migrate %s --fake' % appname)
-    else:
-        manage('migrate %s' % appname)
+    for app in env.apps:
+        with settings(warn_only=True):
+            manage(app, 'schemamigration %s --%s' % (app['name'], south))
 
-def manage(command):
-    require('code_root', provided_by=('dev', 'stag', 'prod'))
-    directory = env.code_root
+        if (fake):
+            manage(app, 'migrate %s --fake' % app['name'])
+        else:
+            manage(app, 'migrate %s' % app['name'])
+
+
+def manage(app, command):
+    directory = app['code_root']
     virtualenv(directory, './manage.py ' + command)
 
 def virtualenv(directory, command):
@@ -132,14 +159,15 @@ def virtualenv(directory, command):
         else:
             run(activate() + ' && ' + command)
 
+
 def activate():
     return 'export DEPLOYMENT_ENV="%(environment)s" && source %(virtualenv_root)s/bin/activate' % env
+
 
 def touch():
     """ touch wsgi file to trigger reload """
     require('home', provided_by=('stag', 'prod'))
     with cd(env.home):
-        if env.environment in ['stag','prod']:
+        if env.environment in ['stag', 'prod']:
             run('pkill python')
             run('touch -c passenger_wsgi.py')
-

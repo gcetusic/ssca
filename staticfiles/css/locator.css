@@ -43,11 +43,30 @@
 }
 
 .control-buttons #type-filter {
-    width: 50%;
     display: table-cell;
+    width: 200px;
 }
 
 .control-buttons #time-filter {
     display: table-cell;
-    width: 50%;
+    width: 400px;
+}
+
+#map-canvas {
+    width: 900px;
+    height: 600px;
+}
+
+#overview_map {
+    display: table-cell;
+    width: 256px;
+    height: 150px;
+    overflow: hidden;
+}
+
+#overlayMap {
+    position: absolute;
+    display: table-cell;
+    width: 256px;
+    height: 150px;
 }

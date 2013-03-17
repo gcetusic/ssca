@@ -1,8 +1,11 @@
-<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
 <link href="{{ STATIC_URL }}css/locator.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
+
+<!-- Configuration -->
 <script type="text/javascript">
 var center_latitude = {{ gmap.center.0 }};
 var center_longitude = {{ gmap.center.1 }};
@@ -11,8 +14,8 @@ var min_zoom = {{ gmap.minzoom }};
 var gmaps_viewer = "{% url gmaps_viewer %}";
 var marker_info = "{% url marker_info %}";
 var member_finder = "{% url member_finder %}";
-var searchqueue = [];
 </script>
+<!-- /Configuration -->
 
 <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b>
     However, it seems JavaScript is either disabled or not supported by your browser.
@@ -20,280 +23,9 @@ var searchqueue = [];
     try again.
 </noscript>
 
+<!-- Google Maps init -->
 <script type="text/javascript">
     window.onload = loadScript;
-
-    var markersArray = [];
-
-    function initialize() {
-        var mapOptions = {
-            center: new google.maps.LatLng(center_latitude, center_longitude),
-            zoom: map_zoom,
-            minZoom: min_zoom,
-            mapTypeId: google.maps.MapTypeId.SATELLITE
-        };
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-        google.maps.event.addListener(map, 'idle', getMarkers);
-
-        function getTimezoneName() {
-            timezone = jstz.determine();
-            return timezone.name();
-        }
-
-        function getMarkers(time) {
-
-            var time = time || 0;
-
-            var center = map.getCenter().lat();
-            var bounds = map.getBounds();
-            var ne = bounds.getNorthEast();
-            var sw = bounds.getSouthWest();
-            var boundaries = {
-                "north": ne.lat(),
-                "south": sw.lat(),
-                "east": ne.lng(),
-                "west": sw.lng(),
-                "zoom": map.getZoom(),
-                "center": map.getCenter().lng(),
-                "timezone": getTimezoneName(),
-                "time": time
-            }
-
-            $.ajax({
-                async: false,
-                type: "POST",
-                url: gmaps_viewer,
-                dataType: "json",
-                data: boundaries,
-                success: function(data) {
-                    clearOverlays();
-                    deleteOverlays();
-                    data.forEach(function(item) {
-                        addMarker(
-                            new google.maps.LatLng(item.position[0], item.position[1]),
-                            item.title,
-                            item.is_cluster,
-                            item.id,
-                            item.category
-                        );
-                    });
-                    showOverlays();
-                }
-            });
-        }
-
-
-        function prettyData(data, category) {
-            var string;
-            if (category=='members') {
-                string = data.name + '<br />' + data.date + '<br />' + data.position;
-            }
-            else if (category=='guides') {
-                string = data.title + '<br />' + data.date + '<br />' + data.author + '<br />' + data.portname;
-            }
-            else if (category=='stations') {
-                string = data.name + '<br />' + data.phone + '<br />' + data.email +'<br />' + data.portname;
-            }
-            return string;
-        }
-
-        function addMarker(position, title, is_cluster, id, category) {
-            marker = new google.maps.Marker({
-                position: position,
-                map: map,
-            });
-            if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
-                marker.setVisible(false);
-            }
-
-            marker.id = id;
-            marker.is_cluster = is_cluster;
-            marker.category = category;
-            markersArray.push(marker);
-        }
-
-        // Removes the overlays from the map, but keeps them in the array
-        function clearOverlays() {
-            if (markersArray) {
-                for (i in markersArray) {
-                    markersArray[i].setMap(null);
-                }
-            }
-        }
-
-        // Shows any overlays currently in the array
-        function showOverlays() {
-            if (markersArray) {
-                for (i in markersArray) {
-                    if (markersArray[i].is_cluster) {
-                        google.maps.event.addListener(markersArray[i], 'click', function() {
-                            map.setZoom(map.getZoom()+1);
-                            map.panTo(this.getPosition());
-                        });
-                    }
-                    else { (function(marker) {
-                        google.maps.event.addListener(marker, 'click', function () {
-                            $.ajax({
-                                async: false,
-                                type: "POST",
-                                url: marker_info,
-                                dataType: "json",
-                                data: {
-                                    "id": marker.id,
-                                    "category": marker.category,
-                                    "timezone": getTimezoneName()
-                                },
-                                success: function (data) {
-                                    infowindow = new google.maps.InfoWindow();
-                                    infowindow.setContent(prettyData(data, marker.category));
-                                    infowindow.open(map, marker);
-                                }
-                            });
-                        });
-                    })(markersArray[i]);}
-                }
-            }
-        }
-
-        // Deletes all markers in the array by removing references to them
-        function deleteOverlays() {
-            if (markersArray) {
-                for (i in markersArray) {
-                    markersArray[i].setMap(null);
-                }
-                markersArray.length = 0;
-            }
-        }
-
-        function show(category) {
-            for (var i=0; i<markersArray.length; i++) {
-                if (markersArray[i].category == category) {
-                    markersArray[i].setVisible(true)
-                }
-            }
-        }
-
-        // == hides all markers of a particular category, and ensures the checkbox is cleared ==
-        function hide(category) {
-            for (var i=0; i<markersArray.length; i++) {
-                if (markersArray[i].category == category) {
-                    markersArray[i].setVisible(false);
-                }
-            }
-        }
-
-        $(document).ready(function() {
-            $("#type-filter input[name='type']").prop("checked", true);
-            $("#time-filter input[value='current']").prop("checked", true);
-            $("#type-filter input[name='type']").live('click', function () {
-                if ($(this).is(":checked")) {
-                    show(this.value);
-                }
-                else {
-                    hide(this.value);
-                }
-            });
-
-            $("#time-filter input[name='time']").change(function () {
-                var time;
-                if ($(this).val() == 'current') {
-                    time = 0;
-                }
-                if ($(this).val() == 'recent') {
-                    time = 30;
-                }
-                getMarkers(time);
-            });
-
-            var searchqueue = [];
-            setInterval(function () {
-                if (searchqueue.length > 0) {
-                text = searchqueue.pop();
-                text.call();
-                searchqueue = [];
-                }
-            }, 2000);
-
-            var wrapFunction = function(fn, context, params) {
-                return function() {
-                    fn.apply(context, params);
-                };
-            }
-
-            var search_results;
-            function find(query, process) {
-                var funsearch = function (query, process) {
-                    $.ajax({
-                        type: "POST",
-                        url: member_finder,
-                        data: {
-                            "search": query,
-                            "timezone": getTimezoneName()
-                        },
-                        dataType: "json",
-                        success: function (results) {
-                            var resultsArray = new Array;
-                            if (results.length <= 20) {
-                                search_results = results;
-                                results.forEach(function (item, index) {
-                                    result = "<div pk='" + index + "' style='visibility:hidden;'>" + "</div>"
-                                        + item.fields.person.fields.user.fields.first_name + ' '
-                                        + item.fields.person.fields.user.fields.last_name + ' ('
-                                        + item.fields.person.fields.user.fields.email + ')'
-                                    resultsArray.push(result);
-                                });
-                                process(resultsArray);
-                            }
-                        }
-                    });
-                };
-                searchqueue.push(wrapFunction(funsearch, this, [query, process]));
-            }
-
-            $('#member_modal').modal({
-                show: false,
-                keyboard: false,
-                backdrop: 'static'
-            }).css({
-                width: 'auto',
-                'margin-left': function () {
-                    return -($(this).width() / 2);
-                }
-            });
-
-            $('#modal_find').on('click', function () {
-                $('#member_modal').modal('hide');
-                var member = search_results[$("#modal_search").attr("pk")];
-                var center = new google.maps.LatLng(member.fields.latitude, member.fields.longitude);
-                map.panTo(center);
-                map.setZoom(5);
-            })
-
-            $('#member_modal').on('hidden', function () {
-                $(this).find("input[type=text], textarea").val("");
-            })
-
-            // some functions aren't needed but included as templates
-            $(".memberTypeahead").typeahead({
-                minLength: 3,
-                items: 10,
-                source: find,
-                updater: function(item) {
-                    var wrapper= document.createElement('div');
-                    wrapper.innerHTML= item;
-                    var div= wrapper.firstChild;
-                    $("#modal_search").attr("pk", $(div).attr('pk'));
-                    return item.split("/div>")[1];
-                },
-                matcher: function(item) {
-                    return true;
-                },
-                sorter: function(items) {
-                    return items;
-                }
-            })
-        });
-    };
 
     function loadScript() {
         var script = document.createElement("script");
@@ -301,13 +33,10 @@ var searchqueue = [];
         script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
         document.body.appendChild(script);
     }
-
 </script>
 
-
 <div class="content">
-    <div id="map-canvas" style="width:900px; height:600px"></div>
-
+    <div id="map-canvas"></div>
 
     <div class="controls">
         <div class="controls-header">
@@ -327,6 +56,9 @@ var searchqueue = [];
                 <input type="radio" name="time" value="recent">&nbspRecently updated locations</input><br />
                 <br />
                 Centered on ...coming soon...
+            </div>
+            <div id="overview_map">
+                <div id="overlayMap"></div>
             </div>
         </div>
     </div>
