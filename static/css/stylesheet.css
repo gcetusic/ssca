@@ -38,7 +38,14 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
     margin:100px 60px 0 0;
 }
 .logo-right {width:auto; height:auto; float:left; margin:75px 0 0 0 ;}
-.homae-rig {height: 560px; overflow-y: scroll; padding: 10px;}
+.homae-rig {
+    height: 560px;
+    padding: 10px;
+    overflow: hidden;
+}
+.homae-rig:hover {
+    overflow-y: scroll;
+}
 .homae-rig h1 {font-size:24px; color:#7D8D9B; width:270px; padding:0px;}
 .homae-rig p {font-size:12px; width:100%; margin:20px 0 0 0; line-height:20px; text-align:justify;}
 
