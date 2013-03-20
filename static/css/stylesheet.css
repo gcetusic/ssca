@@ -188,3 +188,11 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
   border-top: 6px solid #000;
   border-bottom: 0;
 }
+
+.ssca-flags {
+    transform:rotate(14deg);
+    -ms-transform:rotate(14deg);     /* Internet Explorer */
+    -moz-transform:rotate(14deg);    /* Firefox */
+    -webkit-transform:rotate(14deg); /* Safari and Chrome */
+    -o-transform:rotate(14deg);      /* Opera */
+} 
