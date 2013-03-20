@@ -2,30 +2,36 @@
 <div id="loginModal1" class="modal hide fade">
 
     <div class="modal-header">
+
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Login using OpenID</h3>
     </div>
 
     <div class="control-group" style="margin: 50px 0px;">
-        <div class="controls" style="float:left;width: 150px;">
+        <div class="controls" style="float:left;width: 100px;">
             <label class="control-label" for="signin" style="text-align: right;padding-right: 5px;">Sign in with:</label>
         </div>
-        <select>
-            <option value="Google">Google</option>
-            <option value="Facebook">Facebook</option>
-            <option value="Yahoo">Yahoo</option>
-            <option value="AOL">AOL</option>
-        </select>
+        <div class="controls">
+            <form class="form-inline" action="">
+                <select style="width: 140px;">
+                    <option value="Google">Google</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Yahoo">Yahoo</option>
+                    <option value="AOL">AOL</option>
+                </select>
+                <input class="btn btn-inverse" type="submit" value="Log in">
+            </form>
+        </div>
     </div>
 
     <div class="control-group">
-        <div class="controls" style="margin-left: 50px;">
+        <div class="controls" style="margin-left: 20px;">
             <a href="" style="color: #003399;">Register with SSCA</a>
         </div>
     </div>
 
     <div class="control-group">
-        <div class="controls" style="margin: 0px 0px 50px 50px;">
+        <div class="controls" style="margin: 0px 0px 50px 20px;">
             <a href=""  style="color: #003399;">What is OpenID?</a>
         </div>
     </div>
