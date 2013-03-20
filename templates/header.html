@@ -22,9 +22,17 @@
         <!-- begin search bar row -->
         <div class="row-fluid" style="border: solid 0px red;">
             <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
+                <!--
                 <form class="form-inline pull-right">
-                    <input class="span8" onBlur="onBlur(this)" value="Search" onFocus="onFocus(this)" type="text">
+                    <input class="span8 navbar-search" onBlur="onBlur(this)" value="Search" onFocus="onFocus(this)" type="text">
                     <button class="btn btn-danger" type="button"><i class="icon-search"></i></button>
+                </form>
+                -->
+                <div style="border: 0px solid black; margin-top: 20px;">
+                    <form class="navbar-search pull-right">
+                        <input type="text" class="search-query span12" placeholder="Search" style="background-color: white; border: 1px solid #ccc;">
+                        <div class="icon-search"></div>
+                    </div>
                 </form>
             </div>
         </div>
