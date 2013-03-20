@@ -7,35 +7,43 @@
         <h3>Login using OpenID</h3>
     </div>
 
-    <div class="control-group" style="margin: 50px 0px;">
-        <div class="controls" style="float:left;width: 100px;">
-            <label class="control-label" for="signin" style="text-align: right;padding-right: 5px;">Sign in with:</label>
-        </div>
-        <div class="controls">
-            <form class="form-inline" action="">
-                <select id="providers" name="providers_list">
-                    <option value="">Select a Provider</option>
-                    <option value="{% url socialauth_begin 'google' %}">Login with Google</option>
-                    <option value="" disabled="disabled">Login with Yahoo</option>
-                    <option value="" disabled="disabled">Login with AOL</option>
-                </select>
-                <input class="btn btn-inverse" type="submit" value="Log in">
-            </form>
-            <img src="/static/images/ssca_login.png" width="200" height="200">
-        </div>
-    </div>
+    <table width="100%" cellspacing="2" cellpadding="2" border="0">
+        <tr>
+            <td width="60%"> 
+                <div class="control-group" style="margin: 50px 0px;">
+                    <div class="controls" style="float:left;width: 100px;">
+                        <label class="control-label" for="signin" style="text-align: right;padding-right: 5px;">Sign in with:</label>
+                    </div>
+                    <div class="controls">
+                        <form class="form-inline" action="">
+                            <select id="providers" name="providers_list" style="width: 150px;">
+                                <option value="">Select a Provider</option>
+                                <option value="{% url socialauth_begin 'google' %}">Login with Google</option>
+                                <option value="" disabled="disabled">Login with Yahoo</option>
+                                <option value="" disabled="disabled">Login with AOL</option>
+                            </select>
+                            <input class="btn btn-inverse" type="submit" value="Log in">
+                        </form>
+                    </div>
+                </div>
 
-    <div class="control-group">
-        <div class="controls" style="margin-left: 20px;">
-            <a href="" style="color: #003399;">Register with SSCA</a>
-        </div>
-    </div>
+                <div class="control-group">
+                    <div class="controls" style="margin-left: 20px;">
+                        <a href="" style="color: #003399;">Register with SSCA</a>
+                    </div>
+                </div>
 
-    <div class="control-group">
-        <div class="controls" style="margin: 0px 0px 50px 20px;">
-            <a href=""  style="color: #003399;">What is OpenID?</a>
-        </div>
-    </div>
+                <div class="control-group">
+                    <div class="controls" style="margin: 0px 0px 50px 20px;">
+                        <a href=""  style="color: #003399;">What is OpenID?</a>
+                    </div>
+                </div>
+            </td>
+            <td align="left" width="40%"> 
+                <img src="/static/images/ssca_login.png" width="200" height="200">
+            </td>
+        </tr>
+    </table>
 
 </div>
 <!-- login modal 1 ends -->
