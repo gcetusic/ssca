@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from app_public.models import Person, Account
 from datetime import datetime
 from decimal import *
+from app_public.forms import SSCAJoinForm
 
 
 def dashboard_main_page(request):
