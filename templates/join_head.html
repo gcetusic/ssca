@@ -178,8 +178,8 @@
         }
 
         if(!$("#id_card_csv").val()) {
-        alert("Please Enter CSV");
-        return false;
+            alert("Please Enter CSV");
+            return false;
         }
 
         /* !!! FIXME in next sprint !!!
@@ -187,8 +187,8 @@
         var cardNum  = $('#id_card_number').val(); 
         var cardType = $('#id_card_type').val();
         if (! checkCreditCard(cardNum, cardType)) {
-        alert(ccErrors[ccErrorNo]);
-        return false;
+            alert(ccErrors[ccErrorNo]);
+            return false;
         }
         */
 
@@ -199,7 +199,7 @@
         //setting to email in thanks (registration) dialog
         $("#to_email").html( $("#id_email").val() );
         return true;
-        }
+    }
 
         /*
         * adding step 1 vaidation rules
