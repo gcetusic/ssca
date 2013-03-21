@@ -182,6 +182,7 @@
         return false;
         }
 
+        /* !!! FIXME in next sprint !!!
         //checking card number and type
         var cardNum  = $('#id_card_number').val(); 
         var cardType = $('#id_card_type').val();
@@ -189,7 +190,11 @@
         alert(ccErrors[ccErrorNo]);
         return false;
         }
+        */
 
+        $("#a_step4").attr("href", "#modalStep4");
+        $("#a_step4").attr("data-dismiss", "modal");
+        $("#a_step4").attr("data-toggle", "modal");
         return true;
         }
 
