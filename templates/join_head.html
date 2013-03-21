@@ -195,6 +195,9 @@
         $("#a_step4").attr("href", "#modalStep4");
         $("#a_step4").attr("data-dismiss", "modal");
         $("#a_step4").attr("data-toggle", "modal");
+
+        //setting to email in thanks (registration) dialog
+        $("#to_email").html( $("#id_email").val() );
         return true;
         }
 
