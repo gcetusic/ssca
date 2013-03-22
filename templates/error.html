@@ -1,10 +1,16 @@
 {% extends "base.html" %}
  
-{% block head %}
-    <title>Error</title>
-{% endblock %}
+{% block title %} Error {% endblock %}
  
-{% block body %}
+{% block auth_form %}
+<div>
+    <form class="pull-right form-inline" action="">
+        <button type="submit" class="btn btn-inverse" style="font-size:12px;" data-toggle="modal" href="#loginModal1">Log in</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block content %}
     <header>
         <h1>{{ message.title }}</h1>
     </header>
@@ -13,3 +19,4 @@
         <p>{{ message.description }}</p>
     </section>
 {% endblock %}
+
