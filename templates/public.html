@@ -2,9 +2,6 @@
 
 {% block title %} SSCA Home {% endblock %}
 
-{% load cms_tags %}
-{% load menu_tags %}
-
 {% block auth_form %}
   <div>
     <form class="pull-right form-inline" action="">
@@ -22,7 +19,6 @@
       <div class="span12">
         <div class="row-fluid">
             <div class="span7 homae-rig">
-              {% placeholder "public_content" or %}
                 <h1>WELCOME TO SSCA</h1>
                 <P>For as long as mankind has memory, we have been entranced by the sea. The need to know what lies beyond the next wave and over the far horizon is pervasive. Many dream of tropical blue skies, balmy breezes, ever-gentle waves and cruising to exotic ports. Those who are living the dream and those who are planning for the day that they can release the ties to the workaday world and head off to seek paradise as well as those who only dream of such adventure join together in an organization called the Seven Seas Cruising Association</P>
                 <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
@@ -32,21 +28,17 @@
                 <p>SSCA is a caring, supportive family of kindred spirits, ready to assist fellow cruisers when needed. We are individuals who share a unique way of life and celebrate international fellowship and goodwill. We aspire to the fulltime cruising lifestyle. We are independent and responsible people who pride ourselves on our self-reliance and conduct ourselves with integrity. We treat all people and our environment respectfully. We are ambassadors of a cruising fraternity and want to ensure that those following in our wake will be warmly welcomed.</p>
                 <p>It’s the famous "SSCA Clean Wake" policy, which has helped raise the reputation of today's sea-gypsies around the world, ensuring that the welcome mat will be out for all cruisers who following in the wake of a fellow SSCA member.</p>
                 <p>Beth Leonard and Evans Starzinger, Hawk, are true ambassadors of the SSCA Clean Wake policy. They add, "SSCA provided us with invaluable information and an instant support network when we were new to cruising and most in need of both—and SSCA allows us to do the same for others who are following in our wake."</p>
-              {% endplaceholder %}
             </div>
           
           {% block events %}
           <div class="span5">
             <div class="thumbnail">
-              {% placeholder "public_picture" or %}
               <img src="/static/images/right_main.png" alt="">
-              {% endplaceholder %}
             </div>
             <div class="con-right-bottom-con">
               <h1>UPCOMING EVENTS</h1>
               <div class="con-right-bott">
                 </ul>
-                  {% show_menu %}
                 </ul>
               </div>
             </div>

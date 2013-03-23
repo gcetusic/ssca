@@ -1,6 +1,5 @@
 import json
 from dajaxice.decorators import dajaxice_register
-from cms.api import create_page, add_plugin
 
 
 @dajaxice_register(method='GET')

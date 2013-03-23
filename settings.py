@@ -79,9 +79,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
 )
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -93,18 +90,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
-    'cms.context_processors.media',
     'django.contrib.messages.context_processors.messages',
-    'sekizai.context_processors.sekizai',
     'social_auth.context_processors.social_auth_by_name_backends',
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
     'social_auth.context_processors.social_auth_login_redirect',
-)
-
-CMS_TEMPLATES = (
-    ('public.html', 'Public Content'),
-    ('dashboard_content.html', 'Dashboard Content'),
 )
 
 ROOT_URLCONF = 'app_public.urls'
@@ -122,19 +112,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.flatpages',
     'django.contrib.staticfiles',
-    'cms',
-    'menus',
-    'mptt',
     'south',
-    'cms.plugins.text',
-    'cms.plugins.picture',
-    'cms.plugins.link',
-    'cms.plugins.file',
-    'cms.plugins.snippet',
-# breaks migrate (?)
-#    'cms.plugins.googlemap',
-    'sekizai',
     'bootstrap_toolkit',
     'app_public',
     'app_dashboard',
