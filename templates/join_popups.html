@@ -218,8 +218,28 @@
         <h4>Associate an OpenId with your account</h4>
     </div>
 
+    <div class="control-group" style="padding: 10px; margin: 20px;">
+        Instead of requiring you to remember yet another username and password, SSCA uses the <a href="">OpenId</a> system.
+        When you visit SSCA, we'll request your identity from the provider of your choice for a simple, one-click, secure login process.<br><br>
+
+    To get started, please select which provider you'd like to use. If you do not have an existing account with any of these websites, then choose "Other".
+    Other SSCA members will not be able to see which provider you use.<br><br>
+
+    Use my:
+    <select id="providers" name="providers_list" style="width: 150px;">
+        <option value="">Select a Provider</option>
+        <option value="{% url socialauth_begin 'google' %}">Login with Google</option>
+        <option value="" disabled="disabled">Login with Yahoo</option>
+        <option value="" disabled="disabled">Login with AOL</option>
+    </select>
+    account as my <a href="">OpenId</a><br><br>
+
+    When you click the button below, we'll send you to Google to authenticate. Once you have signed in, you will be redirected back to the SSCA site.
+
+    </div>
+
     <div class="modal-footer">
-        <a id="" href="" class="btn btn-primary" onclick="return validateStep1();">Associate Identity</a>
+        <a id="" href="" class="btn btn-primary" onclick="return false;">Associate Identity</a>
     </div>
 </div>
 <!-- modal register openid ends -->
