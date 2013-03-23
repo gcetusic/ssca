@@ -1,6 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from django.contrib.flatpages.models import FlatPage as BaseFlatPage
+
+
+class FlatPage(BaseFlatPage):
+    order = models.PositiveIntegerField(unique=True)
+    picture = models.ImageField(upload_to='pages')
+
 
 class Subscription(models.Model):
     start_date = models.DateField()

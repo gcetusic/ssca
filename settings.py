@@ -36,11 +36,11 @@ USE_TZ = True
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 # this breaks fab bootstrap...
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "static"),
+    os.path.join(PROJECT_DIR, "staticfiles"),
 )
 
 
