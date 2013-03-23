@@ -227,10 +227,9 @@
 
     Use my:
     <select id="providers" name="providers_list" style="width: 150px;">
-        <option value="">Select a Provider</option>
-        <option value="{% url socialauth_begin 'google' %}">Login with Google</option>
-        <option value="" disabled="disabled">Login with Yahoo</option>
-        <option value="" disabled="disabled">Login with AOL</option>
+        <option value="{% url socialauth_begin 'google' %}">Google</option>
+        <option value="" disabled="disabled">Yahoo</option>
+        <option value="" disabled="disabled">AOL</option>
     </select>
     account as my <a href="" style="color: #003399;">OpenId</a><br><br>
 
