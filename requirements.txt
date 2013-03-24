@@ -9,5 +9,3 @@ django-bootstrap-toolkit
 django-social-auth
 pytz
 wadofstuff-django-serializers
-simplejson
-mezzanine

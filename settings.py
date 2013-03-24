@@ -21,7 +21,7 @@ TIME_ZONE = 'America/New_York'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
+SITE_ID = 2
 
 USE_I18N = False
 
@@ -36,7 +36,7 @@ USE_TZ = True
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 # this breaks fab bootstrap...
 STATICFILES_DIRS = (
@@ -79,15 +79,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "mezzanine.core.request.CurrentRequestMiddleware",
-    "mezzanine.core.middleware.TemplateForDeviceMiddleware",
-    "mezzanine.core.middleware.TemplateForHostMiddleware",
-    "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
-    "mezzanine.core.middleware.SitePermissionMiddleware",
-    # Uncomment the following if using any of the SSL settings:
-    # "mezzanine.core.middleware.SSLRedirectMiddleware",
-    "mezzanine.pages.middleware.PageMiddleware",
-    "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
@@ -108,7 +100,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
     'social_auth.context_processors.social_auth_login_redirect',
-    "mezzanine.conf.context_processors.settings",
 )
 
 ROOT_URLCONF = 'app_public.urls'
@@ -126,6 +117,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.flatpages',
     'django.contrib.staticfiles',
     'south',
     'bootstrap_toolkit',
@@ -133,15 +125,6 @@ INSTALLED_APPS = (
     'app_dashboard',
     'social_auth',
     'dajaxice',
-    "mezzanine.boot",
-    "mezzanine.conf",
-    "mezzanine.core",
-    "mezzanine.generic",
-    "mezzanine.blog",
-    "mezzanine.forms",
-    "mezzanine.pages",
-    "mezzanine.galleries",
-    "mezzanine.twitter",
 )
 
 # A sample logging configuration. The only tangible logging

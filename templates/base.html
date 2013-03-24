@@ -1,6 +1,9 @@
+{% load dajaxice_templatetags %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {% dajaxice_js_import %}
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>{% block title %} SSCA {% endblock %}</title>
 
@@ -75,9 +78,9 @@
 
             {% include "join_popups.html" %}
             {% include "renew_popups.html" %}
-
-            {% block content %} {% endblock %}    
-
+            <div class="content_wrapper">
+            {% block content %}{% endblock %}
+            </div>  
             {% include "footer.html" %}
 
         </div>
