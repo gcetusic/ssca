@@ -1,12 +1,19 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from django.contrib.flatpages.models import FlatPage as BaseFlatPage
+from django.contrib.flatpages.models import FlatPage
 
 
-class FlatPage(BaseFlatPage):
-    order = models.PositiveIntegerField(unique=True)
-    picture = models.ImageField(upload_to='pages')
+class Page(FlatPage):
+    picture = models.ImageField(upload_to='pages', null=True, blank=True)
+    show_after = models.ForeignKey('Page',
+        null=True, blank=True, default=None,
+        related_name="flatpage_predecessor",
+        help_text="Page that this one should appear after (if any)")
+    child_of = models.ForeignKey('Page',
+        null=True, blank=True, default=None,
+        related_name="flatpage_parent",
+        help_text="Page that shis one should appear under (if any)")
 
 
 class Subscription(models.Model):
@@ -33,7 +40,7 @@ class Person(models.Model):
     card_expiry_date = models.DateField(required = True)
     card_csv = models.CharField(max_length=3, required = True)
     yearly_total = models.IntegerField()
-    yearly_reniew = models.BooleanField() 
+    yearly_reniew = models.BooleanField()
     total = models.IntegerField()
     """
 
