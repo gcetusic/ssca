@@ -79,6 +79,49 @@
 </div>
 <!-- login modal no registration found ends -->
 
+<!-- login modal transition found begins -->
+<div id="loginModalTransition" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Transition Existing Account</h3>
+    </div>
+    <div style="margin: 20px 30px 30px 30px;">
+        Enter your existing username and password below. In future when you visit SSCA, you will be able to login with google.
+    </div>
+
+    <div style="margin: 15px 50px 20px 30px;">
+        <table width="100%" cellspacing="2" cellpadding="2" border="0">
+            <tr>
+                <td>Username: </td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>Password: </td>
+                <td><input type="password">
+                    <input id="btn_login" class="btn btn-inverse" type="button" value="Log in" style="position: relative; top: -8px;">
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <table width="100%" cellspacing="2" cellpadding="2" border="0">
+            <tr>
+                <td>
+                    <a href="http://openid.net/get-an-openid/what-is-openid" target="_blank" id="whatis_openid"  style="color: #003399;float:left;">Forgot Password</a>
+                </td>
+                <td>
+                    <a data-toggle="modal" href="#modalStep1" data-dismiss="modal" data-toggle="modal" style="color: #003399;">Register with SSCA</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<!-- login modal transition found ends -->
+
 <!-- forgot passward modal begins -->
 <div id="modalForgotPassword" class="modal hide fade">
 
