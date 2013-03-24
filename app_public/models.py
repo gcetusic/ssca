@@ -1,11 +1,18 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from django.contrib.flatpages.models import FlatPage
 
 
+class Image(models.Model):
+    title = models.CharField(max_length=255)
+    file = models.ImageField(upload_to='pages')
+
+    def get_absolute_url(self):
+        return (self.file and self.file.url) or ''
+
+
 class Page(FlatPage):
-    picture = models.ImageField(upload_to='pages', null=True, blank=True)
+    picture = models.ManyToManyField(Image, null=True, blank=True, editable=True)
     show_after = models.ForeignKey('Page',
         null=True, blank=True, default=None,
         related_name="flatpage_predecessor",

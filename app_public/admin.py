@@ -1,9 +1,10 @@
 from django.contrib import admin
-from app_public.models import Person, Account, Subscription
+from app_public.models import Person, Account, Subscription, Image
 from django.contrib.flatpages.admin import FlatpageForm, FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
-
+from django.forms import CheckboxSelectMultiple
+from django.db import models
 from app_public.models import Page
 
 
@@ -26,6 +27,7 @@ class ExtendedFlatPageAdmin(FlatPageAdmin):
 
 admin.site.unregister(FlatPage)
 admin.site.register(Page, ExtendedFlatPageAdmin)
+admin.site.register(Image)
 admin.site.register(Person)
 admin.site.register(Account)
 admin.site.register(Subscription)
