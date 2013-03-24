@@ -14,7 +14,10 @@ class ExtendedFlatPageForm(FlatpageForm):
 
 class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
-    fieldsets = ((None, {'fields': ('url', 'title', 'content', 'picture', 'show_after', 'child_of', 'sites')}),)
+    fieldsets = (
+        (None, {'fields': ('url', 'title', 'content', 'picture', 'sites')}),
+        (('Advanced options'), {'classes': ('collapse',), 'fields': ('enable_comments', 'registration_required', 'template_name')}),
+    )
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
