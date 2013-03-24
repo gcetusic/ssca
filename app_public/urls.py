@@ -43,7 +43,7 @@ urlpatterns = patterns('',
     # Renew
     url(r'^renew/', renew),
 
-    url('^pages/', include('django.contrib.flatpages.urls')),
+    ('^pages/', include('django.contrib.flatpages.urls')),
 )
 
 if settings.DEBUG:
