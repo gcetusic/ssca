@@ -3,6 +3,46 @@ from django.db import models
 from django.contrib.flatpages.models import FlatPage
 
 
+class MenuItem(models.Model):
+    title = models.CharField(max_length=100)
+    show_after = models.ForeignKey('self',
+        null=True, blank=True, default=None,
+        related_name="predecessor")
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='child')
+
+    def _recurse_for_parents(self, cat_obj):
+        p_list = []
+        if cat_obj.parent_id:
+            p = cat_obj.parent
+            p_list.append(p.title)
+            more = self._recurse_for_parents(p)
+            p_list.extend(more)
+        if cat_obj == self and p_list:
+            p_list.reverse()
+        return p_list
+
+    def get_separator(self):
+        return ' -> '
+
+    def _parents_repr(self):
+        p_list = self._recurse_for_parents(self)
+        return self.get_separator().join(p_list)
+    _parents_repr.short_description = "Category parents"
+
+    def _pre_save(self):
+        p_list = self._recurse_for_parents(self)
+        if self.title in p_list:
+            raise "You must not save a category in itself!"
+
+    def __repr__(self):
+        p_list = self._recurse_for_parents(self)
+        p_list.append(self.title)
+        return self.get_separator().join(p_list)
+
+    def __unicode__(self):
+        return u'%s' % (self.__repr__())
+
+
 class Image(models.Model):
     title = models.CharField(max_length=255)
     file = models.ImageField(upload_to='pages')
@@ -17,7 +57,7 @@ class Page(FlatPage):
         null=True, blank=True, default=None,
         related_name="flatpage_predecessor",
         help_text="Page that this one should appear after (if any)")
-    child_of = models.ForeignKey('Page',
+    child_of = models.ManyToManyField(MenuItem,
         null=True, blank=True, default=None,
         related_name="flatpage_parent",
         help_text="Page that shis one should appear under (if any)")
