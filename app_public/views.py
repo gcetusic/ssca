@@ -2,6 +2,7 @@ from django.contrib.auth import logout
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
+from django.template import RequestContext
 from app_public.models import Person, Account
 from datetime import datetime
 from decimal import *

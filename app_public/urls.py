@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.conf import settings
 from app_public.views import *
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
-from mezzanine.core.views import direct_to_template
 
 dajaxice_autodiscover()
 
