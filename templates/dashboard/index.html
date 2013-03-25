@@ -3,10 +3,16 @@
 {% block title %} Welcome to the Dashboard {% endblock %}
 
 {% block auth_form %}
-<div>
-    <form class="pull-right form-inline" action="">
-        <button type="submit" class="btn btn-inverse" style="font-size:12px;" data-toggle="modal">Logout</button>
-    </form>
+<div style="float: right">
+    <ul class="nav">
+        <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Demo User<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">View Profile</a></li>
+            <li><a href="#">Edit Profile</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+        </li>
+    </ul>
 </div>
 {% endblock %}
  
