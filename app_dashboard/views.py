@@ -178,3 +178,8 @@ def find_member(request):
                 }}}})
 
         return HttpResponse(results)
+
+
+def dashboard_test_mockup(request):
+    """ test view for dashboard mockup """
+    return render_to_response('dashboard/index.html')

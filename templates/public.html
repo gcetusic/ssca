@@ -6,46 +6,58 @@
 {% block auth_form %}
   <div>
     <form class="pull-right form-inline" action="">
-      <input type="text" class="input-small menu-log" placeholder="Email" style="margin:7px 0 0 0; font-size:12px;">
-      <input type="password" class="input-small menu-log" placeholder="Password" style="margin:7px 0 0 0; font-size:12px;">
-      <button type="submit" class="btn" style="font-size:12px;">Log in</button>
+        <button type="submit" class="btn btn-inverse" style="font-size:12px;" data-toggle="modal" href="#loginModal1">Log in</button>
     </form>
   </div>
 {% endblock %}
 
-  
- {% block content %}
-  <div class="hero-unit">
-    <div class="row-fluid" style="border: solid 0px blue;">
-      <div class="span12">
-        <div class="row-fluid">
-            <div class="span7 homae-rig">
-              <h1>{% block page_title %}{% endblock %}</h1>
-              {% block page_content %}
-                <P>For as long as mankind has memory, we have been entranced by the sea. The need to know what lies beyond the next wave and over the far horizon is pervasive. Many dream of tropical blue skies, balmy breezes, ever-gentle waves and cruising to exotic ports. Those who are living the dream and those who are planning for the day that they can release the ties to the workaday world and head off to seek paradise as well as those who only dream of such adventure join together in an organization called the Seven Seas Cruising Association</P>
-                <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
-                <p>We share information in a variety of ways including through our monthly Commodores’ Bulletin, our website, our gams and more. Based on the sharing tradition of our founders, SSCA is the key resource for cruising information. "No other organization in the world has anywhere near the collective long-distance cruising experience and wisdom that is embodied in SSCA," say SSCA members Terri and Nigel Calder, Nada.</p>
-                <p>While SSCA has celebrated 60 years of launching cruising dreams some things have changed over the years. Our passion for cruising has stayed the same. Even long time members are surprised at the extensive benefits that have been added to their membership and the ease of accessing these benefits from anywhere in the world. Take a Virtual Tour (link) to see what membership in SSCA offers you.</p>
-                <p>Camaraderie is another cornerstone of SSCA. Wherever members gather, they organize get-togethers and exchange cruising information. SSCA sponsors gams (a gathering of cruisers) throughout the world.</p>
-                <p>SSCA is a caring, supportive family of kindred spirits, ready to assist fellow cruisers when needed. We are individuals who share a unique way of life and celebrate international fellowship and goodwill. We aspire to the fulltime cruising lifestyle. We are independent and responsible people who pride ourselves on our self-reliance and conduct ourselves with integrity. We treat all people and our environment respectfully. We are ambassadors of a cruising fraternity and want to ensure that those following in our wake will be warmly welcomed.</p>
-                <p>It’s the famous "SSCA Clean Wake" policy, which has helped raise the reputation of today's sea-gypsies around the world, ensuring that the welcome mat will be out for all cruisers who following in the wake of a fellow SSCA member.</p>
-                <p>Beth Leonard and Evans Starzinger, Hawk, are true ambassadors of the SSCA Clean Wake policy. They add, "SSCA provided us with invaluable information and an instant support network when we were new to cruising and most in need of both—and SSCA allows us to do the same for others who are following in our wake."</p>
-              {% endblock %}
-            </div>
-          
-          {% block events %}
-          <div class="span5">
-            <div class="thumbnail">
-              {% block page_picture %}
-              <img src="/static/images/right_main.png" alt="">
-              {% endblock %}
-            </div>
-            <div class="con-right-bottom-con">
-              <h1>UPCOMING EVENTS</h1>
-              <div class="con-right-bott">
-                <ul>
-                </ul>
-              </div>
+{% block content %}
+
+<div class="content_wrapper">
+    <div class="hero-unit" style="padding: 2px; margin-bottom: 2px;">
+        <div class="row-fluid" style="border: solid 0px blue;">
+            <div class="span12">
+                <div class="row-fluid">
+
+                    {% block main_content %}
+                    <div class="span7 homae-rig">
+                      <h1>{% block page_title %}<h1>WELCOME TO SSCA</h1>{% endblock %}</h1>
+                      {% block page_content %}
+                        <P>For as long as mankind has memory, we have been entranced by the sea. The need to know what lies beyond the next wave and over the far horizon is pervasive. Many dream of tropical blue skies, balmy breezes, ever-gentle waves and cruising to exotic ports. Those who are living the dream and those who are planning for the day that they can release the ties to the workaday world and head off to seek paradise as well as those who only dream of such adventure join together in an organization called the Seven Seas Cruising Association</P>
+                        <p>Seven Seas Cruising Association is the largest organization of voyaging cruisers in the world. All of us share the dream of cruising the seas as a lifestyle. Founded in 1952, SSCA is also one of the oldest organizations of cruisers in the world. The goals of the original six founders are still the goals of SSCA today: sharing cruising information, camaraderie and leaving a clean wake. Whether you're a dreamer, a weekend cruiser, an offshore passage maker or somewhere in between, SSCA offers key benefits to enhance your cruising life.</p>
+                        <p>We share information in a variety of ways including through our monthly Commodores’ Bulletin, our website, our gams and more. Based on the sharing tradition of our founders, SSCA is the key resource for cruising information. "No other organization in the world has anywhere near the collective long-distance cruising experience and wisdom that is embodied in SSCA," say SSCA members Terri and Nigel Calder, Nada.</p>
+                        <p>While SSCA has celebrated 60 years of launching cruising dreams some things have changed over the years. Our passion for cruising has stayed the same. Even long time members are surprised at the extensive benefits that have been added to their membership and the ease of accessing these benefits from anywhere in the world. Take a Virtual Tour (link) to see what membership in SSCA offers you.</p>
+                        <p>Camaraderie is another cornerstone of SSCA. Wherever members gather, they organize get-togethers and exchange cruising information. SSCA sponsors gams (a gathering of cruisers) throughout the world.</p>
+                        <p>SSCA is a caring, supportive family of kindred spirits, ready to assist fellow cruisers when needed. We are individuals who share a unique way of life and celebrate international fellowship and goodwill. We aspire to the fulltime cruising lifestyle. We are independent and responsible people who pride ourselves on our self-reliance and conduct ourselves with integrity. We treat all people and our environment respectfully. We are ambassadors of a cruising fraternity and want to ensure that those following in our wake will be warmly welcomed.</p>
+                        <p>It’s the famous "SSCA Clean Wake" policy, which has helped raise the reputation of today's sea-gypsies around the world, ensuring that the welcome mat will be out for all cruisers who following in the wake of a fellow SSCA member.</p>
+                        <p>Beth Leonard and Evans Starzinger, Hawk, are true ambassadors of the SSCA Clean Wake policy. They add, "SSCA provided us with invaluable information and an instant support network when we were new to cruising and most in need of both—and SSCA allows us to do the same for others who are following in our wake."</p>
+                      {% endblock %}
+                    </div>
+                    {% endblock %}
+
+                    {% block events %}
+                    <div class="span5">
+                        <div class="row-fluid">
+                        <div class="thumbnail" >{% block page_picture %}<img src="/static/images/right_main.png" class="img-rounded" alt="Seven Seas Cruising Association">{% endblock %}
+                        </div>
+                        <div class="con-right-bottom-con span12">
+                            <h1>UPCOMING EVENTS</h1>
+                            <div class="con-right-bott">
+                                <ul>
+                                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
+                                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
+                                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
+                                    <li><a href="#">12/7 - Melbourne GAM and Annual Meeting</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="ssibottom"><a href="#">View Calender</a> </div>
+                    </div>
+                    </div>
+                    {% endblock %}
+
+
+                </div>
             </div>
             <div class="ssibottom"><a href="#">View Calender</a> </div>
           </div>

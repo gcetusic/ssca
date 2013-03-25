@@ -44,6 +44,7 @@
 
         {% include "join_head.html" %}
         {% include "renew_head.html" %}
+        {% include "login_head.html" %}
 
         {% block extra_js %}{% endblock %}    
         {% block extra_css %}{% endblock %}    
@@ -54,14 +55,34 @@
             body {
                 position: relative;
                 padding-top: 0px;
-                background: #222222;
+                background: #fff;
+            }
+            ul.nav li.dropdown:hover > ul.dropdown-menu{
+                display: block;    
+            }
+            .hero-unit {
+                box-shadow: 0 0 5px #aaaaaa;
+            }
+
+            /* search bar */
+            .navbar-search {
+                position: relative;
+            }
+
+            .navbar-search .search-query {
+                padding-left: 29px;
+            }
+
+            .navbar-search .icon-search {
+                position: absolute;
+                top: 7px;
+                left: 11px;
+                background-image: url("http://twitter.github.com/bootstrap/assets/img/glyphicons-halflings.png");
             }
         </style>
     </head>
     <body>
         <div class="container">
-
-            <!-- todo fix navbar unwanted top space -->
             <div style="position: static;top: 10px;" class="navbar navbar-inverse">
                 <div class="navbar-inner">
                     <div class="container con-menu">
@@ -78,9 +99,17 @@
 
             {% include "join_popups.html" %}
             {% include "renew_popups.html" %}
-            <div class="content_wrapper">
-            {% block content %}{% endblock %}
-            </div>  
+
+            {% include "login_popups.html" %}
+
+            {% if error_type == "PersonDoesNotExist" %}
+            <script>
+                $("#loginModalNoRegistrationFound").modal('show');
+            </script>
+            {% endif %}
+
+            {% block content %} {% endblock %}    
+
             {% include "footer.html" %}
 
         </div>

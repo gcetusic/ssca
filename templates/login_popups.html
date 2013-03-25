@@ -1,0 +1,142 @@
+<!-- login modal 1 begins -->
+<div id="loginModal1" class="modal hide fade">
+
+    <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Login using OpenID</h3>
+    </div>
+
+    <table width="100%" cellspacing="2" cellpadding="2" border="0">
+        <tr>
+            <td width="60%"> 
+                <div class="control-group" style="margin: 50px 0px;">
+                    <div class="controls" style="float:left;width: 100px;">
+                        <label class="control-label" for="signin" style="text-align: right;padding: 6px 5px 0px 0px;">Sign in with:</label>
+                    </div>
+                    <div class="controls">
+                        <form class="form-inline" action="">
+                            <select id="providers" name="providers_list" style="width: 150px;">
+                                <option value="">Select a Provider</option>
+                                <option value="{% url socialauth_begin 'google' %}">Login with Google</option>
+                                <option value="" disabled="disabled">Login with Yahoo</option>
+                                <option value="" disabled="disabled">Login with AOL</option>
+                            </select>
+                            <input id="btn_login" class="btn btn-inverse" type="button" value="Log in" style="position: relative; top: -2px;">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls" style="margin-left: 20px;">
+                        <a data-toggle="modal" href="#modalStep1" data-dismiss="modal" data-toggle="modal" style="color: #003399;">Register with SSCA</a>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls" style="margin: 0px 0px 50px 20px;">
+                        <a href="http://openid.net/get-an-openid/what-is-openid" target="_blank" id="whatis_openid"  style="color: #003399;">What is OpenID?</a>
+                    </div>
+                </div>
+            </td>
+            <td align="left" width="40%"> 
+                <img src="/static/images/ssca_login.png" class="img-rounded" width="200" height="200">
+            </td>
+        </tr>
+    </table>
+
+</div>
+<!-- login modal 1 ends -->
+
+<!-- login modal no registration found begins -->
+<div id="loginModalNoRegistrationFound" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>OpenId is not active</h3>
+    </div>
+
+    <div class="modal-body">
+        Your Google OpenId is not associated with an SSCA Account. If you are an existing SSCA member,<br>
+        and this is the first time you have logged into the new site, click here.<br><br>
+
+        Otherwise you may need to register a new SSCA Account.
+    </div>
+    <div style="margin: 0px 15px 15px 15px;">
+        <table width="100%" cellspacing="2" cellpadding="2" border="0">
+            <tr>
+                <td width="60%"> 
+                    <a data-toggle="modal" href="#modalStep1" data-dismiss="modal" data-toggle="modal" style="color: #003399;">Register with SSCA</a><br>
+                    <a href="http://openid.net/get-an-openid/what-is-openid" target="_blank" id="whatis_openid"  style="color: #003399;">What is OpenID?</a>
+                </td>
+                <td width="40%"> 
+                    Contact office@ssca.org if you need assistance.
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<!-- login modal no registration found ends -->
+
+<!-- login modal transition found begins -->
+<div id="loginModalTransition" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Transition Existing Account</h3>
+    </div>
+    <div style="margin: 20px 30px 30px 30px;">
+        Enter your existing username and password below. In future when you visit SSCA, you will be able to login with google.
+    </div>
+
+    <div style="margin: 15px 50px 20px 30px;">
+        <table width="100%" cellspacing="2" cellpadding="2" border="0">
+            <tr>
+                <td>Username: </td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>Password: </td>
+                <td><input type="password">
+                    <input id="btn_login" class="btn btn-inverse" type="button" value="Log in" style="position: relative; top: -8px;">
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <table width="100%" cellspacing="2" cellpadding="2" border="0">
+            <tr>
+                <td>
+                    <a href="http://openid.net/get-an-openid/what-is-openid" target="_blank" id="whatis_openid"  style="color: #003399;float:left;">Forgot Password</a>
+                </td>
+                <td>
+                    <a data-toggle="modal" href="#modalStep1" data-dismiss="modal" data-toggle="modal" style="color: #003399;">Register with SSCA</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<!-- login modal transition found ends -->
+
+<!-- forgot passward modal begins -->
+<div id="modalForgotPassword" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Forgot Password</h3>
+    </div>
+    <div class="control-group" style="margin: 15px 30px 30px 30px;">
+        Enter the email associated with your SSCA Account below.
+    </div>
+
+    <div style="margin: 15px 30px 50px 30px;">
+        <form class="form-inline" action="">
+            Email: <input type="text"> <input class="btn btn-inverse" type="submit" value="Send Password" style="position: relative; top: -2px;">
+        </form>
+    </div>
+</div>
+<!-- forgot passward modal ends -->
