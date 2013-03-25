@@ -79,7 +79,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'app_public.middleware.SSCAPageMiddleware',
 )
 
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"

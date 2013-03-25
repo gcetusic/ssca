@@ -50,6 +50,12 @@ class Image(models.Model):
     def get_absolute_url(self):
         return (self.file and self.file.url) or ''
 
+    def render(self):
+        return """<img src="%s" alt="">""" % self.get_absolute_url()
+
+    def __unicode__(self):
+        return (self.file and self.file.url) or ''
+
 
 class Page(FlatPage):
     picture = models.ManyToManyField(Image, null=True, blank=True, editable=True)
@@ -62,6 +68,7 @@ class Page(FlatPage):
         related_name="flatpage_parent",
         help_text="Page that shis one should appear under (if any)")
 
+
 class Subscription(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
@@ -73,14 +80,16 @@ class Account(models.Model):
     # TODO i don't think this should have a user...should it?
     user = models.ForeignKey(User)
     subscription = models.ForeignKey(Subscription)
+
     def __unicode__(self):
         return u'%s' % (self.user.username)
+
 
 class Person(models.Model):
     user = models.ForeignKey(User)
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
-    friend =  models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
 
     # FIXME - need to determine how to store this info in db
     # encrypt or hash ?
@@ -93,9 +102,11 @@ class Person(models.Model):
     total = models.IntegerField()
     """
 
+
 class Relationship(models.Model):
     from_person = models.ForeignKey(Person, related_name='from_people')
     to_person = models.ForeignKey(Person, related_name='to_people')
+
 
 # this is just so that the app-wide sample data works (we don't have data for it yet)
 class Dev(models.Model):
