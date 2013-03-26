@@ -1,5 +1,6 @@
 import json
 from dajaxice.decorators import dajaxice_register
+from app_public.views import sscapage
 
 
 @dajaxice_register(method='GET')
@@ -32,3 +33,8 @@ def get_args(request, foo):
 @dajaxice_register(method='GET')
 def get_public(request, id):
     pass
+
+
+@dajaxice_register(method='GET')
+def sscapage_ajax(request, page=None):
+    return sscapage(request, page)

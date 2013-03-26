@@ -9,3 +9,4 @@ django-bootstrap-toolkit
 django-social-auth
 pytz
 wadofstuff-django-serializers
+django-dajaxice

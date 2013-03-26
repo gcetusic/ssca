@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from app_public.views import *
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 
@@ -43,6 +44,8 @@ urlpatterns = patterns('',
 
     ('^pages/', include('django.contrib.flatpages.urls')),
 )
+
+urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:
     urlpatterns = patterns('',

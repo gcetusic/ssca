@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_protect
 from app_public.models import Person, Account, Page
 from datetime import datetime
 from decimal import *
+import json
 from app_public.forms import SSCAJoinForm
 
 
@@ -88,6 +89,7 @@ def join(request):
     c = {'form': form, 'basic_mail_cost': 55}
     return render_to_response('join.html', c)
 
+
 def renew(request):
     """
     Function handles renew popups.
@@ -120,11 +122,6 @@ def render_page(request, f):
     """
     Internal interface to the flat page view.
     """
-    # If registration is required for accessing this page, and the user isn't
-    # logged in, redirect to the login page.
-    if f.registration_required and not request.user.is_authenticated():
-        from django.contrib.auth.views import redirect_to_login
-        return redirect_to_login(request.path)
     if f.template_name:
         t = loader.select_template((f.template_name, DEFAULT_TEMPLATE))
     else:
@@ -140,7 +137,6 @@ def render_page(request, f):
     if f.picture.exists():
         picture = mark_safe(f.picture.order_by('?')[0].render())
 
-    print picture
     c = RequestContext(request, {
         'page': f,
         'picture': picture
@@ -148,6 +144,26 @@ def render_page(request, f):
 
     response = HttpResponse(t.render(c))
     populate_xheaders(request, response, Page, f.id)
+    return response
+
+
+def render_page_ajax(request, f):
+    # To avoid having to always use the "|safe" filter in flatpage templates,
+    # mark the title and content as already safe (since they are raw HTML
+    # content in the first place).
+    f.title = mark_safe(f.title)
+    f.content = mark_safe(f.content)
+
+    picture = None
+    if f.picture.exists():
+        picture = mark_safe(f.picture.order_by('?')[0].render())
+
+    response = json.dumps({
+        'title': f.title,
+        'content': f.content,
+        'picture': picture
+    })
+
     return response
 
 
@@ -162,17 +178,26 @@ def sscapage(request, url):
         flatpage
             `flatpages.flatpages` object
     """
+
     if not url.startswith('/'):
         url = '/' + url
     try:
-        f = get_object_or_404(Page,
-            url__exact=url, sites__id__exact=settings.SITE_ID)
+        f = get_object_or_404(Page, url__exact=url, sites__id__exact=settings.SITE_ID)
     except Http404:
         if not url.endswith('/') and settings.APPEND_SLASH:
             url += '/'
-            f = get_object_or_404(Page,
-                url__exact=url, sites__id__exact=settings.SITE_ID)
+            f = get_object_or_404(Page, url__exact=url, sites__id__exact=settings.SITE_ID)
             return HttpResponsePermanentRedirect('%s/' % request.path)
         else:
             raise
-    return render_page(request, f)
+
+    # If registration is required for accessing this page, and the user isn't
+    # logged in, redirect to the login page.
+    if f.registration_required and not request.user.is_authenticated():
+        from django.contrib.auth.views import redirect_to_login
+        return redirect_to_login(request.path)
+
+    if request.is_ajax():
+        return render_page_ajax(request, f)
+    else:
+        return render_page(request, f)
