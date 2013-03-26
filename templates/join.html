@@ -3,14 +3,14 @@
 {% block title %} Join/Renew {% endblock %}
 
 {% block extra_css %}
-    <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
-    <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
 
     <style>
         label.valid {
             width: 24px;
             height: 24px;
-            background: url(/static/images/valid.png) center center no-repeat;
+            background: url({{ STATIC_URL }}images/valid.png) center center no-repeat;
             display: inline-block;
             text-indent: -9999px;
         }
@@ -23,9 +23,9 @@
 {% endblock %} 
 
 {% block extra_js %}
-    <script src="/static/bootstrap_toolkit/js/jquery.validate.min.js"></script>
-    <script src="/static/assets/js/bootstrap-datepicker.js"></script>
-    <script src="/static/admin/js/creditcard.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap_toolkit/js/jquery.validate.min.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/bootstrap-datepicker.js"></script>
+    <script src="{{ STATIC_URL }}admin/js/creditcard.js"></script>
 
     <script>		
         var yearlyTotal = {{ basic_mail_cost }};
@@ -443,7 +443,7 @@
                       <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
                           <input class="span2" size="16" type="text" value="" readonly="" name="date">
                           <span class="add-on">
-                              <img src="/static/images/calendar.png" alt="calendar" class="icon-calendar" data-date-format="yyyy-mm-dd" data-date="2012-02-20">
+                              <img src="{{ STATIC_URL }}images/calendar.png" alt="calendar" class="icon-calendar" data-date-format="yyyy-mm-dd" data-date="2012-02-20">
                           </span>
                       </div>
                       &nbsp;&nbsp;

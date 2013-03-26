@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block head %}
-    <link href="/static/bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
-    <link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
-    <link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/bootstrap.css" rel="stylesheet"> 
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
 	
-    <script src="/static/bootstrap_toolkit/js/jquery.js"></script>
-    <script src="/static/bootstrap_toolkit/js/bootstrap-transition.js"></script>
-    <script src="/static/bootstrap_toolkit/js/bootstrap-modal.js"></script>
-    <script src="/static/bootstrap_toolkit/js/bootstrap-datepicker.js"></script>
-    <script src="/static/admin/js/creditcard.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap_toolkit/js/jquery.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap_toolkit/js/bootstrap-transition.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap_toolkit/js/bootstrap-modal.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap_toolkit/js/bootstrap-datepicker.js"></script>
+    <script src="{{ STATIC_URL }}admin/js/creditcard.js"></script>
     <script>
         function doRenew() {
             alert("renew todo");

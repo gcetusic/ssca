@@ -1,11 +1,11 @@
-<link href="/static/bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
-<link href="/static/bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+<link href="{{ STATIC_URL }}bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+<link href="{{ STATIC_URL }}bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
 
 <style>
     label.valid {
         width: 24px;
         height: 24px;
-        background: url(/static/images/valid.png) center center no-repeat;
+        background: url({{ STATIC_URL }}images/valid.png) center center no-repeat;
         display: inline-block;
         text-indent: -9999px;
     }
@@ -16,9 +16,9 @@
     }
 </style>
 
-<script src="/static/bootstrap_toolkit/js/jquery.validate.min.js"></script>
-<script src="/static/assets/js/bootstrap-datepicker.js"></script>
-<script src="/static/admin/js/creditcard.js"></script>
+<script src="{{ STATIC_URL }}bootstrap_toolkit/js/jquery.validate.min.js"></script>
+<script src="{{ STATIC_URL }}assets/js/bootstrap-datepicker.js"></script>
+<script src="{{ STATIC_URL }}admin/js/creditcard.js"></script>
 
 <script>		
     var yearlyTotal = {{ basic_mail_cost }};

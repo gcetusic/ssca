@@ -38,7 +38,7 @@
                     {% block events %}
                     <div class="span5">
                         <div class="row-fluid">
-                        <div class="thumbnail" >{% block page_picture %}<img src="/static/images/right_main.png" class="img-rounded" alt="Seven Seas Cruising Association">{% endblock %}
+                        <div class="thumbnail" >{% block page_picture %}<img src="{{ STATIC_URL }}images/right_main.png" class="img-rounded" alt="Seven Seas Cruising Association">{% endblock %}
                         </div>
                         <div class="con-right-bottom-con span12">
                             <h1>UPCOMING EVENTS</h1>
@@ -56,12 +56,10 @@
                     </div>
                     {% endblock %}
 
-
                 </div>
             </div>
             <div class="ssibottom"><a href="#">View Calender</a> </div>
           </div>
-          {% endblock %}
         </div>
     </div>
 </div>
