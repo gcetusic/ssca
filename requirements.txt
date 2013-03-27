@@ -1,14 +1,12 @@
 django==1.4.2
 paste
 distribute>=0.6.28
-MySQL-python>=1.2.3
+MySQL-python
 south
-django-cms
-django-mptt
 pil
 django-bootstrap-toolkit
 #-e git://github.com/divio/django-cms.git@2.3.4#egg=django-cms
 django-social-auth
 pytz
 wadofstuff-django-serializers
-simplejson
+django-dajaxice
