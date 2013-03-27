@@ -7,7 +7,7 @@
     <div class="modal-body">
         <h4>Subscribe to SSCA (Step 1 of 3)</h4>
         <p>If you were a subscriber in the past and would like to renew, 
-            <a data-toggle="modal" href="#modalRenew" data-dismiss="modal" data-toggle="modal">click here</a>
+            <a data-toggle="modal" href="#modalRenew" data-dismiss="modal" data-toggle="modal" style="color: #003399;">click here</a>
         </p>
         <br>
         <p>Joining SSCA is quick and easy. You'll be logged in within 5 minutes.</p>
@@ -183,9 +183,63 @@
     <table width="100%">
         <tr>
             <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
-                <button class="btn btn-primary" onclick="validateStep3();">Pay and Login</button>
+                <a id="a_step4" href="return validateStep3();" class="btn btn-primary" onclick="return validateStep3();">Pay and Login</a>
             </td>
         </tr>
     </table>          
 </div>
 <!-- Step 3 dialog ends -->
+
+<!-- Step 4 dialog begins -->
+<div id="modalStep4" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Thank you</h3>
+    </div>
+    <div class="control-group" style="padding: 10px; margin: 20px 40px;">
+        We have sent an email to <span id="to_email">xxx@yyy.com</span> with a payment receipt,<br>
+        and a link to complete the registration process. <br><br>
+        <b>IMPORTANT</b> - You must click on the link within 24 hours to activate your account.<br>
+        If you do not receive an email within 5 minutes, <br>
+        please contact us at office@ssca.org.
+    </div>
+</div>
+<!-- Step 4 dialog ends -->
+
+<!-- modal register openid begins -->
+<div id="modalRegisterOpenId" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>OpenId Registration</h3>
+    </div>
+
+    <div class="modal-body">
+        <h4>Associate an OpenId with your account</h4>
+    </div>
+
+    <div class="control-group" style="padding: 10px; margin: 20px;">
+        Instead of requiring you to remember yet another username and password, SSCA uses the <a href="" style="color: #003399;">OpenId</a> system.
+        When you visit SSCA, we'll request your identity from the provider of your choice for a simple, one-click, secure login process.<br><br>
+
+    To get started, please select which provider you'd like to use. If you do not have an existing account with any of these websites, then choose "Other".
+    Other SSCA members will not be able to see which provider you use.<br><br>
+
+    Use my:
+    <select id="providers" name="providers_list" style="width: 150px;">
+        <option value="{% url socialauth_begin 'google' %}">Google</option>
+        <option value="" disabled="disabled">Yahoo</option>
+        <option value="" disabled="disabled">AOL</option>
+    </select>
+    account as my <a href="" style="color: #003399;">OpenId</a><br><br>
+
+    When you click the button below, we'll send you to Google to authenticate. Once you have signed in, you will be redirected back to the SSCA site.
+
+    </div>
+
+    <div class="modal-footer">
+        <a href="http://openidexplained.com/" target="_blank" style="color: #003399;float: left;">Why OpenId is secure ?</a>
+        <a id="" href="" class="btn btn-primary" onclick="return false;">Associate Identity</a>
+    </div>
+</div>
+<!-- modal register openid ends -->

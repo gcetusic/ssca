@@ -115,6 +115,9 @@ def load_samples():
                 virtualenv(fixture_path, './manage.py loaddata ' + os.path.join(fixture_path, fixture))
                 print "Loaded data from %s" % os.path.join(fixture_path, fixture)
 
+def clean():
+    local('find . -name \*.pyc -exec rm {} \;')
+
 def create_virtualenv():
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
     args = '--no-site-packages --clear --distribute'

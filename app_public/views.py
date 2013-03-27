@@ -22,7 +22,7 @@ def post_auth_process(request, backend, *args, **kwargs):
 
     try:  # Get the identity from the response returned by the OpenId provider.
         openid_identity = request.REQUEST['openid.identity']
-        print openid_identity
+        print "------> openid=", openid_identity
 
         try:  # Check whether an user exists with this Identity.
             person = Person.objects.get(identity=openid_identity)
@@ -47,12 +47,7 @@ def post_auth_process(request, backend, *args, **kwargs):
         }
 
         except Person.DoesNotExist:
-            # TODO: If an user with such identity not exists, register the new user
-            # For now, just show the message that the user is not registered.
-                message = {
-                            'title': 'No registration found',
-                            'description': 'You seem to be not registered. Please register with your details.'
-                }
+            return render_to_response('public.html', {"error_type": "PersonDoesNotExist"})
 
         except Account.DoesNotExist:
             # If the user has no subscription yet, ask him to subscribe.
