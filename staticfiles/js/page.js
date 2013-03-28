@@ -20,7 +20,7 @@ function load_page(page) {
 
 	$("#page_picture").fadeToggle(function () {
 		$(this).html(page.picture);
-		$(this).addClass('img-rounded');
 		$(this).fadeToggle();
+		$(this).children('img').addClass('img-rounded');
 	});
 }
