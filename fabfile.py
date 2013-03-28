@@ -159,13 +159,13 @@ def virtualenv(directory, command):
     with cd(directory):
         if (env.local):
             local(command)
-#            local(activate() + ' && ' + command)
+            local(activate() + ' && ' + command)
         else:
             run(activate() + ' && ' + command)
 
 
 def activate():
-    return 'export DEPLOYMENT_ENV="%(environment)s" && source %(virtualenv_root)s/bin/activate' % env
+    return 'export DEPLOYMENT_ENV="%(environment)s" && . %(virtualenv_root)s/bin/activate' % env
 
 
 def touch():
