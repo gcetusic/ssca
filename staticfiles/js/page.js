@@ -8,8 +8,19 @@ $(document).ready(function () {
 
 
 function load_page(page) {
-	$('#page_title').html(page.title);
-	$('#page_content').html(page.content);
-	$('#page_picture').html(page.picture);
-	$('#page_picture > img').addClass('img-rounded');
+	$("#page_title").fadeToggle(function () {
+		$(this).html(page.title);
+		$(this).fadeToggle();
+	});
+
+	$("#page_content").fadeToggle(function () {
+		$(this).html(page.content);
+		$(this).fadeToggle();
+	});
+
+	$("#page_picture").fadeToggle(function () {
+		$(this).html(page.picture);
+		$(this).addClass('img-rounded');
+		$(this).fadeToggle();
+	});
 }
