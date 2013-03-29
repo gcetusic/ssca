@@ -34,6 +34,15 @@ def dev():
         utils.abort('Create your own dev env; see dev_rfirmin for example')
 
 
+def dev_evgeny():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.home = os.path.abspath(os.path.dirname(__file__))
+    env.git_branch = 'develop_evgeny'
+    _setup_path()
+
+
 def dev_navjot():
     env.dev = True
     dev()
