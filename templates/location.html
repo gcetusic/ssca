@@ -1,0 +1,54 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.maskedinput.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+      $('#location').mask('W99, N99',{placeholder:" "});
+
+      $("#globe").click(function() {
+  		alert("clicked on globe");
+	});
+
+      onhover = function() {
+    		    /*to make this flexible, I'm storing the current width in an attribute*/
+		    $(this).val('23 23 23 53 53 53');
+		    $(this).attr('data-default', $(this).width());
+		    $('#location').mask('W99 99.99, N99 99.99',{placeholder:" "});
+		    $(this).animate({ width: 145 }, 'slow');
+		};
+	onblur=function() {
+	    		    /* lookup the original width */
+			    var w = $(this).attr('data-default');
+			    $(this).val('23 53');
+			    $('#location').mask('W99, N99',{placeholder:" "});		    
+			    $(this).animate({ width: w }, 'slow');
+			    
+	  };
+
+      $('#location').focus(onhover).blur(onblur)
+      .keypress(function(event) {
+	  if ( event.which == 13 ) {
+	     alert('validate');
+	   }
+		});
+
+   });
+</script>
+
+<style>
+  #location{
+  	border-style:solid;
+	border-width:0px;
+	vertical-align:middle;
+	width: 70px;
+  }
+  #globe{
+  	vertical-align:middle;
+  	display: inline-block;
+  }
+ </style>
+
+<div><img src="/static/images/globe_black.png" id="globe"/>
+	<div style="display:inline-block;">
+    <input type="text" id="location" style="width: 70px;" />
+</div>
+</div>

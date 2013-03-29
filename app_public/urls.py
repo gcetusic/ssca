@@ -43,6 +43,8 @@ urlpatterns = patterns('',
     url(r'^renew/', renew),
 
     ('^pages/', include('django.contrib.flatpages.urls')),
+
+    url(r'^location/', 'django.views.generic.simple.direct_to_template', {'template': 'location.html'})
 )
 
 urlpatterns += staticfiles_urlpatterns()
