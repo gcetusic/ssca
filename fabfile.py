@@ -86,6 +86,30 @@ def build():
     """ Rebuild. Don't be alarmed if it fails on south, if no models have changed """
     update_requirements()
     update_db('auto', False)
+    load_samples()
+
+def load_samples():
+    for app in env.apps:
+        fixture_dirs = ['fixtures']
+        if (env.dev):
+            fixture_dirs.append('fixtures/dev')
+
+        print ">>>> Loading fixtures for ",app['name']
+        fixture_paths = []
+        for fixture_dir in fixture_dirs:
+            fixture_paths.append(os.path.join(app['code_root'], fixture_dir))
+
+        for fixture_path in fixture_paths:
+            fixtures = os.listdir(fixture_path)
+
+            for fixture in fixtures:
+                print ">>>>> Loading ",fixture
+                manage(app, 'loaddata ' + os.path.join(fixture_path, fixture))
+                print "Loaded data from %s" % os.path.join(fixture_path, fixture)
+
+def clean():
+    local('find . -name \*.pyc -exec rm {} \;')
+>>>>>>> fa37ef8... use absolute path for manage
 
 def create_virtualenv():
     """ setup virtualenv on remote host """
