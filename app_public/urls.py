@@ -37,8 +37,7 @@ urlpatterns = patterns('',
     # Social Auth URLs
     url(r'^accounts/', include('social_auth.urls')),
 
-    url(r'^', include('cms.urls')),
-
+    ('^pages/', include('django.contrib.flatpages.urls')),
 )
 
 if settings.DEBUG:
