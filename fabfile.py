@@ -116,7 +116,10 @@ def load_samples():
                 print "Loaded data from %s" % os.path.join(fixture_path, fixture)
 
 def clean():
-    local('find . -name \*.pyc -exec rm {} \;')
+    if env.local:
+        local('find %(home)s -name \*.pyc -exec rm {} \;' % env)
+    else:
+        run('find %(home)s -name \*.pyc -exec rm {} \;' % env)
 
 def create_virtualenv():
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
