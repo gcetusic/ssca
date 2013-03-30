@@ -67,6 +67,7 @@ def stag():
     env.home = '/home/rfirmin/sscadev.dreamhosters.com/'
     env.git_branch = 'develop'
     env.local = False
+    env.dev = False
     _setup_path()
 
 
