@@ -111,7 +111,7 @@ def listdir(dir):
     if env.local:
         return os.listdir(dir)
     else:
-        output = run('ls /path/to/files')
+        output = run('ls %s' % dir)
         files = output.split()
         return files
 
@@ -174,7 +174,6 @@ def touch():
     """ touch wsgi file to trigger reload """
     require('home', provided_by=('stag', 'prod'))
     with cd(env.home):
-        if env.environment in ['stag','prod']:
-            run('pkill python')
+        if env.environment in ['stag', 'prod']:
             run('touch -c passenger_wsgi.py')
 
