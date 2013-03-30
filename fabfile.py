@@ -73,9 +73,10 @@ def stag():
     env.user = 'rfirmin'
     env.environment = 'stag'
     env.hosts = [vps]
-    env.home = '/home/rfirmin/sscadev.dreamhosters.com/'
+    env.home = '/home/rfirmin/sscadev.dreamhosters.com/public/'
     env.git_branch = 'develop'
     env.local = False
+    env.dev = False
     _setup_path()
 
 
@@ -117,15 +118,26 @@ def load_samples():
             fixture_paths.append(os.path.join(app['code_root'], fixture_dir))
 
         for fixture_path in fixture_paths:
-            fixtures = os.listdir(fixture_path)
+            fixtures = listdir(fixture_path)
 
             for fixture in fixtures:
                 print ">>>>> Loading ",fixture
-                virtualenv(fixture_path, './manage.py loaddata ' + os.path.join(fixture_path, fixture))
+                manage(app, 'loaddata ' + os.path.join(fixture_path, fixture))
                 print "Loaded data from %s" % os.path.join(fixture_path, fixture)
 
+def listdir(dir):
+    if env.local:
+        return os.listdir(dir)
+    else:
+        output = run('ls %s' % dir)
+        files = output.split()
+        return files
+
 def clean():
-    local('find . -name \*.pyc -exec rm {} \;')
+    if env.local:
+        local('find %(home)s -name \*.pyc -exec rm {} \;' % env)
+    else:
+        run('find %(home)s -name \*.pyc -exec rm {} \;' % env)
 
 def create_virtualenv():
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
@@ -161,13 +173,15 @@ def update_db(south, fake):
 
 
 def manage(app, command):
-    directory = app['code_root']
-    virtualenv(directory, './manage.py ' + command)
+    virtualenv(env.home, './manage.py ' + command + ' --settings=settings')
+
+def test():
+    manage(env.public_app, 'collectstatic')
 
 def virtualenv(directory, command):
     with cd(directory):
         if (env.local):
-            local(command)
+            #local(command)
             local(activate() + ' && ' + command)
         else:
             run(activate() + ' && ' + command)
@@ -182,5 +196,4 @@ def touch():
     require('home', provided_by=('stag', 'prod'))
     with cd(env.home):
         if env.environment in ['stag', 'prod']:
-            run('pkill python')
-            run('touch -c passenger_wsgi.py')
+            run('touch -c ../tmp/restart.txt')
