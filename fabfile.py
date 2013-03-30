@@ -145,16 +145,17 @@ def update_db(south, fake):
     else:
         manage('migrate %s' % appname)
 
-def manage(command):
-    require('code_root', provided_by=('dev', 'stag', 'prod'))
-    directory = env.code_root
-    virtualenv(directory, './manage.py ' + command)
+def manage(app, command):
+    directory = env.home
+    virtualenv(directory, '%(home)smanage.py ' % env + command)
+
+def test():
+    manage(env.public_app, 'collectstatic')
 
 def virtualenv(directory, command):
     with cd(directory):
         if (env.local):
-            local(command)
-#            local(activate() + ' && ' + command)
+            local(activate() + ' && ' + command)
         else:
             run(activate() + ' && ' + command)
 
