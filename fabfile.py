@@ -156,7 +156,7 @@ def update_db(south, fake):
 
 def manage(app, command):
     directory = env.home
-    virtualenv(directory, '%(home)smanage.py ' % env + command)
+    virtualenv(directory, './manage.py ' + command + ' --settings=settings')
 
 def test():
     manage(env.public_app, 'collectstatic')
