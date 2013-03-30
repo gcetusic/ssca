@@ -58,7 +58,7 @@ def stag():
     env.user = 'rfirmin'
     env.environment = 'stag'
     env.hosts = [vps]
-    env.home = '/home/rfirmin/sscadev.dreamhosters.com/'
+    env.home = '/home/rfirmin/sscadev.dreamhosters.com/public/'
     env.git_branch = 'develop'
     env.local = False
     env.dev = False
@@ -154,8 +154,7 @@ def update_db(south, fake):
         manage('migrate %s' % appname)
 
 def manage(app, command):
-    directory = env.home
-    virtualenv(directory, './manage.py ' + command + ' --settings=settings')
+    virtualenv(env.home, './manage.py ' + command + ' --settings=settings')
 
 def test():
     manage(env.public_app, 'collectstatic')
