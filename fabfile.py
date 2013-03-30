@@ -4,11 +4,12 @@ import sys
 from fabric.api import *
 from fabric import utils
 
-env.public_app = {'name' : 'app_public'}
-env.member_app = {'name' : 'app_dashboard'}
+env.public_app = {'name': 'app_public'}
+env.member_app = {'name': 'app_dashboard'}
 env.apps = [env.public_app, env.member_app]
 
 vps = 'ps154456.dreamhost.com'
+
 
 def _setup_path():
     env.root = env.home
@@ -92,10 +93,12 @@ def bootstrap():
     load_samples()
     touch()
 
+
 def build():
     update_requirements()
     update_db('auto', False)
     load_samples()
+
 
 def load_samples():
     for app in env.apps:
@@ -103,7 +106,7 @@ def load_samples():
         if (env.dev):
             fixture_dirs.append('fixtures/dev')
 
-        print ">>>> Loading fixtures for ",app['name']
+        print ">>>> Loading fixtures for ", app['name']
         fixture_paths = []
         for fixture_dir in fixture_dirs:
             fixture_paths.append(os.path.join(app['code_root'], fixture_dir))
@@ -112,9 +115,10 @@ def load_samples():
             fixtures = listdir(fixture_path)
 
             for fixture in fixtures:
-                print ">>>>> Loading ",fixture
+                print ">>>>> Loading ", fixture
                 manage(app, 'loaddata ' + os.path.join(fixture_path, fixture))
                 print "Loaded data from %s" % os.path.join(fixture_path, fixture)
+
 
 def listdir(dir):
     if env.local:
@@ -124,11 +128,13 @@ def listdir(dir):
         files = output.split()
         return files
 
+
 def clean():
     if env.local:
         local('find %(home)s -name \*.pyc -exec rm {} \;' % env)
     else:
         run('find %(home)s -name \*.pyc -exec rm {} \;' % env)
+
 
 def create_virtualenv():
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
@@ -139,6 +145,7 @@ def create_virtualenv():
     else:
         run('rm -rf %(virtualenv_root)s' % env)
         run('virtualenv %s %s' % (args, env.virtualenv_root))
+
 
 def update_requirements():
     cmd = ['%(virtualenv_root)s/bin/pip install --upgrade distribute &&' % env]
@@ -166,8 +173,10 @@ def update_db(south, fake):
 def manage(app, command):
     virtualenv(env.home, './manage.py ' + command + ' --settings=settings')
 
+
 def test():
     manage(env.public_app, 'collectstatic')
+
 
 def virtualenv(directory, command):
     with cd(directory):
@@ -187,4 +196,4 @@ def touch():
     require('home', provided_by=('stag', 'prod'))
     with cd(env.home):
         if env.environment in ['stag', 'prod']:
-            run('touch -c ../tmp/restart.txt')
+            run('touch -c passenger_wsgi.py')
