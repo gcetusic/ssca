@@ -1,54 +1,115 @@
+
+{% load dajaxice_templatetags %}
+{% dajaxice_js_import 'nocsrf' %}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="/static/admin/js/jquery.maskedinput.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-      $('#location').mask('W99, N99',{placeholder:" "});
+    $(document).ready(function () {
+        $.mask.definitions['~']='[NSns]';
+        $.mask.definitions['^']='[EWew]';
 
-      $("#globe").click(function() {
-  		alert("clicked on globe");
-	});
+        var pattern_extended = '~99 99.99, ^999 99.99';
+        var pattern_short = '~99, ^999';
+        var coordinates = $('#coordinates');
+        var extended_coord = $('#extended').val();
+        var short_coord = get_short_location(extended_coord);
+        var width = coordinates.css('width');
 
-      onhover = function() {
-    		    /*to make this flexible, I'm storing the current width in an attribute*/
-		    $(this).val('23 23 23 53 53 53');
-		    $(this).attr('data-default', $(this).width());
-		    $('#location').mask('W99 99.99, N99 99.99',{placeholder:" "});
-		    $(this).animate({ width: 145 }, 'slow');
-		};
-	onblur=function() {
-	    		    /* lookup the original width */
-			    var w = $(this).attr('data-default');
-			    $(this).val('23 53');
-			    $('#location').mask('W99, N99',{placeholder:" "});		    
-			    $(this).animate({ width: w }, 'slow');
-			    
-	  };
+        coordinates.val(short_coord);
 
-      $('#location').focus(onhover).blur(onblur)
-      .keypress(function(event) {
-	  if ( event.which == 13 ) {
-	     alert('validate');
-	   }
-		});
+        $("#globe").click(function () {
+            alert("clicked on globe");
+        });
 
-   });
+        onhover = function () {
+            $(this).val(extended_coord);
+            $(this).mask(pattern_extended, {placeholder: " "});
+            $(this).animate({ width: 145 }, 'slow');
+        };
+
+        onblur = function () {
+            if (extended_coord !== coordinates.val()){
+                Dajaxice.app_public.validate_location(callback,{'location':coordinates.val()});
+            }else{
+                coordinates.animate({ width: width }, 'slow',
+                        function() {
+                            coordinates.val(short_coord);
+                            coordinates.mask(pattern_short, {placeholder: " "});
+                        }
+                );
+            }
+        };
+
+        callback = function(resp){
+            extended_coord = coordinates.val();
+            if (resp.status === 'error'){
+                $(".location").css("background-color","#ff6347");
+                coordinates.css('background-color','#ff6347');
+                coordinates.focus();
+            }else{
+                short_coord = get_short_location(extended_coord);
+                $(".location").css('background-color','#ffffff');
+                coordinates.css('background-color','#ffffff');
+                coordinates.animate({ width: width }, 'slow',
+                        function() {
+                            coordinates.val(short_coord);
+                            coordinates.mask(pattern_short, {placeholder: " "});
+                        }
+                );
+            }
+        }
+
+        onenter = function (event) {
+            if (event.which == 13) {
+                $(this).blur();
+            }
+        };
+
+        coordinates.focus(onhover).blur(onblur)
+                .keypress(onenter);
+
+    });
+
+    function get_short_location(extended){
+        var splited = extended.split(' ');
+        return splited[0] +' ' +splited[2];
+    }
 </script>
 
 <style>
-  #location{
+
+  .location{
+      display: inline-block;
+  }
+
+  .location #coordinates{
   	border-style:solid;
-	border-width:0px;
+	border-width:1px;
+    border-color: #ffffff;
 	vertical-align:middle;
 	width: 70px;
+    display:inline-block;
   }
-  #globe{
+
+  .location #coordinates:hover{
+      border-style:solid;
+      border-width:1px;
+  }
+  .location #globe{
   	vertical-align:middle;
-  	display: inline-block;
   }
  </style>
 
-<div><img src="/static/images/globe_black.png" id="globe"/>
-	<div style="display:inline-block;">
-    <input type="text" id="location" style="width: 70px;" />
-</div>
+<div class="location">
+    <table>
+        <tr>
+            <td>
+                <img src="/static/images/globe_black.png" id="globe"/>
+            </td>
+            <td>
+                <input type="text" id="coordinates" />
+                <input type="hidden" id="extended" value="N12 12 12 W053 41 23"/>
+            </td>
+        </tr>
+    </table>
 </div>
