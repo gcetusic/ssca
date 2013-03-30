@@ -112,7 +112,7 @@ def load_samples():
 
             for fixture in fixtures:
                 print ">>>>> Loading ",fixture
-                virtualenv(fixture_path, './manage.py loaddata ' + os.path.join(fixture_path, fixture))
+                manage(app, 'loaddata ' + os.path.join(fixture_path, fixture))
                 print "Loaded data from %s" % os.path.join(fixture_path, fixture)
 
 def clean():
@@ -153,7 +153,7 @@ def update_db(south, fake):
 
 def manage(app, command):
     directory = app['code_root']
-    virtualenv(directory, './manage.py ' + command)
+    virtualenv(directory, '%(home)smanage.py ' % env + command)
 
 def virtualenv(directory, command):
     with cd(directory):
