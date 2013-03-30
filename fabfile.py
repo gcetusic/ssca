@@ -155,13 +155,16 @@ def update_db(south, fake):
 
 
 def manage(app, command):
-    directory = app['code_root']
+    directory = env.home
     virtualenv(directory, '%(home)smanage.py ' % env + command)
+
+def test():
+    manage(env.public_app, 'collectstatic')
 
 def virtualenv(directory, command):
     with cd(directory):
         if (env.local):
-            local(command)
+            #local(command)
             local(activate() + ' && ' + command)
         else:
             run(activate() + ' && ' + command)
