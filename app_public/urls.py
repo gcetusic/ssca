@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^dajax_test/', dajax_test),
 
     # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
-    url(r'^$', public_page),
+    url(r'^$', public_page, name='public-page'),
     url(r'^base/$', 'django.views.generic.simple.direct_to_template', {'template': 'base.html'}),
     url(r'^public/$', public_page),
     url(r'^member/$', 'django.views.generic.simple.direct_to_template', {'template': 'member.html'}),
