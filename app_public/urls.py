@@ -37,7 +37,6 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('social_auth.urls')),
 
     ('^pages/', include('django.contrib.flatpages.urls')),
-    url(r'^', include('cms.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
