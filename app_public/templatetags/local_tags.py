@@ -1,0 +1,36 @@
+from django import template
+from app_public.models import MenuItem
+
+register = template.Library()
+
+
+@register.simple_tag
+def show_ordered_flatpages():
+    items = MenuItem.objects.filter(parent__isnull=True).order_by('-show_after')
+    string = ""
+    for item in items:
+        string += get_ul_for_page(item)
+    return string
+
+
+def get_ul_for_page(item):
+    items = MenuItem.objects.filter(parent=item).order_by('show_after')
+    if len(items) < 1:
+        if item.flatpage_parent.exists():
+            url = item.flatpage_parent.order_by('?')[0].url
+            li = """<li><a href="%s">%s</a></li>""" % (url, item.title)
+        else:
+            li = """<li>%s</li>""" % (item.title)
+        return li
+    else:
+        if item.flatpage_parent.exists():
+            url = item.flatpage_parent.order_by('?')[0].url
+            string = """<li><a href="%s">%s</a>""" % (url, item.title)
+        else:
+            string = """<li>%s""" % (item.title)
+        string += "<ul>"
+    for item in items:
+        string += get_ul_for_page(item)  # recursion
+    string += "</ul>"
+    string += "</li>"
+    return string

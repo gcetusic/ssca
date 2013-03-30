@@ -1,17 +1,18 @@
 from django.contrib.auth import logout
 from django.conf import settings
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
-from app_public.models import Person, Account
+from django.template import loader, RequestContext
+from django.shortcuts import get_object_or_404
+from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
+from django.core.xheaders import populate_xheaders
+from django.utils.safestring import mark_safe
+from django.views.decorators.csrf import csrf_protect
+from app_public.models import Person, Account, Page
 from datetime import datetime
-from app_public.models import Location
-from app_public.forms import SSCAJoinForm
-from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt
 from decimal import *
-from clustering import distance
 import json
+from app_public.forms import SSCAJoinForm
 
 
 def dashboard_main_page(request):
@@ -53,7 +54,7 @@ def post_auth_process(request, backend, *args, **kwargs):
                 message = {
                     'title': 'Subscription Expired',
                     'description': 'Your subscription seems to be expired. Please renew it.'
-        }
+                }
 
         except Person.DoesNotExist:
             return render_to_response('public.html', {"error_type": "PersonDoesNotExist"})
@@ -77,65 +78,6 @@ def post_auth_process(request, backend, *args, **kwargs):
     return render_to_response('error.html', {"message": message})
 
 
-def decimal_to_float(location, *args):
-    for arg in args:
-        location[arg] = float(location[arg])
-    return location
-
-
-@csrf_exempt
-def gmaps(request):
-    context = {}
-
-    if request.is_ajax and request.POST:
-        locations = Location.objects.filter( \
-            latitude__gte=float(request.POST['south']), \
-            latitude__lte=float(request.POST['north']), \
-            longitude__gte=float(request.POST['west']), \
-            longitude__lte=float(request.POST['east'])).values('id', 'latitude', 'longitude')
-
-        markers = []
-        locations = map(lambda x: decimal_to_float(x, 'latitude', 'longitude'), locations)
-        clusters = distance.cluster(locations, 80, int(request.POST.get('zoom', 3)), 'latitude', 'longitude')
-
-        for cluster in clusters:
-            if len(cluster) > 1:
-                centroid = distance.centroid(cluster, 'latitude', 'longitude')
-                markers.append({
-                    'position': ("%.3f" % centroid[0], "%.3f" % centroid[1]),
-                    'is_cluster': True
-                })
-            else:
-                location = cluster[0]
-                markers.append({
-                    'id': location['id'],
-                    'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
-                    'is_cluster': False
-                })
-        return HttpResponse(json.dumps(markers))
-
-    else:
-        google_map = {
-            'center': (20, 0),
-            'zoom': 3,
-            'minzoom': 2
-        }
-        context['gmap'] = google_map
-        context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
-    return render_to_response('map.html', RequestContext(request, context))
-
-
-@csrf_exempt
-def marker_info(request):
-    if 'id' in request.POST:
-        data = Location.objects.filter(id=request.POST['id'])
-        info = {
-            'person': data[0].person.user.username,
-            'date': data[0].date.strftime("%Y-%m-%d %H:%m %z"),
-            'position': ("%.3f" % data[0].latitude, "%.3f" % data[0].longitude),
-        }
-        return HttpResponse(data)
-
 def join(request):
     """
     Function handles join popups. join form is shown if user has
@@ -143,7 +85,7 @@ def join(request):
 
     :param request: django HttpRequest
 
-    :return: django HttpResponse 
+    :return: django HttpResponse
     """
     #assuming new user
     user_exist = False
@@ -151,23 +93,115 @@ def join(request):
     c = {'form': form, 'basic_mail_cost': 55}
     return render_to_response('join.html', c)
 
+
 def renew(request):
     """
     Function handles renew popups.
 
     :param request: django HttpRequest
 
-    :return: django HttpResponse 
+    :return: django HttpResponse
     """
     return render_to_response('renew.html')
+
 
 def public_page(request):
     #assuming new user
     user_exist = False
     form = SSCAJoinForm()
     c = {'form': form, 'basic_mail_cost': 55}
-    return render_to_response('public.html', c)
+    return render_to_response('public.html', c, context_instance=RequestContext(request))
+
 
 def dajax_test(request):
     """test view to evaluate dajax capabilities"""
     return render_to_response('dajax-test.html')
+
+
+DEFAULT_TEMPLATE = 'flatpages/default.html'
+
+
+@csrf_protect
+def render_page(request, f):
+    """
+    Internal interface to the flat page view.
+    """
+    if f.template_name:
+        t = loader.select_template((f.template_name, DEFAULT_TEMPLATE))
+    else:
+        t = loader.get_template(DEFAULT_TEMPLATE)
+
+    # To avoid having to always use the "|safe" filter in flatpage templates,
+    # mark the title and content as already safe (since they are raw HTML
+    # content in the first place).
+    f.title = mark_safe(f.title)
+    f.content = mark_safe(f.content)
+
+    picture = None
+    if f.picture.exists():
+        picture = mark_safe(f.picture.order_by('?')[0].render())
+
+    c = RequestContext(request, {
+        'page': f,
+        'picture': picture
+    })
+
+    response = HttpResponse(t.render(c))
+    populate_xheaders(request, response, Page, f.id)
+    return response
+
+
+def render_page_ajax(request, f):
+    # To avoid having to always use the "|safe" filter in flatpage templates,
+    # mark the title and content as already safe (since they are raw HTML
+    # content in the first place).
+    f.title = mark_safe(f.title)
+    f.content = mark_safe(f.content)
+
+    picture = None
+    if f.picture.exists():
+        picture = mark_safe(f.picture.order_by('?')[0].render())
+
+    response = json.dumps({
+        'title': f.title,
+        'content': f.content,
+        'picture': picture
+    })
+
+    return response
+
+
+def sscapage(request, url):
+    """
+    Public interface to the page view.
+
+    Models: `models.page`
+    Templates: Uses the template defined by the ``template_name`` field,
+        or `flatpages/default.html` if template_name is not defined.
+    Context:
+        flatpage
+            `flatpages.flatpages` object
+    """
+
+    if not url.startswith('/'):
+        url = '/' + url
+    try:
+        f = get_object_or_404(Page, url__exact=url, sites__id__exact=settings.SITE_ID)
+    except Http404:
+        if not url.endswith('/') and settings.APPEND_SLASH:
+            url += '/'
+            f = get_object_or_404(Page, url__exact=url, sites__id__exact=settings.SITE_ID)
+            return HttpResponsePermanentRedirect('%s/' % request.path)
+        else:
+            raise
+
+    # If registration is required for accessing this page, and the user isn't
+    # logged in, redirect to the login page.
+    if f.registration_required and not request.user.is_authenticated():
+        from django.contrib.auth.views import redirect_to_login
+        return redirect_to_login(request.path)
+
+    if request.is_ajax():
+        return render_page_ajax(request, f)
+    else:
+        return render_page(request, f)

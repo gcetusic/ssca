@@ -9,12 +9,3 @@ views:
     1. set the zoom and center on first load of map
         - initial zoom?
         - initial center?
-
-    2. one view for marker info and marker list - pass parameter for former
-
-javascript:
-
-    1. close other popups when clicking on new ones
-
-    2. move javascript to a separate static file
-

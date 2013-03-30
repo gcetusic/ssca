@@ -1,0 +1,489 @@
+{% extends "base.html" %}
+
+{% block title %} Join/Renew {% endblock %}
+
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/docs.css" rel="stylesheet"> 
+    <link href="{{ STATIC_URL }}bootstrap_toolkit/css/datepicker.css" rel="stylesheet"> 
+
+    <style>
+        label.valid {
+            width: 24px;
+            height: 24px;
+            background: url({{ STATIC_URL }}images/valid.png) center center no-repeat;
+            display: inline-block;
+            text-indent: -9999px;
+        }
+        label.error {
+            color: #B94A48;
+            padding: 2px 8px;
+            margin-top: 2px;
+        }
+        </style>
+{% endblock %} 
+
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}bootstrap_toolkit/js/jquery.validate.min.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/bootstrap-datepicker.js"></script>
+    <script src="{{ STATIC_URL }}admin/js/creditcard.js"></script>
+
+    <script>		
+        var yearlyTotal = {{ basic_mail_cost }};
+
+        /* datepicker launcher */
+        $(function(){		
+            $('#dp3').datepicker();
+        });
+
+        function onMailLocationChange() {
+            var mailLocation = $('#id_mail_location').find(":selected").text();
+
+            var divSeconday = $('#div_chk_secondary');
+            //hiding seconday checkbox
+            if(mailLocation == "{{ form.loc_usa }}") {
+                divSeconday.show();
+            }
+            else
+            if(mailLocation == "{{ form.loc_canada }}") {
+                divSeconday.hide();
+                $("#spnSecondary").html("{{ form.send_first_class }}");
+            }
+            else
+            if(mailLocation == "{{ form.loc_overseas }}") {
+                divSeconday.show();
+                $("#spnSecondary").html("{{ form.send_international }}");
+            }
+
+            updateYearlyTotal();
+        }
+
+        function bulletinClicked() {
+            var chkSecondary = document.getElementById('chkSecondary');
+            var cbBulletins = document.getElementById('cbBulletins');
+            updateYearlyTotal();
+        }
+
+        function secondaryClicked() {
+            var chkSecondary = document.getElementById('chkSecondary');
+            var cbBulletins = document.getElementById('cbBulletins');
+            cbBulletins.checked = chkSecondary.checked;
+
+            updateYearlyTotal();
+        }
+
+        function updateYearlyTotal() {		
+            yearlyTotal = {{ basic_mail_cost }};
+
+            var bulletinVal = parseInt($('#id_mail_location').val());
+            var chkSecondary = document.getElementById('chkSecondary');
+            var cbBulletins = document.getElementById('cbBulletins');
+
+            $('#spnMailCostLabel').html(bulletinVal);
+
+            if (cbBulletins.checked){
+                yearlyTotal += bulletinVal;
+            }
+
+            if (chkSecondary.checked){
+                var mailLocation = $('#id_mail_location').find(":selected").text();
+                //for usa adding 5
+                if(mailLocation == "{{ form.loc_usa }}") {
+                    yearlyTotal += 5;
+                }
+                else
+                //for overseas adding 15
+                if(mailLocation == "{{ form.loc_overseas }}") {
+                    yearlyTotal += 15;
+                }
+            }
+
+            $('#spnYearlytotal').html(yearlyTotal);
+        }
+
+        function onPurchaseBurgeeChanged() {
+            var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
+            if(chkPurchaseSSCABurgee.checked) {
+                $('#divBurgeeCostBotton').show();
+            }
+            else {
+                $('#divBurgeeCostBotton').hide();
+            }
+
+            updateTotalCost();
+        }
+
+
+        function onBurgeeChanged(){
+            var valueSelected = $('#id_burgee_type').val();
+
+            var textSelected = $('#id_burgee_type option:selected').text();
+            $('#spnBurgeeCost').html(valueSelected);
+            $('#spnBurgeeCostBottom').html(valueSelected);
+
+            if(textSelected.indexOf("Small") == 0 ) {
+                $('#spnBurgeeSize').html("Small Burgee");
+            }
+            else
+            if(textSelected.indexOf("Medium") == 0 ) {
+                $('#spnBurgeeSize').html("Medium Burgee");
+            }
+            else
+            if(textSelected.indexOf("Large") == 0 ) {
+                $('#spnBurgeeSize').html("Large Burgee");
+            }
+
+            updateTotalCost();
+        }
+
+
+        function updateTotalCost(){
+            var totalCost = yearlyTotal;
+            var chkPurchaseSSCABurgee = document.getElementById('chkPurchaseSSCABurgee');
+            if(chkPurchaseSSCABurgee.checked) {
+                var burgeeCost = parseInt($('#id_burgee_type').val());
+                totalCost += burgeeCost;
+            }
+            $('#spnTotalCost').html(totalCost);
+        }
+
+        function validateStep1() {
+            if($('#step1-form').valid()) {
+                $("#a_step2").attr("href", "#modalStep2");
+                $("#a_step2").attr("data-dismiss", "modal");
+                $("#a_step2").attr("data-toggle", "modal");
+                return true;
+            }
+            return false;
+        }
+
+        function validateStep2() {
+            //placeholder for step 2 validation
+            //todo - do valdaation later; if needed
+
+            $("#a_step3").attr("href", "#modalStep3");
+            $("#a_step3").attr("data-dismiss", "modal");
+            $("#a_step3").attr("data-toggle", "modal");
+
+            $('#spnYearlytotal1').html(yearlyTotal);
+
+            onPurchaseBurgeeChanged();
+            onBurgeeChanged();
+
+            return true;
+        }
+
+        function validateStep3() {
+
+            if(!$("#id_name_on_card").val()) {
+                alert("Please Enter Name On Card");
+                return false;
+            }
+
+            if(!$("#id_card_number").val()) {
+                alert("Please Enter Card Number");
+                return false;
+            }
+
+            if(!$("#id_card_csv").val()) {
+                alert("Please Enter CSV");
+                return false;
+            }
+
+            //checking card number and type
+            var cardNum  = $('#id_card_number').val(); 
+            var cardType = $('#id_card_type').val();
+            if (! checkCreditCard(cardNum, cardType)) {
+                alert(ccErrors[ccErrorNo]);
+                return false;
+            }
+
+            return true;
+        }
+
+        /*
+        * adding step 1 vaidation rules
+        */
+        var step1ValidatationRules = {
+                rules: {
+                    firstname: {
+                    minlength: {{ form.min_firstname }},
+                        required: true
+                    },
+                    lastname: {
+                    minlength: {{ form.min_lastname }},
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                }
+            };
+
+        /*
+        * adding step 3 vaidation rules
+        */
+        var step3ValidatationRules = {
+                rules: {
+                    name_on_card: {
+                        minlength: 5,
+                        required: true
+                    },
+                    card_number: {
+                        minlength: 14,
+                        required: true,
+                        number: true
+                    },
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                }
+            };
+
+        /*
+        * adding calendar, csv form validations
+        */
+        var csvValidatationRules = {
+                rules: {
+                    card_csv: {
+                        minlength: 3,
+                        required: true,
+                        number: true
+                    },
+                },
+                highlight: function(element) {
+                    $(element).closest('.control-group').removeClass('success').addClass('error');
+                },
+                success: function(element) {
+                    element
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').removeClass('error').addClass('success');
+                }
+            };
+
+        $(document).ready(function(){
+
+            /*
+            * adding step 1 vaidation function
+            */
+            $('#step1-form').validate(step1ValidatationRules);
+
+            /*
+            * adding step 3 vaidation function
+            */
+            $('#step3-form').validate(step3ValidatationRules);
+            $('#cal-form').validate(csvValidatationRules);
+        });
+
+
+
+    </script>
+{% endblock %}
+
+{% block content %}
+      <!-- Step 1 dialog begins -->
+         <div id="modalStep1" class="modal hide fade">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3>Join SSCA</h3>
+            </div>
+            <div class="modal-body">
+              <h4>Subscribe to SSCA (Step 1 of 3)</h4>
+              <p>If you were a subscriber in the past and would like to renew, <a href = "/renew/">click here</a></p>
+              <br>
+		  <p>Joining SSCA is quick and easy. You'll be logged in within 5 minutes.</p>
+		  <p>First, we need some basic information from you.</p>
+            </div>
+			
+			
+	   <form class="form-horizontal" id="step1-form">
+            <div class="control-group">
+              <label class="control-label" for="firstname" >First name: </label>
+              <div class="controls">
+                {{ form.firstname }}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="lastname">Last name: </label>
+              <div class="controls">
+                {{ form.lastname }}
+              </div>
+            </div>
+			
+            <div class="control-group">
+              <label class="control-label" for="email">Email Address: </label>
+              <div class="controls">
+                {{ form.email }}
+              </div>
+            </div>
+          </form>
+
+           <div class="modal-footer">
+               <a id="a_step2" href="return validateStep1();" class="btn btn-primary" onclick="return validateStep1();">Continue to Step 2</a>
+            </div>
+        </div>
+         <div class="bs-docs-example" >
+            <a data-toggle="modal" href="#modalStep1" class="btn btn-primary btn-large">JOIN/RENEW</a>
+         </div>	  
+      <!-- Step 1 dialog ends -->
+
+      <!-- Step 2 dialog begins -->
+      <div id="modalStep2" class="modal hide fade">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3>Join SSCA</h3>
+          </div>
+          <div class="modal-body">
+              <h4>Subscribe to SSCA (Step 2 of 3)</h4>
+              <p>SSCA publishes the monthly commodore's bulletin, which keeps you upto date on the latest cruising news and happenings.</p>
+              <br>
+              <p>You may choose to have a paper copy delivered to you.</p>
+              <br>
+              <p>Membership fee: ${{ basic_mail_cost }} / year</p>
+              <div class="control-group">
+                  <form id="myform">
+                      <div class="controls" style="float:left;">
+                          <label class="checkbox">
+                              <input type="checkbox" name="checkall" id="cbBulletins" onclick="bulletinClicked();"> Mail bulletins to me &nbsp;&nbsp;&nbsp;
+                          </label>
+                      </div>
+
+                      <div>
+                          <table><tr>
+                                  <td> {{ form.mail_location }} </td>
+                                  <td>(Add $<span id="spnMailCostLabel">5</span>)</td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div style="float:clear;">
+                      </div>
+                      <div class="control-group">
+                          <div class="controls" id="div_chk_secondary">
+                              <label class="checkbox">
+                                  <input type="checkbox" id="chkSecondary" onclick="secondaryClicked();"> 
+                                  <span id="spnSecondary">{{ form.send_first_class }}</span>
+                              </label>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+
+          <hr>
+          <table width="100%">
+              <tr>
+                  <td style="padding-left: 24px;padding-bottom: 24px;"> My Total: $<span id="spnYearlytotal">{{ basic_mail_cost }}</span>/year </td>			  
+                  <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
+                      <a id="a_step3" href="return validateStep2();" class="btn btn-primary" onclick="return validateStep2();">Continue to Step 3</a>
+                  </td>
+              </tr>
+          </table>
+
+      </div>
+      <!-- Step 2 dialog ends -->
+
+      <!-- Step 3 dialog begins -->
+      <div id="modalStep3" class="modal hide fade">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3>Join SSCA</h3>
+          </div>
+          <div class="modal-body">
+              <h4>Subscribe to SSCA (Step 3 to 3)</h4>
+              <p>Almost done. Decide whether you'd like to fly the SSCA burgee, <br>and provide your payment details to checkout.</p>
+
+
+              <form name="firstForm" id="step3-form">
+                  <div class="control-group">
+                      <div class="controls" style="float:left;">
+                          <label class="checkbox">
+                              <input type="checkbox" id="chkPurchaseSSCABurgee" onclick="onPurchaseBurgeeChanged();"> Purchase SSCA Burgee &nbsp;&nbsp;&nbsp;
+                          </label>
+                      </div>
+                      {{ form.burgee_type }} (Add $<span id="spnBurgeeCost">25</span>)
+                  </div>
+
+                  <div class="control-group">
+                      <div class="controls" style="float:left;width: 150px;">
+                          <label class="control-label" for="inputEmail" style="text-align: right;padding-right: 5px;">Name on card:</label>
+                      </div>
+                      {{ form.name_on_card }}
+                  </div>
+
+                  <div class="control-group" >
+                      <div class="controls" style="float:left;width: 150px;">
+                          <label class="control-label" for="inputEmail" style="text-align: right;padding-right: 5px;">Credit card type:</label> 
+                      </div>
+                      {{ form.card_type }}
+                  </div>
+                  <div class="control-group" >
+                      <div class="controls" style="float:left;width: 150px;">
+                          <label class="control-label" for="inputEmail" style="text-align: right;padding-right: 5px;">Credit card number:</label>
+                      </div>
+                      {{ form.card_number }}
+                  </div>
+
+              </form>
+              <div class="control-group">
+                  <form class="form-inline" name="secondForm" id="cal-form">
+                      <label class="control-label" for="inputEmail">Expiry date: &nbsp;</label>
+                      <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                          <input class="span2" size="16" type="text" value="" readonly="" name="date">
+                          <span class="add-on">
+                              <img src="{{ STATIC_URL }}images/calendar.png" alt="calendar" class="icon-calendar" data-date-format="yyyy-mm-dd" data-date="2012-02-20">
+                          </span>
+                      </div>
+                      &nbsp;&nbsp;
+                      <label class="control-label" for="inputEmail">CSV: &nbsp;</label>
+                      {{ form.card_csv }}
+                  </form>
+              </div>
+              <table width="100%" cellspacing="2" cellpadding="2" border="0">
+                  <tr>
+                      <td width="20%"> <b>My Total: </b></td>
+                      <td align="left" width="30%"> $<span id="spnYearlytotal1">{{ basic_mail_cost }}</span>/year</td>
+                      <td>
+                          <label class="checkbox">
+                              <input type="checkbox" id="chkRenewEveryYear"> Automatically renew every year 
+                          </label>
+                      </td>
+                  </tr>
+                  <tr> <td></td>
+                      <td>
+                          <div id="divBurgeeCostBotton" style="border-bottom: dashed 1px black;">
+                              $<span id="spnBurgeeCostBottom">25</span> (<span id="spnBurgeeSize"></span>)
+                          </div>
+                      </td>
+                      <td></td>
+                  </tr>
+                  <tr> <td></td>
+                  <td align="left">$<span id="spnTotalCost"></span> </td>			  
+                      <td></td>
+                  </tr>
+              </table>
+          </div>
+
+          <hr>
+          <table width="100%">
+              <tr>
+                  <td align="right" style="padding-right: 24px;padding-bottom: 24px;">
+                      <button class="btn btn-primary" onclick="validateStep3();">Pay and Login</button>
+                  </td>
+              </tr>
+          </table>          
+      </div>
+      <!-- Step 3 dialog ends -->
+{% endblock %}

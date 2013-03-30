@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from app_public.views import *
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 
@@ -23,11 +24,9 @@ urlpatterns = patterns('',
     url(r'^member/$', 'django.views.generic.simple.direct_to_template', {'template': 'member.html'}),
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', logout_page),
-    url(r'^marker/$', marker_info, name="marker_info"),
-    url(r'^map/$', gmaps, name="gmaps_viewer"),
     url(r'^dashboard/', include('app_dashboard.urls')),
-    #url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
-                                  #{'document_root': 'static'}),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
+                                  {'document_root': 'static'}),
     url(r'^admin/', include(admin.site.urls)),
 
     # Overriding Social Auth to implement a custom Post Auth logic.
@@ -37,9 +36,10 @@ urlpatterns = patterns('',
     # Social Auth URLs
     url(r'^accounts/', include('social_auth.urls')),
 
-    url(r'^', include('cms.urls')),
-
+    ('^pages/', include('django.contrib.flatpages.urls')),
 )
+
+urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:
     urlpatterns = patterns('',

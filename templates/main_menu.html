@@ -1,4 +1,6 @@
 {% block main_menu %}
+
+{% load local_tags %}
 <ul class="nav">
     <li ><a href="#">Home</a></li>
     <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">About SSCA</b></a>
@@ -67,9 +69,15 @@
         <li><a tabindex="-1" href="#">Gear</a></li>
         <li><a tabindex="-1" href="#">Publications</a></li>
         <li><a tabindex="-1" href="#">Music</a></li>
-
     </ul>
     </li>
+
+    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Pages</a>
+    <ul class="dropdown-menu">
+{% show_ordered_flatpages %}
+    </ul>
+    </li>
+
     {% block profile_dropdown %}{% endblock %}
 </ul>
 {% endblock %}
