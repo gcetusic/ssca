@@ -187,4 +187,4 @@ def touch():
     require('home', provided_by=('stag', 'prod'))
     with cd(env.home):
         if env.environment in ['stag', 'prod']:
-            run('touch -c passenger_wsgi.py')
+            run('touch -c ../tmp/restart.txt')
