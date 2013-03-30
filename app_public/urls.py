@@ -37,12 +37,6 @@ urlpatterns = patterns('',
     # Social Auth URLs
     url(r'^accounts/', include('social_auth.urls')),
 
-    # Join
-    url(r'^join/', join),
-
-    # Renew
-    url(r'^renew/', renew),
-
     url(r'^', include('cms.urls')),
 
 )
