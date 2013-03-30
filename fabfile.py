@@ -51,6 +51,15 @@ def dev_rf():
     _setup_path()
 
 
+def dev_bn():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.home = os.path.abspath(os.path.dirname(__file__))
+    env.git_branch = 'develop_bogdan'
+    _setup_path()
+
+
 def dev_gc():
     env.dev = True
     dev()
