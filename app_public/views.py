@@ -4,7 +4,8 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import login
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.core.urlresolvers import reverse
 from django.core.xheaders import populate_xheaders
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
@@ -22,7 +23,7 @@ def dashboard_main_page(request):
 def logout_page(request):
     """ Log users out and re-direct them to the main page. """
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('public-page'))
 
 
 def post_auth_process(request, backend, *args, **kwargs):
