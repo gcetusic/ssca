@@ -109,12 +109,20 @@ def load_samples():
             fixture_paths.append(os.path.join(app['code_root'], fixture_dir))
 
         for fixture_path in fixture_paths:
-            fixtures = os.listdir(fixture_path)
+            fixtures = listdir(fixture_path)
 
             for fixture in fixtures:
                 print ">>>>> Loading ",fixture
                 manage(app, 'loaddata ' + os.path.join(fixture_path, fixture))
                 print "Loaded data from %s" % os.path.join(fixture_path, fixture)
+
+def listdir(dir):
+    if env.local:
+        return os.listdir(dir)
+    else:
+        output = run('ls /path/to/files')
+        files = output.split()
+        return files
 
 def clean():
     if env.local:
