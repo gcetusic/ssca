@@ -87,6 +87,9 @@ def build():
     update_requirements()
     update_db('auto', False)
 
+def clean():
+    local('find . -name \*.pyc -exec rm {} \;')
+
 def create_virtualenv():
     """ setup virtualenv on remote host """
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
