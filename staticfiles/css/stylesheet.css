@@ -194,3 +194,5 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
 .hero-unit {
   padding: 0px !important;
 }
+
+.bs-docs-example {padding-top: 5px !important;}
