@@ -132,9 +132,10 @@ def listdir(dir):
 def clean():
     if env.local:
         local('find %(home)s -name \*.pyc -exec rm {} \;' % env)
+        local('rm -fr static')
     else:
         run('find %(home)s -name \*.pyc -exec rm {} \;' % env)
-
+        run('rm -fr static')
 
 def create_virtualenv():
     require('virtualenv_root', provided_by=('local', 'stag', 'prod'))
