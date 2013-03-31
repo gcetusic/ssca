@@ -181,4 +181,4 @@ def find_member(request):
 
 def dashboard_test_mockup(request):
     """ test view for dashboard mockup """
-    return render_to_response('dashboard/index.html')
+    return render_to_response('dashboard/index.html', {}, RequestContext(request))
