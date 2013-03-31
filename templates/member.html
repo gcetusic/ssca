@@ -3,28 +3,6 @@
 
 {% block title %} SSCA Dashboard {% endblock %}
 
-{% block auth_form %}
-    {% if request.user.is_authenticated %}
-        <div style="float: right">
-            <ul class="nav">
-                <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ request.user|get_full_name }}<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">View Profile</a></li>
-                    <li><a href="#">Edit Profile</a></li>
-                    <li><a href="{% url logout %}">Logout</a></li>
-                </ul>
-                </li>
-            </ul>
-        </div>
-    {% else %}
-        <div>
-        <form class="pull-right form-inline" action="">
-            <button type="submit" class="btn btn-inverse" style="font-size:12px;" data-toggle="modal" href="#loginModal1">Log in</button>
-        </form>
-    </div>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 </div>
 <div class="content_wrapper">
