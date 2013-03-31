@@ -45,19 +45,32 @@
                 <div class="row-fluid">
 
                     {% block main_content %}
-                    <div class="span7 homae-rig">
+                    <div class="span9 homae-rig">
                         <h1>WELCOME TO SSCA</h1>
                         <p> Content will come here... </p>
                     </div>
                     {% endblock %}
 
                     {% block events %}
-                    <div class="span5">
+                        <div class="span3">
+                            <div class="row-fluid" style="border: solid 0px red;">
+                                <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
+                                    <div style="border: 0px solid black; margin-top: 20px;">
+                                        <form class="navbar-search">
+                                            <input type="text" class="search-query span12" placeholder="Search" style="background-color: white; border: 1px solid #ccc;">
+                                            <div class="icon-search"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <!-- <div class="span5">
                         <div class="row-fluid">
                         <div class="con-right-bottom-con span12">
                         </div>
                     </div>
-                    </div>
+                    </div> -->
                     {% endblock %}
                 </div>
             </div>
@@ -65,3 +78,4 @@
     </div>
 </div>
 {% endblock %}    
+
