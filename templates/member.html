@@ -3,6 +3,44 @@
 
 {% block title %} SSCA Dashboard {% endblock %}
 
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $('#memberSearch').submit(function(e){
+                e.preventDefault();
+                var search_value = $("[name=search]").val();
+                var data = $(this).serialize();
+
+                $.ajax({
+                    data: data,
+                    url: "{% url member_finder %}",
+                    type: "POST",
+                    success: function(result){
+                        var json = $.parseJSON(result);
+
+                        var h1 = document.createElement('h1');
+                        var h1_content = "Search results for <" + search_value + ">";
+                        $(h1).text(h1_content);
+
+                        var ul = document.createElement('ul');
+
+                        $.each(json, function(index, value){
+                            console.log(value);
+                            var li = document.createElement('li');
+                            $(li).text(value['fields']['person']['fields']['user']['fields']['username']);
+                            $(ul).append(li);
+                        });
+                        $('[href="#tab1"]').text(h1_content);
+                        $('#tab1 > .sub-pagleft').html("").append(h1);
+                        $('#tab1 > .sub-pagleft').append(ul);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 </div>
 <div class="content_wrapper">
@@ -47,8 +85,11 @@
                         </div>
                         <div class="span3">
                             <div class="sub-rigtxt">
-                                <input class="sub-con-butt" type="button" value="">
-                                <input class="sub-con-tex" type="text">
+                                <form method="post" id="memberSearch">
+                                    {% csrf_token %}
+                                    <input class="sub-con-butt" type="submit" value="">
+                                    <input class="sub-con-tex" name="search" type="text">
+                                </form>
                             </div>
                             <span class="sub-leftcon">
                                 <h2>AD1</h2>
