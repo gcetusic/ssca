@@ -103,7 +103,8 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
 .nav-tabs {
     border-bottom:none !important; font-size:12px;
 }
-.nav-tabs > li > a {border-bottom: 1px solid #ccc; border-radius:0px; background:#000; color:#fff;padding: 7px 95px;}
+.nav-tabs > li {width:25%;}
+.nav-tabs > li > a {border-bottom: 1px solid #ccc; border-radius:0px; background:#000; color:#fff;padding: 7px 30px; margin-right: 0px !important;}
 .nav-tabs > li > a:hover {color:#000;}
 .nav-tabs > .active > a:hover {border-bottom: 1px solid #ccc; color:#000;}
 .nav-tabs > .active > a {border-bottom: 1px solid #ccc;}
@@ -188,4 +189,8 @@ h1{ font-size:16px; font-family:Verdana, Geneva, sans-serif; font-weight:normal;
   bottom: -6px;
   border-top: 6px solid #000;
   border-bottom: 0;
+}
+
+.hero-unit {
+  padding: 0px !important;
 }
