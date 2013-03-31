@@ -26,6 +26,13 @@ def logout_page(request):
     return HttpResponseRedirect(reverse('public-page'))
 
 
+def member_page(request):
+    """
+    View for members page.
+    """
+    return render_to_response('member.html', {}, RequestContext(request))
+
+
 def post_auth_process(request, backend, *args, **kwargs):
     """Post authentication process"""
 
