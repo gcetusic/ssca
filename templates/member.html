@@ -7,6 +7,31 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
+            // enable tabbing using JS
+            $('#myTab a').click(function(e){
+                e.preventDefault();
+                $('.sub-pagleft').hide();
+                
+                $(this).tab('show');
+                $($(this).attr("href") + " .sub-pagleft").show();
+                
+            });
+
+            // function for moving tabs and its contents
+            function moveTabsAndContents() {
+                var contents = $('.tab-contents');
+                var headers = $('.tab-headers');
+                var headers_length = $('.tab-headers').length;
+                for(var i=headers_length-1; i >= 0; i--) {
+                    if(i != 3){
+                        $(headers[i+1]).text($(headers[i]).text());
+                        $(contents[i+1]).html($(contents[i]).html());
+                    }
+                }
+                $('.sub-pagleft').hide();
+                $('.in .sub-pagleft').show();
+            }
+
             $('#memberSearch').submit(function(e){
                 e.preventDefault();
                 var search_value = $("[name=search]").val();
@@ -19,6 +44,7 @@
                     success: function(result){
                         var json = $.parseJSON(result);
 
+                        // create H1 element with contents
                         var h1 = document.createElement('h1');
                         var h1_content = "Search results for <" + search_value + ">";
                         $(h1).text(h1_content);
@@ -26,14 +52,21 @@
                         var ul = document.createElement('ul');
 
                         $.each(json, function(index, value){
-                            console.log(value);
+                            // create an li element per item listed in the JSON response
+                            // then append it to the ul element
                             var li = document.createElement('li');
                             $(li).text(value['fields']['person']['fields']['user']['fields']['username']);
                             $(ul).append(li);
                         });
+
+                        moveTabsAndContents();
+
+                        // Change contents and tab header for the first tab
                         $('[href="#tab1"]').text(h1_content);
                         $('#tab1 > .sub-pagleft').html("").append(h1);
                         $('#tab1 > .sub-pagleft').append(ul);
+                        $('#myTab a:first').tab('show');
+
                     }
                 });
             });
@@ -47,10 +80,10 @@
   	<div class="hero-unit">
         {% block dashboard_menu %}
             <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a data-toggle="tab" href="#tab1">MELBOURENE GAM</a></li>
-                <li class=""><a data-toggle="tab" href="#tab2">Report From Trinidad</a></li>
-                <li class=""><a data-toggle="tab" href="#tab3">New Hunter Review</a></li>
-                <li class=""><a data-toggle="tab" href="#tab4">&nbsp;</a></li>
+                <li class="active"><a href="#tab1" class="tab-headers">MELBOURENE GAM</a></li>
+                <li class=""><a href="#tab2" class="tab-headers">Report From Trinidad</a></li>
+                <li class=""><a href="#tab3" class="tab-headers">New Hunter Review</a></li>
+                <li class=""><a href="#tab4" class="tab-headers">&nbsp;</a></li>
             </ul>
         {% endblock %}
   	    <div class="bs-docs-example">
@@ -59,7 +92,7 @@
                     <div class="row-fluid">
                         <div class="span9">
                             <div class="well well-small"  style="background:none; border:none;border-radius:0px;box-shadow:none;margin-bottom: 20px;">
-                                <div id="tab1" class="tab-pane fade active in">
+                                <div id="tab1" class="tab-pane fade active in tab-contents">
                                     <div class="sub-pagleft">
                                         <h1>Harvard Model</h1>
                                         <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
@@ -70,16 +103,13 @@
                                     </div>
                                 </div>
 
-                                <div id="tab2" class="tab-pane fade">
-                                    <!-- Tab2 with different content and adavertisements  -->
+                                <div id="tab2" class="tab-pane fade tab-contents">
                                 </div>
                               
-                                <div id="#tab3" class="tab-pane fade">
-                                    <!-- Tab2 with different content and adavertisements  -->
+                                <div id="tab3" class="tab-pane fade tab-contents">
                                 </div>
 
-                                <div id="#tab4" class="tab-pane fade">
-                                    <!-- Tab2 with different content and adavertisements  -->
+                                <div id="tab4" class="tab-pane fade tab-contents">
                                 </div>
                             </div>
                         </div>
