@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome to the Backoffice {% endblock %}
+
+        {% block extra_js %}{% endblock %}    
+        {% block extra_css %}{% endblock %}   
+
+{% block auth_form %}
+<div style="float: right">
+    <ul class="nav">
+        <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Demo User<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">View Profile</a></li>
+            <li><a href="#">Edit Profile</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+    <link href="{{ STATIC_URL }}jqgrid/css/jqx.base.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}jqgrid/css/jquery-ui-custom.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}jqgrid/css/ui.jqgrid.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}jqgrid/css/ui.multiselect.css" />
+    <script src="{{ STATIC_URL }}jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script src="{{ STATIC_URL }}jqgrid/js/grid.locale-en.js"></script>
+    <!--<script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxdata.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxgrid.selection.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqgrid/js/gettheme.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jqgrid/js/generatedata.js"></script>-->
+
+
+
+
+    <script>
+    $(document).ready(function() {
+        $.getJSON("/backoffice/grid/cfg", function(data){
+            // On ajoute le lien vers le document
+            data['onSelectRow'] = function(id){ //todo insert action on select Row next ticket
+                                                };
+            data['gridComplete'] = function(id){ jQuery("#documents_recents_count").html(jQuery("#list_doc").jqGrid('getGridParam', 'records' )); };
+            $("#list_doc")
+                .jqGrid(data)
+                .navGrid('#pager_doc', 
+                    {add: true, edit: false, del: false, view: false},
+            {}, // edit options
+            {}, // add options
+            {}, // del options 
+            { multipleSearch:true, closeOnEscape:false }, // search options 
+            { jqModal:false, closeOnEscape:true} // view options 
+            );
+        });
+    });
+    </script>
+
+ 
+    <table id="list_doc"></table>
+    <div id="pager_doc"></div>
+
+
+{% endblock %}    
