@@ -36,12 +36,6 @@ urlpatterns = patterns('',
     # Social Auth URLs
     url(r'^accounts/', include('social_auth.urls')),
 
-    # Join
-    url(r'^join/', join),
-
-    # Renew
-    url(r'^renew/', renew),
-
     ('^pages/', include('django.contrib.flatpages.urls')),
 
     url(r'^location/', 'django.views.generic.simple.direct_to_template', {'template': 'location.html'})

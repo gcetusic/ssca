@@ -58,9 +58,7 @@ class Location(models.Model):
 
     def get_info(self):
         usertime = self.date.astimezone(get_current_timezone())
-
         latitude, longitude = Location.to_readable_format(self.latitude,self.longitude)
-
         info = {
             'name': self.person.user.username,
             'date': usertime.strftime("%Y-%m-%d %H:%m"),

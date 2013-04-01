@@ -59,8 +59,34 @@ function initialize() {
         return string;
     }
 
+    // Receives gmaps coordinates object
+    function formatCoordinates(coord) {
+        if (coord.lat() >= 0) {
+            var latitude_degrees = Math.round(coord.lat()) + "N";
+        } else {
+            var latitude_degrees = Math.abs(Math.round(coord.lat())) + "S";
+        }
+
+        if (coord.lng() >= 0) {
+            var longitude_degrees = Math.round(coord.lng()) + "E";
+        } else {
+            var longitude_degrees = Math.abs(Math.round(coord.lng())) + "W";
+        }
+
+        var latitude_minutes = (coord.lat() % 1)*60;
+        latitude_minutes = latitude_minutes.toPrecision(2);
+
+        var longitude_minutes = (coord.lng() % 1)*60;
+        longitude_minutes = longitude_minutes.toPrecision(2);
+
+        return latitude_degrees + " " + latitude_minutes + "'" + ", " 
+            + longitude_degrees  + " " + longitude_minutes + "'"
+    }
+
     // Shows any marker currently in the marker array
     function showOverlays() {
+        $("#center").html(formatCoordinates(map.getCenter()));
+
         if (markersArray) {
             for (i in markersArray) {
                 // If the marker is a cluster center on it and zoom in

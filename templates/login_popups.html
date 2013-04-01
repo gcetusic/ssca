@@ -58,7 +58,8 @@
 
     <div class="modal-body">
         Your Google OpenId is not associated with an SSCA Account. If you are an existing SSCA member,<br>
-        and this is the first time you have logged into the new site, click here.<br><br>
+        and this is the first time you have logged into the new site, 
+        <a style="color: #003399;" data-dismiss="modal" data-toggle="modal" href="#loginModalTransition" >click here.</a><br><br>
 
         Otherwise you may need to register a new SSCA Account.
     </div>
@@ -110,10 +111,10 @@
         <table width="100%" cellspacing="2" cellpadding="2" border="0">
             <tr>
                 <td>
-                    <a href="http://openid.net/get-an-openid/what-is-openid" target="_blank" id="whatis_openid"  style="color: #003399;float:left;">Forgot Password</a>
+                    <a data-toggle="modal" href="#modalForgotPassword" data-dismiss="modal" style="color: #003399;float:left;">Forgot Password</a>
                 </td>
                 <td>
-                    <a data-toggle="modal" href="#modalStep1" data-dismiss="modal" data-toggle="modal" style="color: #003399;">Register with SSCA</a>
+                    <a data-toggle="modal" href="#modalStep1" data-dismiss="modal" style="color: #003399;">Register with SSCA</a>
                 </td>
             </tr>
         </table>
