@@ -75,18 +75,17 @@
 {% endblock %}
 
 {% block content %}
-</div>
-<div class="content_wrapper">
-  	<div class="hero-unit">
-        {% block dashboard_menu %}
-            <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a href="#tab1" class="tab-headers">MELBOURENE GAM</a></li>
-                <li class=""><a href="#tab2" class="tab-headers">Report From Trinidad</a></li>
-                <li class=""><a href="#tab3" class="tab-headers">New Hunter Review</a></li>
-                <li class=""><a href="#tab4" class="tab-headers">&nbsp;</a></li>
-            </ul>
-        {% endblock %}
-  	    <div class="bs-docs-example">
+    <div class="content_wrapper">
+        <div class="hero-unit">
+            {% block dashboard_menu %}
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#tab1" class="tab-headers">MELBOURENE GAM</a></li>
+                    <li class=""><a href="#tab2" class="tab-headers">Report From Trinidad</a></li>
+                    <li class=""><a href="#tab3" class="tab-headers">New Hunter Review</a></li>
+                    <li class=""><a href="#tab4" class="tab-headers">&nbsp;</a></li>
+                </ul>
+            {% endblock %}
+            <div class="clearfix">&nbsp;</div>
             {% block tab_content %}
                 <div class="tab-content" id="myTabContent">
                     <div class="row-fluid">
@@ -135,81 +134,82 @@
                 </div>
             {% endblock %}
         </div>
+        {% block widget %}  
+            <div class="row-fluid">
+                <div class="span4 sub-bottcon">
+                    <h1>FORUM ACTIVITY</h1>
+                    <div class="sub-middleft">
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>PHOTO THE WEEK</h1>
+                    <div class="spansa">
+                        <img src="{{ STATIC_URL }}images/sub1.png"  />
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NEREST PORT</h1>
+                    <div class="sub-middleft" style="overflow-y:hidden;">
+                        <span class="sub-eqva">GEORETOWN MARINO, SC</span><br />
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;"> Nightly:$100</span><span style="float:right; margin-top:10px;"> Bertha :15</span></span>
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;" class="sub-read"><a href="#">Read Guide </a></span><span style="float:right; margin-top:10px; width:90px;" class="sub-read"> <a href="#">All Atlantic Parts</a></span></span>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub2.png"  />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NOVEMBER SALE</h1>
+                    <div class="spansaa">
+                        <span class="sub-price">30 % OFF</span>
+                        <span class="sub-othrpri">ALL APPARELS IN <span style="color:#000;">    SSCA STORE</span></div>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub3.png"  />
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        {% endblock %}
     </div>
-      
-      
-    {% block widget %}  
-        <div class="row-fluid">
- 			<div class="span4 sub-bottcon">
-            	<h1>FORUM ACTIVITY</h1>
-            	<div class="sub-middleft">
-                    <span class="sub-eqva"> Association is the largest</span>
-                	<ul>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                    </ul>
-                    <span class="sub-eqva"> Association is the largest</span>
-                	<ul>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                    
-                    </ul>
-                    <span class="sub-eqva"> Association is the largest</span>
-                	<ul>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                    </ul>
-                    <span class="sub-eqva"> Association is the largest</span>
-                	<ul>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                        <li><a href="#">Association is the largest</a></li>
-                    </ul>
-                </div>
-           	</div>
-
-            <div class="span4 sub-bottcon">
-                <h1>PHOTO THE WEEK</h1>
-                <div class="spansa">
-                    <img src="{{ STATIC_URL }}images/sub1.png"  />
-                </div>
-           	</div>
-
-            <div class="span4 sub-bottcon">
-            	<h1>NEREST PORT</h1>
-                <div class="sub-middleft" style="overflow-y:hidden;">
-                    <span class="sub-eqva">GEORETOWN MARINO, SC</span><br />
-                    <span style="float:left; width:200px;">
-                    <span style="float:left; margin-top:10px;"> Nightly:$100</span><span style="float:right; margin-top:10px;"> Bertha :15</span></span>
-                    <span style="float:left; width:200px;">
-                    <span style="float:left; margin-top:10px;" class="sub-read"><a href="#">Read Guide </a></span><span style="float:right; margin-top:10px; width:90px;" class="sub-read"> <a href="#">All Atlantic Parts</a></span></span>
-                    <div class="spansa">
-                        <img src="{{ STATIC_URL }}images/sub2.png"  />
-                    </div>
-                </div>
-           	</div>
-
-            <div class="span4 sub-bottcon">
-            	<h1>NOVEMBER SALE</h1>
-                <div class="spansaa">
-                	<span class="sub-price">30 % OFF</span>
-                    <span class="sub-othrpri">ALL APPARELS IN <span style="color:#000;">	SSCA STORE</span></div>
-                    <div class="spansa">
-                        <img src="{{ STATIC_URL }}images/sub3.png"  />
-                    </div>
-                </div>
-           	</div>
-        </div>           
-    {% endblock %}
 {% endblock %}
+      
+      
+    
