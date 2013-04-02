@@ -16,59 +16,133 @@
 
 {% block content %}
 
-<div class="content_wrapper">
-    <div class="hero-unit" style="padding: 2px; margin-bottom: 2px;">
-        <div class="row-fluid" style="border: solid 0px blue;">
-            <div class="span12">
-                <div class="row-fluid">
+    <div class="content_wrapper">
+        <div class="hero-unit" style="padding: 2px; margin-bottom: 2px;">
+            <div class="row-fluid" style="border: solid 0px blue;">
+                <div class="span12">
+                    <div class="row-fluid">
 
-                    {% block main_content %}
-                    <div class="span9 homae-rig">
-                        <h1>WELCOME TO SSCA</h1>
-                        <p> Content will come here... </p>
-                    </div>
-                    {% endblock %}
+                        {% block main_content %}
+                        <div class="span9 homae-rig">
+                            <h1>WELCOME TO SSCA</h1>
+                            <p> Content will come here... </p>
+                        </div>
+                        {% endblock %}
 
-                    {% block events %}
-                        <div class="span3">
-                            <div class="row-fluid" style="border: solid 0px red;">
-                                <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
-                                    <div style="margin-top: 20px;">
-                                        <form class="navbar-search">
-                                            <input type="text" class="search-query span12" placeholder="Search" style="background-color: white; border: 1px solid #ccc;">
-                                            <div class="icon-search"></div>
-                                        </form>
+                        {% block events %}
+                            <div class="span3">
+                                <div class="row-fluid" style="border: solid 0px red;">
+                                    <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
+                                        <div style="margin-top: 20px;">
+                                            <form class="navbar-search">
+                                                <input type="text" class="search-query span12" placeholder="Search" style="background-color: white; border: 1px solid #ccc;">
+                                                <div class="icon-search"></div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="clearfix">&nbsp;</div>
+                                <!-- TODO: Transfer inline styles to external later -->
+                                <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
+                                </div>
+
+                                <div class="clearfix">&nbsp;</div>
+
+                                <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
+                                </div>
+
+                                <div class="clearfix">&nbsp;</div>
+
+                                <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
+                                </div>
+
                             </div>
-                            <div class="clearfix">&nbsp;</div>
-                            <!-- TODO: Transfer inline styles to external later -->
-                            <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
+                            
+                        <!-- <div class="span5">
+                            <div class="row-fluid">
+                            <div class="con-right-bottom-con span12">
                             </div>
-
-                            <div class="clearfix">&nbsp;</div>
-
-                            <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
-                            </div>
-
-                            <div class="clearfix">&nbsp;</div>
-
-                            <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
-                            </div>
-
                         </div>
-                        
-                    <!-- <div class="span5">
-                        <div class="row-fluid">
-                        <div class="con-right-bottom-con span12">
-                        </div>
+                        </div> -->
+                        {% endblock %}
                     </div>
-                    </div> -->
-                    {% endblock %}
                 </div>
             </div>
         </div>
+        {% block widget %}  
+            <div class="row-fluid">
+                <div class="span4 sub-bottcon">
+                    <h1>FORUM ACTIVITY</h1>
+                    <div class="sub-middleft">
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>PHOTO THE WEEK</h1>
+                    <div class="spansa">
+                        <img src="{{ STATIC_URL }}images/sub1.png"  />
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NEREST PORT</h1>
+                    <div class="sub-middleft" style="overflow-y:hidden;">
+                        <span class="sub-eqva">GEORETOWN MARINO, SC</span><br />
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;"> Nightly:$100</span><span style="float:right; margin-top:10px;"> Bertha :15</span></span>
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;" class="sub-read"><a href="#">Read Guide </a></span><span style="float:right; margin-top:10px; width:90px;" class="sub-read"> <a href="#">All Atlantic Parts</a></span></span>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub2.png"  />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NOVEMBER SALE</h1>
+                    <div class="spansaa">
+                        <span class="sub-price">30 % OFF</span>
+                        <span class="sub-othrpri">ALL APPARELS IN <span style="color:#000;">    SSCA STORE</span></div>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub3.png"  />
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        {% endblock %}
     </div>
-</div>
 {% endblock %}    
 
