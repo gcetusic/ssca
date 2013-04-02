@@ -13,7 +13,7 @@ function initialize() {
             center: new google.maps.LatLng(center_latitude, center_longitude),
             zoom: map_zoom,
             minZoom: min_zoom,
-            mapTypeId: google.maps.MapTypeId.ROADMAP 
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
 
@@ -79,7 +79,7 @@ function initialize() {
         var longitude_minutes = (coord.lng() % 1)*60;
         longitude_minutes = longitude_minutes.toPrecision(2);
 
-        return latitude_degrees + " " + latitude_minutes + "'" + ", " 
+        return latitude_degrees + " " + latitude_minutes + "'" + ", "
             + longitude_degrees  + " " + longitude_minutes + "'"
     }
 
@@ -165,7 +165,7 @@ function initialize() {
         /* The response is a json object that contains
             1. position - a tuple with latitude and longitude
             3. id - the specific id of the marker, sent only if the marker isn't a cluster
-            2. category - a string, either 'stations', 'ports', 'members' or cluster 
+            2. category - a string, either 'stations', 'ports', 'members' or cluster
                 - if the category is a cluster, the marker represents
                 not a single precise location but a grouping of markers */
 
@@ -290,7 +290,7 @@ function initialize() {
             var divisor = (2 + 2 * margin);
             var wayTooBig = false;
             if (
-                // margin of one means zoom in when overage is big enough that 
+                // margin of one means zoom in when overage is big enough that
                 // zooming in would leave > half of width
                 // which would be when overage is > three quarters width
 
@@ -469,6 +469,10 @@ function initialize() {
             else {
                 hideCategory(this.value);
             }
+            if($("#type-filter input[name='type']:checked").length < 1) {
+                // hide empty clusters
+                hideCategory("cluster");
+            }
         });
 
         // Refetch markers from server if timeframe is changed
@@ -490,7 +494,7 @@ function initialize() {
             So instead of sending the string directly to the server, the string is put
             in an array that acts like a queue. Every two seconds only the latest string in
             the queue is sent to the server and the queue is emptied until the next keystroke.
-            When user inputs text, a searchqueue is filled with the current input text. 
+            When user inputs text, a searchqueue is filled with the current input text.
         */
         var searchqueue = [];
         setInterval(function () {
