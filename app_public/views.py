@@ -48,16 +48,20 @@ def post_auth_process(request, backend, *args, **kwargs):
                 user = person.user
                 user.backend = 'social_auth.backends.google.GoogleBackend'
                 login(request, person.user)
+                print "---------------- Login Success redirect ----------------"
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
             else:  # If the subscription seems to be expired, ask the user to renew it.
+                print "---------------- Subscription Expired ----------------"
                 message = {
                     'title': 'Subscription Expired',
                     'description': 'Your subscription seems to be expired. Please renew it.'
                 }
 
         except Person.DoesNotExist:
-            return render_to_response('public.html', {"error_type": "PersonDoesNotExist"})
+            print "---------------- PersonDoesNotExist ----------------"
+            context = {"error_type": "PersonDoesNotExist"}
+            return render_to_response('public.html', RequestContext(request, context))
 
         except Account.DoesNotExist:
             print "-- Account DoesNotExist --"

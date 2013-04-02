@@ -60,12 +60,12 @@ class Location(models.Model):
         if self.latitude >= 0:
             latitude = "N" + " " + Location().format_coordinates(self.latitude)
         else:
-            latitude = "S" + " " + Location().format_coordinates(self.latitude)
+            latitude = "S" + " " + abs(Location().format_coordinates(self.latitude))
 
         if self.longitude >= 0:
             longitude = "E" + " " + Location().format_coordinates(self.longitude)
         else:
-            longitude = "W" + " " + Location().format_coordinates(self.longitude)
+            longitude = "W" + " " + abs(Location().format_coordinates(self.longitude))
 
         info = {
             'name': self.person.user.username,

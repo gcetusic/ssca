@@ -28,6 +28,16 @@
         $('#dp3').datepicker();
     });
 
+    /* 
+    * because of clash with dajaxice ajax feature,
+    * we need to create this function,
+    * pls remove this if there is some better way 
+    */
+    function showModalStep1() {
+        $("#modalStep1").modal('show');
+        return false;
+    }
+
     function onMailLocationChange() {
         var mailLocation = $('#id_mail_location').find(":selected").text();
 

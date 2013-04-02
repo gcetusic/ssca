@@ -179,7 +179,6 @@ else:
     print('loading local config override')
     from settings_dev_wb import *
 
-
 ####################
 # DYNAMIC SETTINGS #
 ####################
