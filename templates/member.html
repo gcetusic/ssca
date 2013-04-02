@@ -31,7 +31,7 @@
 
                         // create H1 element with contents
                         var h1 = document.createElement('h1');
-                        var h1_content = "Search results for <" + search_value + ">";
+                        var h1_content = "Search results for «" + search_value + "»";
                         $(h1).text(h1_content);
 
                         var ul = document.createElement('ul');
@@ -45,12 +45,8 @@
                         });
 
                         moveTabsAndContents();
-
-                        // Change contents and tab header for the first tab
-                        $('[href="#tab1"]').text(h1_content);
-                        $('#tab1 > .sub-pagleft').html("").append(h1);
-                        $('#tab1 > .sub-pagleft').append(ul);
-                        $('#myTab a:first').tab('show');
+                        var page = {title: h1_content, content: ul};
+                        load_page(page);
 
                     }
                 });
