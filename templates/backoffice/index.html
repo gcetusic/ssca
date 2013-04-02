@@ -20,7 +20,9 @@
 {% endblock %}
 
 {% block content %}
+
     <link href="{{ STATIC_URL }}jqgrid/css/jqx.base.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/backoffice.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}jqgrid/css/jquery-ui-custom.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}jqgrid/css/ui.jqgrid.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}jqgrid/css/ui.multiselect.css" />
@@ -66,7 +68,24 @@
     });
     </script>
 
- 
+<div class="backofficeMenu">
+    <div class="backofficeMenuItem padding coloredBg" style="border-top-left-radius: 5px;border-top-right-radius: 5px;">
+        Membership
+    </div>
+    <div class="backofficeMenuItem" style="height:110px">
+        <p>
+        <ul style="list-style-type: none;">
+            <li><span class="coloredBg">Members</span></li>
+            <li><span>Accounts</span></li>
+        </ul>
+    </div>
+    <div class="backofficeMenuItem padding">
+        CMS
+    </div>
+    <div class="backofficeMenuItem padding" style="border-bottom:none;">
+        Other stuff
+    </div>
+</div>
     <table id="list_doc"></table>
     <div id="pager_doc"></div>
 

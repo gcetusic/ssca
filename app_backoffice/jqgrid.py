@@ -288,7 +288,7 @@ class JqGrid(object):
         colmodel = {
             'name': field_name,
             'index': field.name,
-            #'label': field.verbose_name,
+            'label': field.name,
             'editable': True
         }
         return colmodel

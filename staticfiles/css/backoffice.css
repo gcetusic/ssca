@@ -1,0 +1,22 @@
+.backofficeMenu {
+    height: 200px;
+    margin-left: -136px;
+    width: 120px;
+    position:absolute;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.padding {
+    padding:5px;
+}
+
+.backofficeMenuItem {
+    border-bottom: 1px solid #CCCCCC;
+    height:16px;
+    
+}
+
+.coloredBg {
+    background-color:rgb(135,182,217);
+}
