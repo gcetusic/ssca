@@ -103,6 +103,11 @@ class Person(models.Model):
     yearly_reniew = models.BooleanField()
     total = models.IntegerField()
     """
+    # ALTERNATIVE - we can create a customer on braintree and just 
+    # keep customer id, then retrieve most (if not all the above) information from there
+    """
+    braintree_id = models.CharField()
+    """
 
 
 class Relationship(models.Model):

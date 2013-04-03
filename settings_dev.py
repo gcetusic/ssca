@@ -5,6 +5,17 @@ TEMPLATE_DEBUG = DEBUG
 
 STATIC_ROOT = 'static'
 
+# ------------ Braintree payments related keys start here ------------
+
+import braintree
+BTREE_ENVIRONMENT = braintree.Environment.Sandbox
+BTREE_MERCHANT_ID = "qp96bcphs85fyjyq"
+BTREE_PUBLIC_KEY = "ccsmkms74ymxhbxg"
+BTREE_PRIVATE_KEY = "5227ce9f17856c06e877871eefb8e92a"
+
+# ------------ Braintree payments keys end here           ------------
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
