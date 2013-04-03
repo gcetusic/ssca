@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'app_public',
     'app_dashboard',
+    'app_payments',
     'social_auth',
     'dajaxice',
 )
@@ -174,6 +175,8 @@ if deployment_env == 'prod':
     from settings_prod import *
 elif deployment_env == 'stag':
     from settings_stag import *
+elif deployment_env == 'dev':
+    from settings_dev import *
 # if you like, add your own custom setup here
 else:
     print('loading local config override')
