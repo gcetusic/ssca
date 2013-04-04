@@ -67,8 +67,8 @@ def post_auth_process(request, backend, *args, **kwargs):
             print "-- Account DoesNotExist --"
             # If the user has no subscription yet, ask him to subscribe.
             message = {
-                        'title': 'No Subscription found',
-                        'description': 'You seem to be not chosen any subscription. Please subscribe.'
+                'title': 'No Subscription found',
+                'description': 'You seem to be not chosen any subscription. Please subscribe.'
             }
 
     except KeyError:  # Handle the case of no identity found in the Openid provider response.

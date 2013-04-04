@@ -14,10 +14,10 @@ def gen_random_position(latrange, lonrange):
 
 
 def write_data(latrange=(-89, 89), lonrange=(-179, 179), limit=10000):
-    user = User(\
-        username="usernr" + str(random.randint(0, 1000000)), \
-        email="emailnr" + str(random.randint(0, 1000000)), \
-        first_name="firstnr" + str(random.randint(0, 1000000)), \
+    user = User(
+        username="usernr" + str(random.randint(0, 1000000)),
+        email="emailnr" + str(random.randint(0, 1000000)),
+        first_name="firstnr" + str(random.randint(0, 1000000)),
         last_name="lastnr" + str(random.randint(0, 1000000)))
     user.save()
     person = Person(user=user, identity=str(random.randint(0, 1000000)))
@@ -26,18 +26,18 @@ def write_data(latrange=(-89, 89), lonrange=(-179, 179), limit=10000):
     locations = []
     for i in range(limit):
         position = gen_random_position(latrange, lonrange)
-        locations.append(Location( \
-                                date=timezone.now(), \
-                                latitude=position[0], longitude=position[1], \
-                                person=person))
+        locations.append(Location(
+            date=timezone.now(),
+            latitude=position[0], longitude=position[1],
+            person=person))
     Location.objects.bulk_create(locations)
 
     ports = []
     for i in range(limit):
         position = gen_random_position(latrange, lonrange)
-        ports.append(Port( \
-                                latitude=position[0], longitude=position[1], \
-                                name=str(random.randint(0, 1000000))))
+        ports.append(Port(
+            latitude=position[0], longitude=position[1],
+            name=str(random.randint(0, 1000000))))
     Port.objects.bulk_create(ports)
 
     if Port.objects.all().exists():
@@ -46,19 +46,19 @@ def write_data(latrange=(-89, 89), lonrange=(-179, 179), limit=10000):
     guides = []
     stations = []
     for port in ports:
-        guides.append(Guide( \
-                                date=timezone.now(), \
-                                title=str(random.randint(0, 1000000)), \
-                                url="http://localhost:8000",
-                                author=person,
-                                port=port))
+        guides.append(Guide(
+            date=timezone.now(),
+            title=str(random.randint(0, 1000000)),
+            url="http://localhost:8000",
+            author=person,
+            port=port))
         position = gen_random_position(latrange, lonrange)
-        stations.append(CruisingStation( \
-                                latitude=position[0], longitude=position[1], \
-                                name=str(random.randint(0, 1000000)), \
-                                phone=str(random.randint(0, 1000000)), \
-                                email="no@mail.com",
-                                port=port))
+        stations.append(CruisingStation(
+            latitude=position[0], longitude=position[1],
+            name=str(random.randint(0, 1000000)),
+            phone=str(random.randint(0, 1000000)),
+            email="no@mail.com",
+            port=port))
 
     Guide.objects.bulk_create(guides)
     CruisingStation.objects.bulk_create(stations)

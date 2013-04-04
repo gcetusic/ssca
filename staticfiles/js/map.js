@@ -9,11 +9,11 @@ function initialize() {
     // create map
     var map = new google.maps.Map(
         document.getElementById("map-canvas"), {
-            // set options, some must be defined in the html 
+            // set options, some must be defined in the html
             center: new google.maps.LatLng(center_latitude, center_longitude),
             zoom: map_zoom,
             minZoom: min_zoom,
-            mapTypeId: google.maps.MapTypeId.ROADMAP 
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
 
@@ -32,9 +32,9 @@ function initialize() {
     function addMarker(position, id, category) {
         marker = new google.maps.Marker({
             position: position,
-            map: map,
+            map: map
         });
-        if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
+        if ($("#type-filter input[value='" + category + "']").prop("checked") === false) {
             marker.setVisible(false);
         }
 
@@ -61,16 +61,18 @@ function initialize() {
 
     // Receives gmaps coordinates object
     function formatCoordinates(coord) {
+        var latitude_degrees;
         if (coord.lat() >= 0) {
-            var latitude_degrees = Math.round(coord.lat()) + "N";
+            latitude_degrees = Math.round(coord.lat()) + "N";
         } else {
-            var latitude_degrees = Math.abs(Math.round(coord.lat())) + "S";
+            latitude_degrees = Math.abs(Math.round(coord.lat())) + "S";
         }
 
+        var longitude_degrees;
         if (coord.lng() >= 0) {
-            var longitude_degrees = Math.round(coord.lng()) + "E";
+            longitude_degrees = Math.round(coord.lng()) + "E";
         } else {
-            var longitude_degrees = Math.abs(Math.round(coord.lng())) + "W";
+            longitude_degrees = Math.abs(Math.round(coord.lng())) + "W";
         }
 
         var latitude_minutes = (coord.lat() % 1)*60;
@@ -79,8 +81,7 @@ function initialize() {
         var longitude_minutes = (coord.lng() % 1)*60;
         longitude_minutes = longitude_minutes.toPrecision(2);
 
-        return latitude_degrees + " " + latitude_minutes + "'" + ", " 
-            + longitude_degrees  + " " + longitude_minutes + "'"
+        return latitude_degrees + " " + latitude_minutes + "'" + ", " + longitude_degrees  + " " + longitude_minutes + "'";
     }
 
     // Shows any marker currently in the marker array
@@ -88,7 +89,7 @@ function initialize() {
         $("#center").html(formatCoordinates(map.getCenter()));
 
         if (markersArray) {
-            for (i in markersArray) {
+            for (var i in markersArray) {
                 // If the marker is a cluster center on it and zoom in
                 // This will trigger the 'idle' event and consequently fetch new markers
                 if (markersArray[i].category=='cluster') {
@@ -126,7 +127,7 @@ function initialize() {
     // Deletes all markers by removing references to them
     function deleteOverlays() {
         if (markersArray) {
-            for (i in markersArray) {
+            for (var i in markersArray) {
                 markersArray[i].setMap(null);
             }
             markersArray.length = 0;
@@ -159,13 +160,13 @@ function initialize() {
             "timezone": getTimezoneName(),
             "time": time,
             "zoom": map.getZoom()
-        }
+        };
 
         // Send gathered data to server and receive response
         /* The response is a json object that contains
             1. position - a tuple with latitude and longitude
             3. id - the specific id of the marker, sent only if the marker isn't a cluster
-            2. category - a string, either 'stations', 'ports', 'members' or cluster 
+            2. category - a string, either 'stations', 'ports', 'members' or cluster
                 - if the category is a cluster, the marker represents
                 not a single precise location but a grouping of markers */
 
@@ -203,7 +204,7 @@ function initialize() {
             scrollwheel: false, // Disable scrollwheel zooming
             disableDoubleClickZoom: true,
             center: new google.maps.LatLng(center_latitude, center_longitude),
-            zoom: map_zoom,
+            zoom: map_zoom
         }
     );
 
@@ -290,7 +291,7 @@ function initialize() {
             var divisor = (2 + 2 * margin);
             var wayTooBig = false;
             if (
-                // margin of one means zoom in when overage is big enough that 
+                // margin of one means zoom in when overage is big enough that
                 // zooming in would leave > half of width
                 // which would be when overage is > three quarters width
 
@@ -444,7 +445,7 @@ function initialize() {
     function showCategory(category) {
         for (var i=0; i<markersArray.length; i++) {
             if (markersArray[i].category == category) {
-                markersArray[i].setVisible(true)
+                markersArray[i].setVisible(true);
             }
         }
     }
@@ -490,7 +491,7 @@ function initialize() {
             So instead of sending the string directly to the server, the string is put
             in an array that acts like a queue. Every two seconds only the latest string in
             the queue is sent to the server and the queue is emptied until the next keystroke.
-            When user inputs text, a searchqueue is filled with the current input text. 
+            When user inputs text, a searchqueue is filled with the current input text.
         */
         var searchqueue = [];
         setInterval(function () {
@@ -505,7 +506,7 @@ function initialize() {
             return function() {
                 fn.apply(context, params);
             };
-        }
+        };
 
         var search_results;
         function find(query, process) {
@@ -559,12 +560,12 @@ function initialize() {
             map.panTo(center);
             // Zoom level is a "within a few miles" approximate
             map.setZoom(5);
-        })
+        });
 
         // Clear the search field if modal is hidden
         $('#member_modal').on('hidden', function () {
             $(this).find("input[type=text], textarea").val("");
-        })
+        });
 
         // Some functions aren't needed but included as templates
         $(".memberTypeahead").typeahead({
@@ -585,6 +586,6 @@ function initialize() {
             sorter: function(items) {
                 return items;
             }
-        })
+        });
     });
-};
+}
