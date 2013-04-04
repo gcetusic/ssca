@@ -74,6 +74,8 @@ class Subscription(models.Model):
     end_date = models.DateField()
     amount_paid = models.DecimalField(max_digits=5, decimal_places=2)
     date_paid = models.DateField()
+    plan_id = models.CharField(max_length=20) # The id of the plan on braintree
+    braintree_id = models.CharField(max_length=20) # The id of the subscription on braintree
 
 
 class Account(models.Model):
@@ -92,7 +94,8 @@ class Person(models.Model):
     friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
     signup_token = models.CharField(max_length=64)
     token_created = models.DateTimeField(auto_now_add=True)
-
+    # customer_id for braintree which we can use in transactions and subscriptions
+    customer_id = models.CharField(max_length=20)
     # FIXME - need to determine how to store this info in db
     # encrypt or hash ?
     """
@@ -103,11 +106,13 @@ class Person(models.Model):
     yearly_reniew = models.BooleanField()
     total = models.IntegerField()
     """
-    # ALTERNATIVE - we can create a customer on braintree and just 
-    # keep customer id, then retrieve most (if not all the above) information from there
-    """
-    braintree_id = models.CharField()
-    """
+    
+    
+    def get_customer_id(self):
+        '''
+        Return either our customer_id or None if we don't have one yet.
+        '''
+        return self.customer_id or None
 
 
 class Relationship(models.Model):
