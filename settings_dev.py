@@ -15,6 +15,7 @@ BTREE_PRIVATE_KEY = "5227ce9f17856c06e877871eefb8e92a"
 
 # ------------ Braintree payments keys end here           ------------
 
+SOUTH_TESTS_MIGRATE = False
 
 DATABASES = {
     'default': {

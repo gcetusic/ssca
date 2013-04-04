@@ -1,7 +1,6 @@
 from django.db import models
 
 from app_public.models import Person
-# Create your models here.
 '''
 Full list of attributes avaliable on a braintree's SuccessfulResult.transaction
 object. Don't think we need to keep track of anything else. 
@@ -21,9 +20,8 @@ object. Don't think we need to keep track of anything else.
 'transparent_redirect_create_url', 'type', 'updated_at', 'vault_billing_address', 
 'vault_credit_card', 'vault_customer', 'verify_keys', 'void'
 '''
-# Create your models here.
 class Transaction(models.Model):
-    user = models.ForeignKey(Person)
+    user = models.ForeignKey(Person, null=True, blank=True)
     date = models.DateField()
     amount = models.FloatField()
     purpose = models.CharField(max_length=300)
