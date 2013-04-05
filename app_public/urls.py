@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^$', public_page, name='public-page'),
     url(r'^register/$', register_page),
     url(r'^email_test/$', email_test),
+    url(r'^registration/complete/$', registration_complete), # FIXME add regexp for token later
     url(r'^base/$', 'django.views.generic.simple.direct_to_template', {'template': 'base.html'}),
     url(r'^public/$', public_page),
     url(r'^member/$', member_page, name="member-page"),
