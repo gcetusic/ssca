@@ -8,6 +8,7 @@ from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
 from django.core.xheaders import populate_xheaders
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
+from django.core.context_processors import csrf
 from app_public.models import Person, Account, Page
 from datetime import datetime
 from decimal import *
@@ -114,8 +115,44 @@ def public_page(request):
     user_exist = False
     form = SSCAJoinForm()
     c = {'form': form, 'basic_mail_cost': 55}
+    c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
+@csrf_protect
+def register_page(request):
+    print "register_page()"
+    response = HttpResponse()
+
+    print "checking request type"
+    # we will only entertain POST request
+    if not request.method == 'POST':
+        response.write("ERROR:: Only HTTP POST is supported for registering.")
+        return response
+
+    print "ensure email"
+    if not request.POST.has_key("email"):
+        response.write("ERROR:: Email not specified.")
+        return response
+
+    print "ensure name"
+    if not request.POST.has_key("name"):
+        response.write("ERROR:: Name not specified.")
+        return response
+
+    #todo fetch params from post request
+    email = request.POST["email"]
+    name = request.POST["name"]
+
+    # generate 64 byte hash
+
+    # send registration email
+    from django.core.mail import send_mail
+
+    send_mail('Subject here', 'Here is the message.', 'from@example.com',
+        ['to@example.com'], fail_silently=False)
+
+    response.write( "registering... %s" % request.POST["email"])
+    return response
 
 def dajax_test(request):
     """test view to evaluate dajax capabilities"""
