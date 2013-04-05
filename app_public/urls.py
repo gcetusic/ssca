@@ -20,7 +20,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
     url(r'^$', public_page),
     url(r'^register/$', register_page),
-    url(r'^email_test/$', email_test),
 
     # token must be [a-zA-Z0-1] and 64 chars in length, incase token length in
     # url does not match the registration page will not be shown

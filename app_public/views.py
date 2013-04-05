@@ -126,24 +126,6 @@ def registration_complete(request, token):
     response.write("regisgtration complete...")
     return response
 
-def email_test(request):
-    print "email test"
-    response = HttpResponse()
-    response.write("sending email...")
-
-    # composing email
-    subject = "Some mail subject"
-    email_body = "hello there, this is test email..."
-    email_from = "test.weavebytes@gmail.com"
-
-    # list of email receiver, we may add cc/bcc later
-    email_to_lst = [] 
-
-    email_to_lst.append("weavebytes@gmail.com")
-    send_mail(subject, email_body, email_from, email_to_lst, fail_silently=False)
-
-    return response
-
 @csrf_protect
 def register_page(request):
     print "register_page()"
