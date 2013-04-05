@@ -173,12 +173,17 @@ def register_page(request):
     token = get_rendon_alphanum64()
 
     # composing email
-    subject = "Some mail subject"
+    subject = "SSCA Registration Activation"
     link = "http://localhost:8000/registration/complete"
-    email_format = """Hello %s, We have got your registration. 
-                      Kindly click on following link to activate your account:-
-                      %s/%s
-                   """
+    email_format = """Hello %s, 
+    Thank you very much for registering with SSCA.
+
+    Kindly click on following link to activate your account:-
+    %s/%s
+
+    Sincerely,
+    SSCA Team
+    """
     email_body = email_format % (name, link, token)
     print email_body
     email_from = "test.weavebytes@gmail.com"
