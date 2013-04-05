@@ -119,6 +119,12 @@ def public_page(request):
     c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
+def registration_complete(request):
+    print "registration complete"
+    response = HttpResponse()
+    response.write("regisgtration complete...")
+    return response
+
 def email_test(request):
     print "email test"
     response = HttpResponse()
