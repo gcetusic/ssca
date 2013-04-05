@@ -14,6 +14,7 @@ from datetime import datetime
 from decimal import *
 import json
 from app_public.forms import SSCAJoinForm
+from django.core.mail import send_mail
 
 
 def dashboard_main_page(request):
@@ -118,6 +119,24 @@ def public_page(request):
     c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
+def email_test(request):
+    print "email test"
+    response = HttpResponse()
+    response.write("sending email...")
+
+    # composing email
+    subject = "Some mail subject"
+    email_body = "hello there, this is test email..."
+    email_from = "test.weavebytes@gmail.com"
+
+    # list of email receiver, we may add cc/bcc later
+    email_to_lst = [] 
+
+    email_to_lst.append("weavebytes@gmail.com")
+    send_mail(subject, email_body, email_from, email_to_lst, fail_silently=False)
+
+    return response
+
 @csrf_protect
 def register_page(request):
     print "register_page()"
@@ -144,9 +163,9 @@ def register_page(request):
     name = request.POST["name"]
 
     # generate 64 byte hash
+    # TODO
 
     # send registration email
-    from django.core.mail import send_mail
 
     send_mail('Subject here', 'Here is the message.', 'from@example.com',
         ['to@example.com'], fail_silently=False)
