@@ -140,7 +140,7 @@ def registration_complete(request, token):
     # (1) check token 
     # (2) remove token from db
 
-    c = {}
+    c = {'registration_action': 'RegistrationComplete'}
     c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
