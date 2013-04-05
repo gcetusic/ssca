@@ -16,6 +16,7 @@ from decimal import *
 import json
 from app_public.forms import SSCAJoinForm
 from django.core.mail import send_mail
+from utils import *
 
 
 def dashboard_main_page(request):
@@ -177,12 +178,26 @@ def register_page(request):
     name = request.POST["name"]
 
     # generate 64 byte hash
-    # TODO
+    token = get_rendon_alphanum64()
+
+    # composing email
+    subject = "Some mail subject"
+    link = "http://localhost:8000/registration/complete"
+    email_format = """Hello %s, We have got your registration. 
+                      Kindly click on following link to activate your account:-
+                      %s/%s
+                   """
+    email_body = email_format % (name, link, token)
+    print email_body
+    email_from = "test.weavebytes@gmail.com"
+
+    # list of email receiver, we may add cc/bcc later
+    email_to_lst = [] 
+
+    email_to_lst.append(email)
 
     # send registration email
-
-    send_mail('Subject here', 'Here is the message.', 'from@example.com',
-        ['to@example.com'], fail_silently=False)
+    send_mail(subject, email_body, email_from, email_to_lst, fail_silently=False)
 
     response.write( "registering... %s" % request.POST["email"])
     return response
