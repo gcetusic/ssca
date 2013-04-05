@@ -158,6 +158,7 @@ def register_page(request):
     response = HttpResponse()
 
     # print "checking request type"
+
 @csrf_protect
 def register_page(request):
     print "register_page()"
