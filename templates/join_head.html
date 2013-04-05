@@ -244,7 +244,8 @@
             url: "/register/",
             data: {'csrfmiddlewaretoken': csrftoken, 
                    'email': $("#id_email").val(),
-                   'name': $("#id_name_on_card").val(),
+                   'fname': $("#id_firstname").val(),
+                   'lname': $("#id_lastname").val(),
                   },
             }).done(function( msg ) {
             alert( "Data Sent: " + msg );
