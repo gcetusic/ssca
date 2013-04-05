@@ -158,6 +158,12 @@ def register_page(request):
     response = HttpResponse()
 
     # print "checking request type"
+@csrf_protect
+def register_page(request):
+    print "register_page()"
+    response = HttpResponse()
+
+    print "checking request type"
     # we will only entertain POST request
     if not request.method == 'POST':
         response.write("ERROR:: Only HTTP POST is supported for registering.")
