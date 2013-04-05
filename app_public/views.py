@@ -121,10 +121,20 @@ def public_page(request):
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
 def registration_complete(request, token):
-    print "registration complete:", token
     response = HttpResponse()
-    response.write("regisgtration complete...")
-    return response
+    if not request.method == 'GET':
+        response.write("ERROR:: Only HTTP GET is supported for registering.")
+        return response
+
+    print "registration complete:", token
+
+    # TODO
+    # (1) check token 
+    # (2) remove token from db
+
+    c = {}
+    c.update(csrf(request))
+    return render_to_response('public.html', c, context_instance=RequestContext(request))
 
 @csrf_protect
 def register_page(request):
