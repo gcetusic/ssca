@@ -6,7 +6,7 @@ import string
 import random
 
 
-def generate_random_str(length=64, charset=string.ascii_uppercase + string.digits):
+def generate_random_str(length=64, charset=string.ascii_uppercase + string.ascii_lowercase + string.digits):
     """
     function generates a random for given length and charsetet
     """
