@@ -109,9 +109,15 @@
             </script>
             {% endif %}
 
+            {% if registration_action == "RegistrationComplete" %}
+            <script>
+                $("#modalRegisterOpenId").modal('show');
+            </script>
+            {% endif %}
+
             <!-- test code -->
             <script>
-            //$("#modalForgotPassword").modal('show');
+            //$("#modalEmailSendForForgotPassword").modal('show');
             //$("#loginModalTransition").modal('show');
             </script>
             <!-- test code -->
