@@ -16,7 +16,7 @@ from decimal import *
 import json
 from app_public.forms import SSCAJoinForm
 from django.core.mail import send_mail
-from utils import *
+from public_utils import *
 
 
 def dashboard_main_page(request):
@@ -186,7 +186,8 @@ def register_page(request):
     """
     email_body = email_format % (name, link, token)
     print email_body
-    email_from = "test.weavebytes@gmail.com"
+    #email_from = "test.weavebytes@gmail.com"
+    email_from = settings.EMAIL_HOST_USER
 
     # list of email receiver, we may add cc/bcc later
     email_to_lst = [] 
