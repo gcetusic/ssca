@@ -4,7 +4,7 @@
 
     <!-- begin logo column -->
     <div class="span2" style="border: 0px solid black;"> 
-        <a href="#" class="thumbnail"><img  src="{{ STATIC_URL }}images/ssca_logo.png" alt="" width="120" height="120"></a> 
+        <a href="#" class="thumbnail"><img src="{{ STATIC_URL }}images/ssca_logo.png" id="sscaLogo" alt=""></a> 
     </div>
     <!-- end logo column -->
 
@@ -20,6 +20,7 @@
         <!-- end Seven Seas Cruising Association row -->
 
         <!-- begin search bar row -->
+        {% block search_bar %}
         <div class="row-fluid" style="border: solid 0px red;">
             <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
                 <div style="border: 0px solid black; margin-top: 20px;">
@@ -30,6 +31,7 @@
                 </form>
             </div>
         </div>
+        {% endblock %}
         <!-- end search bar row -->
 
     </div>
