@@ -20,3 +20,7 @@
 .coloredBg {
     background-color:rgb(135,182,217);
 }
+
+#searchmodfbox_list_doc {
+    width: 700px !important;
+}

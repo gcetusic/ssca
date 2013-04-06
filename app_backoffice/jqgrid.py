@@ -29,6 +29,7 @@
 
 import operator
 from django.core.serializers import json
+from django.utils.simplejson import dumps, loads, JSONEncoder
 from django.db import models
 from django.core.exceptions import FieldError, ImproperlyConfigured
 from django.core.paginator import Paginator, InvalidPage
@@ -88,7 +89,7 @@ class JqGrid(object):
         if _search == 'true':
             _filters = request.GET.get('filters')
             try:
-                filters = _filters and json.loads(_filters)
+                filters = _filters and loads(_filters)
             except ValueError:
                 return None
 
