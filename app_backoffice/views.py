@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from app_backoffice.jqgrid import JqGrid
 
 class UserGrid(JqGrid):
-    fields = ("id", "username", "first_name", "last_name", "email")
+    fields = ("id", "username", "first_name", "last_name", "email", "date_joined", "last_login")
     model = User
     pager_id = '#pager_doc'
     url = reverse_lazy('grid_handler')
@@ -19,9 +19,11 @@ class UserGrid(JqGrid):
     colmodel_overrides = {
         'id': { 'editable': False, 'width':50, 'sortable': True },
         'username': { 'editable': False, 'width':50, 'sortable': True },
-        'first_name': { 'editable': False, 'width':240, 'sortable': True  },
-        'last_name': { 'editable': False, 'width':240, 'sortable': True  },
+        'first_name': { 'editable': False, 'width':150, 'sortable': True  },
+        'last_name': { 'editable': False, 'width':150, 'sortable': True  },
         'email': { 'editable': False, 'width':150, 'sortable': True  },
+        'date_joined': { 'editable': False, 'width':100, 'sortable': True  },
+        'last_login': { 'editable': False, 'width':100, 'sortable': True  },
     }
     
 @staff_member_required
