@@ -48,8 +48,9 @@
 
 
     <script>
+    var url = "/backoffice/{% if type == 'accounts' %}acc_{% endif %}grid/cfg";
     $(document).ready(function() {
-        $.getJSON("/backoffice/grid/cfg", function(data){
+        $.getJSON(url, function(data){
             // On ajoute le lien vers le document
             data['onSelectRow'] = function(id){ //todo insert action on select Row next ticket
                                                 };
@@ -75,8 +76,8 @@
     <div class="backofficeMenuItem" style="height:110px">
         <p>
         <ul style="list-style-type: none;">
-            <li><span class="coloredBg">Members</span></li>
-            <li><span>Accounts</span></li>
+            <li><a href="/backoffice?type=members" class="blackLink"><span {% if type == "members" %}class="coloredBg"{% endif %}>Members</span><a/></li>
+            <li><a href="/backoffice?type=accounts" class="blackLink"><span {% if type == "accounts" %}class="coloredBg"{% endif %}>Accounts</span></a></li>
         </ul>
     </div>
     <div class="backofficeMenuItem padding">

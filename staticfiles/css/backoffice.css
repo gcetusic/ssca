@@ -24,3 +24,8 @@
 #searchmodfbox_list_doc {
     width: 700px !important;
 }
+
+.blackLink {
+    color: black;
+    text-decoration:none;
+}

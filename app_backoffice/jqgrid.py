@@ -134,7 +134,11 @@ class JqGrid(object):
         for rule in _filters['rules']:
             op, field, data = rule['op'], rule['field'], rule['data']
             # FIXME: Restrict what lookups performed against RelatedFields
-            field_class = self.get_model()._meta.get_field_by_name(field)[0]
+            if field.count('__'):
+                field_start =  field.split('__')[0]
+                field_class = self.get_model()._meta.get_field(field_start).rel.to
+            else:
+                field_class = self.get_model()._meta.get_field_by_name(field)[0]
             if isinstance(field_class, models.related.RelatedField):
                 op = 'eq'
             filter_fmt, exclude = filter_map[op]
@@ -193,9 +197,10 @@ class JqGrid(object):
 
     def get_json(self, request):
         paginator, page, items = self.get_items(request)
+        print items
         #Fix for queryset
-        if type(items) != type(ValuesQuerySet):
-            items = items.values()
+        #if type(items) != type(ValuesQuerySet):
+        #    items = items.values()
         data = {
             'page': int(page.number),
             'total': int(paginator.num_pages),
@@ -288,7 +293,7 @@ class JqGrid(object):
     def field_to_colmodel(self, field, field_name):
         colmodel = {
             'name': field_name,
-            'index': field.name,
+            'index': field_name,
             'label': field.name,
             'editable': True
         }

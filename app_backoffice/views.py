@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
 from app_backoffice.jqgrid import JqGrid
+from app_public.models import Account
 
 class UserGrid(JqGrid):
     fields = ("id", "username", "first_name", "last_name", "email", "date_joined", "last_login")
@@ -26,6 +27,19 @@ class UserGrid(JqGrid):
         'last_login': { 'editable': False, 'width':100, 'sortable': True  },
     }
     
+class AccountGrid(JqGrid):
+    fields = ("user__username", "subscription__end_date")
+    model = Account
+    pager_id = '#pager_doc'
+    url = reverse_lazy('acc_grid_handler')
+    caption = 'List of Accounts' # optional
+    colmodel_overrides = {
+        #'id': { 'editable': False, 'width':50, 'sortable': True },
+        'user__username': { 'editable': False, 'width':150, 'sortable': True },
+        'subscription__end_date': { 'editable': False, 'width':150, 'sortable': True },
+    }
+    
+    
 @staff_member_required
 def grid_handler(request):
     # handles pagination, sorting and searching
@@ -37,11 +51,23 @@ def grid_config(request):
     # build a config suitable to pass to jqgrid constructor   
     grid = UserGrid()
     return HttpResponse(grid.get_config(), mimetype="application/json")
+    
+@staff_member_required
+def acc_grid_handler(request):
+    # handles pagination, sorting and searching
+    grid = AccountGrid()
+    return HttpResponse(grid.get_json(request), mimetype="application/json")
+
+@staff_member_required
+def acc_grid_config(request):
+    # build a config suitable to pass to jqgrid constructor   
+    grid = AccountGrid()
+    return HttpResponse(grid.get_config(), mimetype="application/json")
    
 @staff_member_required   
 def backoffice_main_page(request):
     """ The page onlt for Admin use """
-    variables = RequestContext(request, {})
+    variables = RequestContext(request, {"type": request.GET.get('type','members')})
     return render_to_response('backoffice/index.html', variables)
 
 
