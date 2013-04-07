@@ -10,7 +10,8 @@ body { background-color: #fff; font-family: ff-tisa-web-pro, serif; letter-spaci
 .container .header .user span{color:red;}
 .container .header .user span a{color:red;}			
 
-h1{ font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:normal; padding:0 15px;}
+h1 { font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:normal; padding:0 15px;}
+h2, h3, h4, h5, h6 {font-family:futura-pt, Futura, sans-serif;}
 .nav {font-family: sans-serif;}
 .navbar-inverse .brand, .navbar-inverse .nav > li > a {color:#666666; text-shadow:inherit;}
 .navbar-inverse .nav > li > a:focus,
