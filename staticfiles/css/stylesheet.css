@@ -18,7 +18,7 @@ h1{ font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:norma
   color: #ffffff;
   background-color:#000;
 }
-.content_wrapper{ padding:1px 50px; border-left:3px dashed #999999; border-right:3px dashed #999999; padding-top:3px; }
+.content_wrapper{ padding:1px 50px; border-left:3px dashed #C8C8C8; border-right:3px dashed #C8C8C8; padding-top:3px; }
 
 .alert{ font-family:futura-pt, Futura, sans-serif; font-size:13px; font-weight:bold; margin-bottom:10px;}
 .alert span{ font-weight:normal; font-size:12px;}
