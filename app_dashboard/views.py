@@ -18,7 +18,8 @@ import json
 def dashboard_main_page(request):
     """ If users are authenticated, direct them to the main page. Otherwise,
         take them to the login page. """
-    return render_to_response('dashboard/index.html', {}, RequestContext(request))
+    return render_to_response('dashboard/index.html', 
+        {'google_maps_key': settings.GOOGLE_MAPS_KEY}, RequestContext(request))
 
 
 @csrf_exempt

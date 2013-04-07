@@ -1,5 +1,6 @@
 import json
 from dajaxice.decorators import dajaxice_register
+from app_dashboard.views import show_gmaps
 from app_public.views import sscapage
 
 
@@ -38,3 +39,8 @@ def get_public(request, id):
 @dajaxice_register(method='GET')
 def sscapage_ajax(request, page=None):
     return sscapage(request, page)
+
+
+@dajaxice_register(method="GET")
+def sscamaps_ajax(request):
+    return show_gmaps(request)

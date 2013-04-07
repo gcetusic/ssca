@@ -16,60 +16,72 @@
 {% block search_bar %}
 {% endblock %}
 
+{% block extra_js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/tabs.js"></script>
+{% endblock %}
+
 {% block content %}
 
     <div class="content_wrapper">
         <div class="hero-unit" style="padding: 2px; margin-bottom: 2px;">
-            <div class="row-fluid" style="border: solid 0px blue;">
-                <div class="span12">
+            {% block dashboard_menu %}
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#tab1" class="tab-headers" id="page_title">MELBOURENE GAM</a></li>
+                    <li class=""><a href="#tab2" class="tab-headers">Report From Trinidad</a></li>
+                    <li class=""><a href="#tab3" class="tab-headers">New Hunter Review</a></li>
+                    <li class=""><a href="#tab4" class="tab-headers">&nbsp;</a></li>
+                </ul>
+            {% endblock %}
+            <div class="clearfix">&nbsp;</div>
+            {% block tab_content %}
+                <div class="tab-content" id="myTabContent">
                     <div class="row-fluid">
-
-                        {% block main_content %}
-                        <div class="span9 homae-rig">
-                            <h1>WELCOME TO SSCA</h1>
-                            <p> Content will come here... </p>
-                        </div>
-                        {% endblock %}
-
-                        {% block events %}
-                            <div class="span3">
-                                <div class="row-fluid" style="border: solid 0px red;">
-                                    <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
-                                        <div style="margin-top: 20px;">
-                                            <form class="navbar-search">
-                                                <input type="text" class="search-query span12" placeholder="Search" style="background-color: white; border: 1px solid #ccc;">
-                                                <div class="icon-search"></div>
-                                            </form>
+                        <div class="span9">
+                            <div class="well well-small"  style="background:none; border:none;border-radius:0px;box-shadow:none;margin-bottom: 20px;">
+                                <div id="tab1" class="tab-pane fade active in tab-contents">
+                                    <div class="sub-pagleft">
+                                        <div id="page_content">
+                                            <h1>Harvard Model</h1>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="clearfix">&nbsp;</div>
-                                <!-- TODO: Transfer inline styles to external later -->
-                                <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
+
+                                <div id="tab2" class="tab-pane fade tab-contents">
+                                </div>
+                              
+                                <div id="tab3" class="tab-pane fade tab-contents">
                                 </div>
 
-                                <div class="clearfix">&nbsp;</div>
-
-                                <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
+                                <div id="tab4" class="tab-pane fade tab-contents">
                                 </div>
-
-                                <div class="clearfix">&nbsp;</div>
-
-                                <div style="height: 130px; margin-right: 13px; border: 3px dashed #F8F3EA;">
-                                </div>
-
-                            </div>
-                            
-                        <!-- <div class="span5">
-                            <div class="row-fluid">
-                            <div class="con-right-bottom-con span12">
                             </div>
                         </div>
-                        </div> -->
-                        {% endblock %}
+                        <div class="span3">
+                            <div class="sub-rigtxt">
+                                <form method="post" id="memberSearch">
+                                    {% csrf_token %}
+                                    <input class="sub-con-butt" type="submit" value="">
+                                    <input class="sub-con-tex" name="search" type="text">
+                                </form>
+                            </div>
+                            <span class="sub-leftcon">
+                                <h2>AD1</h2>
+                            </span>
+                            <span class="sub-leftcon">
+                                <h2>AD2</h2>
+                            </span>
+                            <span class="sub-leftcon">
+                                <h2>AD3</h2>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endblock %}
         </div>
         {% block widget %}  
             <div class="row-fluid">
