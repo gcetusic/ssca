@@ -154,26 +154,26 @@ def registration_complete(request, token):
 
 @csrf_protect
 def register_page(request):
-    print "register_page()"
+    # print "register_page()"
     response = HttpResponse()
 
-    print "checking request type"
+    # print "checking request type"
     # we will only entertain POST request
     if not request.method == 'POST':
         response.write("ERROR:: Only HTTP POST is supported for registering.")
         return response
 
-    print "ensure email"
+    # print "ensure email"
     if not request.POST.has_key("email"):
         response.write("ERROR:: Email not specified.")
         return response
 
-    print "ensure fname"
+    # print "ensure fname"
     if not request.POST.has_key("fname"):
         response.write("ERROR:: firstname not specified.")
         return response
 
-    print "ensure lname"
+    # print "ensure lname"
     if not request.POST.has_key("lname"):
         response.write("ERROR:: lastname not specified.")
         return response
@@ -183,7 +183,7 @@ def register_page(request):
     fname = request.POST["fname"]
     lname = request.POST["lname"]
 
-    print "name:", fname, lname
+    # print "name:", fname, lname
 
     # generate 64 byte hash
     token = get_rendon_alphanum64()
