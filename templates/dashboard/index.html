@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block extra_js %}
-    <link href="{{ STATIC_URL }}css/locator.css" rel="stylesheet" media="screen">
+
     <script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/tabs.js"></script>
@@ -43,18 +43,6 @@
 
     <script type="text/javascript">
 
-        function initialize() {
-            var map = new google.maps.Map(
-                document.getElementById("map-canvas"), {
-                    // set options, some must be defined in the html 
-                    center: new google.maps.LatLng(center_latitude, center_longitude),
-                    zoom: map_zoom,
-                    minZoom: min_zoom,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP 
-                }
-            );
-        }
-
         function loadScript() {
             var script = document.createElement("script");
             script.type = "text/javascript";
@@ -65,13 +53,15 @@
         $(document).ready(function () {
             $('.dropdown-menu a').attr('tabindex', -1);
             $('.dropdown-menu a').click(function () {
+                var _this = this;
                 var pageType = $(this).data("page-type");
 
                 if(pageType == "maps") {
-                    var canvas = document.createElement("div");
-                    canvas.id = "map-canvas";
-                    $("#page_title").html($(this).text());
-                    //$('#tab1 .page_content').html(canvas);
+                    $("#page_title").fadeToggle(function () {
+                        $(this).html($(_this).text());
+                        $(this).fadeToggle();
+                    });
+
                     $.ajax({
                         url: "{% url dashboard-map-ajax %}",
                         success: function(result) {
@@ -91,7 +81,7 @@
 {% endblock %}
 
 {% block extra_css %}
-    
+    <link href="{{ STATIC_URL }}css/locator.css" rel="stylesheet" media="screen">
 {% endblock %}
 
 {% block content %}
