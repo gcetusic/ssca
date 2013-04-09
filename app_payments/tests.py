@@ -9,10 +9,23 @@ to refuse some transactions.
 import unittest
 import braintree
 from app_payments.payment_service import create_transaction, create_subscription
+from app_payments.exceptions import *
 from app_public.models import Person
 from django.contrib.auth.models import User
 
 class TransactionTestCase(unittest.TestCase):
+    
+    def setUp(self):
+        self.b_user = User(first_name="Guido", last_name="Van Rossum",)
+        self.b_user.save()
+        self.user = Person(user=self.b_user)
+        self.user.save()
+        
+        
+    def tearDown(self):
+        self.b_user.delete()
+        self.user.delete()
+        
     
     def test_create_simple_transaction_valid(self):
         """
@@ -33,34 +46,49 @@ class TransactionTestCase(unittest.TestCase):
         """
         We have a user but we don't have a customer id yet for him.
         """
-        base_user = User(first_name="Guido", last_name="Van Rossum",)
-        base_user.save()
-        user = Person(user=base_user)
-        user.save()
-        transaction = create_transaction(100, '5555555555554444', '223', 5, 2016, user=user)
+        transaction = create_transaction(100, '5555555555554444', '223', 5, 2016, user=self.user)
         self.assertEqual(transaction.amount, 100)
-        self.assertEqual(transaction.user.id, user.id)
+        self.assertEqual(transaction.user.id, self.user.id)
         braintree_trans = braintree.Transaction.find(transaction.transaction_id)
-        user = Person.objects.filter(id=user.id)[0]
+        user = Person.objects.filter(id=self.user.id)[0]
         self.assertEqual(user.customer_id, braintree_trans.customer_details.id)
-        user.delete()
-        base_user.delete()
         
         
     def test_create_subscription(self):
         """
         Use case to create a subscription.
         """
-        base_user = User(first_name="Guido", last_name="Van Rossum",)
-        base_user.save()
-        user = Person(user=base_user)
-        user.save()
-        subscription = create_subscription(user, 100, '5555555555554444', 5, 2016, '223')
+        subscription = create_subscription(self.user, 100, '5555555555554444', 5, 2016, '223')
         braintree_subs = braintree.Subscription.find(subscription.braintree_id)
         self.assertEqual(braintree_subs.id, subscription.braintree_id)
         braintree.Subscription.cancel(braintree_subs.id)
-        user.delete()
-        base_user.delete()
+
+    
+    def test_create_transaction_invalid_name(self):
+        """
+        Pass a name that is too long for a customer.
+        """
+        self.b_user.first_name = ''.join(['a' for _ in xrange(266)]) # max 255 chars for name
+        self.b_user.save()
+        self.assertRaises(InvalidCustomerData, create_transaction, 100, 
+                          '5555555555554444', '223', 5, 2016, user=self.user)
+
+
+    def test_create_transaction_invalid_card(self):
+        """
+        Pass a credit card that is not supported to a transaction.
+        """
+        self.user.save()
+        self.assertRaises(InvalidTransactionParameters, create_transaction, 100, 
+                          '5555511555554444', '223', 5, 2016, user=self.user)
         
+        
+    def test_create_subscription_invalid_id(self):
+        """
+        Use case to create a subscription.
+        """
+        self.assertRaises(InvalidSubscriptionId, create_subscription, self.user, 100, 
+                          '5555555555554444', 5, 2016, '223', 
+                          braintree_plan_id="this_should_not_exist")
         
         
