@@ -1,5 +1,6 @@
 env
 .idea
+*.wpr
 *.iml
 *.pyc
 migrations
