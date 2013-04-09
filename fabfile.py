@@ -73,6 +73,15 @@ def dev_gc():
     _setup_path()
 
 
+def dev_ronil():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.home = '/home/ronil/projects/ssca-project/ssca/'
+    env.git_branch = 'develop_ronil'
+    _setup_path()
+
+
 def stag():
     env.user = 'rfirmin'
     env.environment = 'stag'
