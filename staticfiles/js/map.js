@@ -5,6 +5,18 @@ var markersArray = [];
 function initialize() {
 
     /***************** Main map *******************/
+    
+    function loadMarkers() {
+        // fetches new markers every time the map stops moving
+        google.maps.event.addListener(map, 'idle', getMarkers);    
+    }
+    
+    // load markers with label lib
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = markers_with_label_script_src;
+    script.onload = loadMarkers;
+    document.body.appendChild(script);
 
     // create map
     var map = new google.maps.Map(
@@ -16,9 +28,10 @@ function initialize() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
-
-    // fetches new markers every time the map stops moving
-    google.maps.event.addListener(map, 'idle', getMarkers);
+    
+    // Icons source: https://developers.google.com/chart/infographics/docs/dynamic_icons#pins    
+    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_xpin_letter_withshadow&chld=pin_star|%E2%80%A2|CC3300|000000|FF9900", new google.maps.Size(45, 42), new google.maps.Point(0, 0), new google.maps.Point(10, 34));
+    var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow", new google.maps.Size(40, 37), new google.maps.Point(0, 0), new google.maps.Point(12, 35));
 
     // Determines timezone of client browser
     /* This is important because a query to the database has to fetch
@@ -29,11 +42,25 @@ function initialize() {
     }
 
     // Add marker but check if its category should be visible
-    function addMarker(position, id, category) {
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-        });
+    function addMarker(position, id, category, count) {
+        console.log(count);
+        if (category == "cluster") {
+            // Recipe from: http://jsfiddle.net/yV6xv/21/
+            marker = new MarkerWithLabel({
+                map: map,
+                position: position,
+                icon: pinImage,
+                shadow: pinShadow,
+                labelContent: count,
+                labelAnchor: new google.maps.Point(12, -5),
+                labelClass: "cluster-label"
+            });        
+        } else {
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+            });
+        }
         if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
             marker.setVisible(false);
         }
@@ -158,7 +185,8 @@ function initialize() {
             "west": sw.lng(),
             "timezone": getTimezoneName(),
             "time": time,
-            "zoom": map.getZoom()
+            "zoom": map.getZoom(),
+            "clustering": clustering
         }
 
         // Send gathered data to server and receive response
@@ -183,7 +211,8 @@ function initialize() {
                     addMarker(
                         new google.maps.LatLng(item.position[0], item.position[1]),
                         item.id,
-                        item.category
+                        item.category,
+                        item.count
                     );
                 });
                 showOverlays();
