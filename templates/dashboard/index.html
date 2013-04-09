@@ -17,7 +17,81 @@
 {% endblock %}
 
 {% block extra_js %}
+    <link href="{{ STATIC_URL }}css/locator.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/tabs.js"></script>
+
+    <!-- Configuration -->
+    <script type="text/javascript">
+        var center_latitude = {{ gmap.center.0 }};
+        var center_longitude = {{ gmap.center.1 }};
+        var map_zoom = {{ gmap.zoom }};
+        var min_zoom = {{ gmap.minzoom }};
+        var gmaps_viewer = "{% url gmaps_viewer %}";
+        var marker_info = "{% url marker_info %}";
+        var member_finder = "{% url member_finder %}";
+    </script>
+
+    <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b>
+        However, it seems JavaScript is either disabled or not supported by your browser.
+        To view Google Maps, enable JavaScript by changing your browser options, and then
+        try again.
+    </noscript>
+
+    <!-- /Configuration -->
+
+    <script type="text/javascript">
+
+        function initialize() {
+            var map = new google.maps.Map(
+                document.getElementById("map-canvas"), {
+                    // set options, some must be defined in the html 
+                    center: new google.maps.LatLng(center_latitude, center_longitude),
+                    zoom: map_zoom,
+                    minZoom: min_zoom,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP 
+                }
+            );
+        }
+
+        function loadScript() {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
+            document.body.appendChild(script);
+        }
+
+        $(document).ready(function () {
+            $('.dropdown-menu a').attr('tabindex', -1);
+            $('.dropdown-menu a').click(function () {
+                var pageType = $(this).data("page-type");
+
+                if(pageType == "maps") {
+                    var canvas = document.createElement("div");
+                    canvas.id = "map-canvas";
+                    $("#page_title").html($(this).text());
+                    //$('#tab1 .page_content').html(canvas);
+                    $.ajax({
+                        url: "{% url dashboard-map-ajax %}",
+                        success: function(result) {
+                            $('#tab1 .page_content').html(result);
+                        }
+                    });
+                    loadScript();
+                }
+                  
+                return false;
+            });
+        });
+
+        
+
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    
 {% endblock %}
 
 {% block content %}
@@ -40,7 +114,7 @@
                             <div class="well well-small"  style="background:none; border:none;border-radius:0px;box-shadow:none;margin-bottom: 20px;">
                                 <div id="tab1" class="tab-pane fade active in tab-contents">
                                     <div class="sub-pagleft">
-                                        <div id="page_content">
+                                        <div class="page_content">
                                             <h1>Harvard Model</h1>
                                             <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
                                             <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>

@@ -39,8 +39,3 @@ def get_public(request, id):
 @dajaxice_register(method='GET')
 def sscapage_ajax(request, page=None):
     return sscapage(request, page)
-
-
-@dajaxice_register(method="GET")
-def sscamaps_ajax(request):
-    return show_gmaps(request)
