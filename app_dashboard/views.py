@@ -37,9 +37,12 @@ def show_gmaps(request):
 
         # Set the timezone to the client's or server's if none specified
         timezone = request.POST.get('timezone', get_current_timezone_name())
-        zoom = int(request.POST.get('zoom', 3))
-        clustering = request.POST.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)
+        zoom = int(request.POST.get('zoom', 3))        
         activate(timezone)
+        if settings.DEBUG:
+            clustering = request.POST.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)        
+        else:
+            clustering = DEFAULT_CLUSTERING_ALGORITHM        
 
         # Get all markers in the last x minutes
         deltatime = int(request.POST.get('time', 0))
@@ -109,7 +112,10 @@ def show_gmaps(request):
         }
         context['gmap'] = google_map
         context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
-        context['clustering'] = request.GET.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)
+        if settings.DEBUG:
+            context['clustering'] = request.GET.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)
+        else:
+            context['clustering'] = DEFAULT_CLUSTERING_ALGORITHM                   
     return render_to_response('map.html', RequestContext(request, context))
 
 
