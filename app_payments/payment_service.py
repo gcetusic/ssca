@@ -5,7 +5,8 @@ import braintree
 from datetime import datetime
 from app_public.models import Subscription
 from app_payments.models import Transaction
-from app_payments.exceptions import *
+from app_payments.error_handler import _handle_subscription_failure,\
+    _handle_customer_failure, _handle_transaction_failure
 
 
 def create_transaction(amount, card_number, cvv, expiration_month, 
@@ -39,7 +40,6 @@ def create_transaction(amount, card_number, cvv, expiration_month,
         user.save()
     transaction = Transaction(user = user, date = datetime.now(),
                               amount = amount, purpose = purpose)
-    
     if result.is_success:
         transaction.transaction_id = result.transaction.id
         transaction.type = result.transaction.type
@@ -49,7 +49,7 @@ def create_transaction(amount, card_number, cvv, expiration_month,
         # We have no transaction id or type if it failed
         transaction.error_message = result.message
         transaction.save()
-        _handle_transaction_rejection(result)
+        _handle_transaction_failure(result)
     
     
 def create_subscription(user, amount, card_number, expiration_month, 
@@ -70,7 +70,7 @@ def create_subscription(user, amount, card_number, expiration_month,
         user.save()
     # Get the braintree customer using the id we get from the 
     # create_customer method
-    customer = braintree.Customer.find(customer_id)
+    customer = braintree.Customer.find(user.customer_id)
     # Get the first credit card registered to this user.
     # TODO: select credit card using data recieved.
     payment_method_token = customer.credit_cards[0].token
@@ -88,8 +88,7 @@ def create_subscription(user, amount, card_number, expiration_month,
                                     end_date=datetime.now(), date_paid=datetime.now()) # TODO: handle this or just allow null ?
         subscription.save()
         return subscription
-    # TODO: handle this better, similar to what we done on transactions
-    raise BaseSubscriptionException("Could not create subscription.")
+    _handle_subscription_failure(result)
 
     
 def _get_basic_transaction_dictionary(amount, card_number, cvv, expiration_month, expiration_year):
@@ -110,23 +109,6 @@ def _get_basic_transaction_dictionary(amount, card_number, cvv, expiration_month
             }
     
     
-def _handle_transaction_rejection(result):
-    '''
-    Handle failures on braintree transaction.
-    '''
-    if not result.transaction:
-        # We had validation errors
-        raise InvalidTransactionParameters(result.errors.deep_errors)
-    elif result.transaction.status == "processor_declined":
-        # Processor declined for some reason e.g. lack of funds
-        raise ProcessorDeclinedPayment(result.transaction.processor_response_text)
-    elif result.transaction.status == "gateway_rejected":
-        # Gateway refused transaction for some reasone e.g. invalid cvv
-        raise GatewayDeclinedPayment(result.transaction.gateway_rejection_reason)
-    else:
-        raise BasePaymentException("Transaction was refused. Make sure you entered valid data.")
-    
-
 def _create_simple_transaction(amount, card_number, cvv, expiration_month, expiration_year):
     """
     Create the simplest transaction possible, needing only an amount, card_number, cvv,
@@ -161,7 +143,11 @@ def _create_customer_and_transaction(first_name, last_name, amount, card_number,
                                     "last_name" : last_name,
                                     }
     transaction_info["options"]["store_in_vault_on_success"] = True
-    return braintree.Transaction.sale(transaction_info)
+    result = braintree.Transaction.sale(transaction_info)
+    # If any customer related failures occured, here is where we handle them. Once out
+    # only transaction related errors should be unhandled.
+    _handle_customer_failure(result)
+    return result
 
 def _create_customer(first_name, last_name, card_number, expiration_month, 
                     expiration_year, cvv):
@@ -184,7 +170,6 @@ def _create_customer(first_name, last_name, card_number, expiration_month,
             })
     if result.is_success:
         return result.customer.id
-    # TODO: handle this better, similar to what we done on transactions
-    raise BaseSubscriptionException("Could not create customer. Need one in order to create subscription")
+    _handle_customer_failure(result)
 
 
