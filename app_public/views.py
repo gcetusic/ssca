@@ -137,20 +137,25 @@ def registration_complete(request, token):
 
     print "registration complete:", token
 
-    # TODO
-    # (1) check token 
-    person = Person.objects.get(signup_token = token)
-    print person.__dict__
+    try:
+        # TODO
+        # (1) check token 
+        person = Person.objects.get(signup_token = token)
+        print person.__dict__
 
-    # (2) remove token from db
+        # (2) remove token from db
 
-    # (3) check 24 hrs validity of token
+        # (3) check 24 hrs validity of token
 
-    # (4) associate with OpenID
+        # (4) associate with OpenID
 
-    c = {'registration_action': 'RegistrationComplete'}
-    c.update(csrf(request))
-    return render_to_response('public.html', c, context_instance=RequestContext(request))
+        c = {'registration_action': 'RegistrationComplete'}
+        c.update(csrf(request))
+        return render_to_response('public.html', c, context_instance=RequestContext(request))
+    except Person.DoesNotExist:
+        c = {'registration_action': 'RegistrationComplete_PersonDoesNotExist'}
+        c.update(csrf(request))
+        return render_to_response('public.html', c, context_instance=RequestContext(request))
 
 @csrf_protect
 def register_page(request):
@@ -158,13 +163,6 @@ def register_page(request):
     response = HttpResponse()
 
     # print "checking request type"
-
-@csrf_protect
-def register_page(request):
-    print "register_page()"
-    response = HttpResponse()
-
-    print "checking request type"
     # we will only entertain POST request
     if not request.method == 'POST':
         response.write("ERROR:: Only HTTP POST is supported for registering.")

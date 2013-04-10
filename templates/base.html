@@ -187,6 +187,12 @@
             </script>
             {% endif %}
 
+            {% if registration_action == "RegistrationComplete_PersonDoesNotExist" %}
+            <script>
+                $("#modalRegisterPersonDoesNotExist").modal('show');
+            </script>
+            {% endif %}
+
             <!-- test code -->
             <script>
             //$("#modalEmailSendForForgotPassword").modal('show');
