@@ -328,7 +328,7 @@ function initialize() {
                 (heightOverage > (divisor - 1) * (overlayMapHeight / divisor))
             ) {
                 //FIXME: sometimes it isn't enough to change by only 1.
-                overlayMap.setZoom(overlayMap.getZoom() + 1);
+                overlayMap.setZoom(overlayMap.getZoom() + 2);
             } else if (
                 // margin of one means, zoom out when overage is < half width
                 // margin of half means zoom out when overage is < quarter width
