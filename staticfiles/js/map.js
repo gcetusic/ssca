@@ -1,6 +1,9 @@
 // list of current markers
 var markersArray = [];
 
+// Limiting scrolling past poles: http://stackoverflow.com/questions/3901611/google-maps-api-v3-limit-map-bounds
+var allowedBounds = false;
+
 // Google Maps callback (init) function as defined in main html src tag
 function initialize() {
 
@@ -9,6 +12,15 @@ function initialize() {
     function loadMarkers() {
         // fetches new markers every time the map stops moving
         google.maps.event.addListener(map, 'idle', getMarkers);    
+        google.maps.event.addListener(map, 'idle', function() {
+            if (!allowedBounds) {
+                // set initial bounds
+                allowedBounds = map.getBounds();
+            }
+        });
+        google.maps.event.addListener(map, 'drag', checkBounds);
+        google.maps.event.addListener(map, 'zoom_changed', checkBounds); 
+        google.maps.event.addListener(map, 'bounds_changed', checkBounds); 
     }
     
     // load markers with label lib
@@ -42,8 +54,7 @@ function initialize() {
     }
 
     // Add marker but check if its category should be visible
-    function addMarker(position, id, category, count) {
-        console.log(count);
+    function addMarker(position, id, category, count) {        
         if (category == "cluster") {
             // Recipe from: http://jsfiddle.net/yV6xv/21/
             marker = new MarkerWithLabel({
@@ -218,6 +229,38 @@ function initialize() {
                 showOverlays();
             }
         });
+    }
+    
+    function checkBounds() {
+        // limit the bounds on drag and zoom_changed to not go past the poles
+        
+        //if (map.getZoom() < 7) map.setZoom(7);    
+        
+        if (allowedBounds) {       
+            var allowed_ne_lng = allowedBounds.getNorthEast().lng();
+            var allowed_ne_lat = allowedBounds.getNorthEast().lat();
+            var allowed_sw_lng = allowedBounds.getSouthWest().lng();
+            var allowed_sw_lat = allowedBounds.getSouthWest().lat();
+          
+            var currentBounds = map.getBounds();
+            var current_ne_lng = currentBounds.getNorthEast().lng();
+            var current_ne_lat = currentBounds.getNorthEast().lat();
+            var current_sw_lng = currentBounds.getSouthWest().lng();
+            var current_sw_lat = currentBounds.getSouthWest().lat();
+          
+            var currentCenter = map.getCenter();
+            var centerX = currentCenter.lng();
+            var centerY = currentCenter.lat();
+          
+            // For now only limit Y
+            
+            //if (current_ne_lng > allowed_ne_lng) centerX = centerX-(current_ne_lng-allowed_ne_lng);
+            if (current_ne_lat > allowed_ne_lat) centerY = centerY-(current_ne_lat-allowed_ne_lat);
+            //if (current_sw_lng < allowed_sw_lng) centerX = centerX+(allowed_sw_lng-current_sw_lng);
+            if (current_sw_lat < allowed_sw_lat) centerY = centerY+(allowed_sw_lat-current_sw_lat);
+          
+            map.setCenter(new google.maps.LatLng(centerY,centerX));
+        }
     }
 
     /**********************************************/
