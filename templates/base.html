@@ -1,4 +1,4 @@
-{% load dajaxice_templatetags %}
+{% load dajaxice_templatetags local_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,11 +92,83 @@
                         <div class="nav-collapse navbar-inverse-collapse collapse" style="height: 0px;">
                             {% include "main_menu.html" %}
                         </div>
-                        {% block auth_form %}{% endblock %}
+                        {% if request.user.is_authenticated %}
+                            <div style="float: right">
+                                <ul class="nav">
+                                    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ request.user|get_full_name }}<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">View Profile</a></li>
+                                        <li><a href="#">Edit Profile</a></li>
+                                        <li><a href="{% url logout %}">Logout</a></li>
+                                    </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div>
+                            <form class="pull-right form-inline" action="">
+                                <button type="submit" class="btn btn-inverse" style="font-size:12px;" data-toggle="modal" href="#loginModal1">Log in</button>
+                            </form>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
 
-            {% include "header.html" %}
+            {% block header %}
+                <!-- begin header row -->
+                <div class="row-fluid" style="border: solid 0px blue;">
+
+                    <!-- begin logo column -->
+                    <div class="span2" style="border: 0px solid black;"> 
+                        <a href="#" class="thumbnail"><img src="{{ STATIC_URL }}images/ssca_logo.png" id="sscaLogo" alt=""></a> 
+                    </div>
+                    <!-- end logo column -->
+
+                    <!-- begin ssca header img/search column -->
+                    <div class="span8" style="border: 0px solid black;">
+
+                        <!-- begin Seven Seas Cruising Association row -->
+                        <div class="row-fluid" style="border: solid 0px red;">
+                            <div class="span12" style="border: 0px solid black;vertical-align: top;">
+                                <img src="{{ STATIC_URL }}images/header2.png" />
+                            </div>
+                        </div>
+                        <!-- end Seven Seas Cruising Association row -->
+
+                        <!-- begin search bar row -->
+                        {% block search_bar %}
+                        <div class="row-fluid" style="border: solid 0px red;">
+                            <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
+                                <div style="border: 0px solid black; margin-top: 20px;">
+                                    <form class="navbar-search pull-right">
+                                        <input type="text" class="search-query span12" placeholder="Search" id="headerSearch">
+                                        <div class="icon-search"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {% endblock %}
+                        <!-- end search bar row -->
+
+                    </div>
+                    <!-- end ssca header img/search column -->
+
+                    <!-- begin ssca flags column -->
+                    <div class="span2" style="border: 0px solid black;vertical-align: bottom;"> 
+                        <div class="row-fluid" style="border: solid 0px red;">
+                            <div class="span12 input-append" style="border: 0px solid black; height: 25px;">
+                            </div>
+                        </div>
+                        <div style="border: 0px solid black;">
+                            <a href="#" class="thumbnail"><img src="{{ STATIC_URL }}images/ssca_flags.jpg" width="150" height="101" alt="" id="sscaFlag"></a>
+                        </div>
+                    </div>
+                    <!-- end ssca flags column -->
+
+                </div>
+                <!-- end header row -->
+            {% endblock %}
+
 
             {% include "join_popups.html" %}
             {% include "renew_popups.html" %}
@@ -112,6 +184,12 @@
             {% if registration_action == "RegistrationComplete" %}
             <script>
                 $("#modalRegisterOpenId").modal('show');
+            </script>
+            {% endif %}
+
+            {% if registration_action == "RegistrationComplete_PersonDoesNotExist" %}
+            <script>
+                $("#modalRegisterPersonDoesNotExist").modal('show');
             </script>
             {% endif %}
 
