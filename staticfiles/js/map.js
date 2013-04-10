@@ -11,7 +11,7 @@ function initialize() {
     
     function loadMarkers() {
         // fetches new markers every time the map stops moving
-        google.maps.event.addListener(map, 'idle', getMarkers);    
+        google.maps.event.addListener(map, 'idle', getMarkers);
         google.maps.event.addListener(map, 'idle', function() {
             if (!allowedBounds) {
                 // set initial bounds
@@ -54,7 +54,7 @@ function initialize() {
     }
 
     // Add marker but check if its category should be visible
-    function addMarker(position, id, category, count) {        
+    function addMarker(position, id, category, count) {
         if (category == "cluster") {
             // Recipe from: http://jsfiddle.net/yV6xv/21/
             marker = new MarkerWithLabel({
@@ -370,7 +370,6 @@ function initialize() {
                 (widthOverage > (divisor - 1) * (overlayMapWidth / divisor)) &&
                 (heightOverage > (divisor - 1) * (overlayMapHeight / divisor))
             ) {
-                //FIXME: sometimes it isn't enough to change by only 1.
                 overlayMap.setZoom(overlayMap.getZoom() + 2);
             } else if (
                 // margin of one means, zoom out when overage is < half width
@@ -381,8 +380,7 @@ function initialize() {
             ) {
                 var overlayZoom = overlayMap.getZoom();
                 if (overlayZoom > 0) {
-                  //FIXME: sometimes it isn't enough to change by only 1.
-                    overlayMap.setZoom(overlayZoom - 1);
+                    overlayMap.setZoom(overlayZoom - 2);
                 } else {
                   wayTooBig = true;
                 }
