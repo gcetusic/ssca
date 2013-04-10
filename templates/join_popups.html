@@ -233,7 +233,7 @@
     </select>
     account as my <a href="" style="color: #003399;">OpenId</a><br><br>
 
-    When you click the button below, we'll send you to Google to authenticate. Once you have signed in, you will be redirected back to the SSCA site.
+    When you click the button below, we'll send you to <span id="spn_modal_reg_openid_provider">Google</span> to authenticate. Once you have signed in, you will be redirected back to the SSCA site.
 
     </div>
 
@@ -243,3 +243,21 @@
     </div>
 </div>
 <!-- modal register openid ends -->
+
+<!-- modal register complete person does not exist -->
+<div id="modalRegisterPersonDoesNotExist" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>OpenId Registration</h3>
+    </div>
+
+    <div class="modal-body">
+        <h4>Sorry ! No registration request was received</h4>
+    </div>
+    <div class="control-group" style="padding: 10px; margin: 20px;">
+        You may try to register again...
+    </div>
+
+</div>
+<!-- modal register complete person does not exist -->
