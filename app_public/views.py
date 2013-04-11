@@ -186,8 +186,6 @@ def registration_complete(request, token):
 
         # (3) check 24 hrs validity of token
 
-        # (4) associate with OpenID
-
         c = {'registration_action': 'RegistrationComplete'}
         c.update(csrf(request))
         return render_to_response('public.html', c, context_instance=RequestContext(request))
@@ -235,8 +233,7 @@ def register_page(request):
     # composing email
     subject = "SSCA Registration Activation"
 
-    # FIXME - use actual url instead of localhost !!!
-    link = "http://localhost:8000/registration/complete"
+    link = "http://%s/registration/complete" % request.get_host()
     email_format = """Hello %s, 
     Thank you very much for registering with SSCA.
 
