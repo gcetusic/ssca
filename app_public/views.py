@@ -49,19 +49,15 @@ def post_auth_process(request, backend, *args, **kwargs):
         # if we see that there openid_association flag is True in session
         # we will be associating person with openid
         if request.session.has_key('openid_association'):
-            print "--> person id:", request.session['person_id']
             person_id = request.session['person_id']
             del request.session['person_id']
             del request.session['openid_association']
-            print "--> session cleaned"
             person = Person.objects.get(id=person_id)
             person.identity = openid_identity
             person.save()
 
         try:  # Check whether an user exists with this Identity.
             person = Person.objects.get(identity=openid_identity)
-
-            print "found person", person.__dict__
 
             # If exists, check whether the user has subscribed.
             account = Account.objects.get(user=person.user)
@@ -74,30 +70,25 @@ def post_auth_process(request, backend, *args, **kwargs):
                 user = person.user
                 user.backend = 'social_auth.backends.google.GoogleBackend'
                 login(request, person.user)
-                print "---------------- Login Success redirect ----------------"
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
             else:  # If the subscription seems to be expired, ask the user to renew it.
-                print "---------------- Subscription Expired ----------------"
                 message = {
                     'title': 'Subscription Expired',
                     'description': 'Your subscription seems to be expired. Please renew it.'
                 }
 
         except Person.DoesNotExist:
-            print "---------------- PersonDoesNotExist ----------------"
             context = {"error_type": "PersonDoesNotExist"}
             return render_to_response('public.html', RequestContext(request, context))
 
         except Account.DoesNotExist:
-            print "-- Account DoesNotExist --"
             # If the user has no subscription yet, ask him to subscribe.
             context = {"error_type": "AccountDoesNotExist"}
             return render_to_response('public.html', RequestContext(request, context))
 
     except KeyError:  # Handle the case of no identity found in the Openid provider response.
         # Message to the user as error in authentication.
-        print "------> KeyError"
         message = {
             'title': 'Authentication Error',
             'description': 'There occurs error in authentication. Please try again.'
