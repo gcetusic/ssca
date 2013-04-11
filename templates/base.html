@@ -193,6 +193,12 @@
             </script>
             {% endif %}
 
+            {% if registration_action == "RegistrationComplete_ActivationExpired" %}
+            <script>
+                $("#modalRegisterActivationExpired").modal('show');
+            </script>
+            {% endif %}
+
             <!-- test code -->
             <script>
             //$("#modalEmailSendForForgotPassword").modal('show');
