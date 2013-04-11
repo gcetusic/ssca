@@ -197,7 +197,7 @@ class JqGrid(object):
 
     def get_json(self, request):
         paginator, page, items = self.get_items(request)
-        print items
+        #print items
         #Fix for queryset
         #if type(items) != type(ValuesQuerySet):
         #    items = items.values()

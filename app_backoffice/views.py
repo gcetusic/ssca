@@ -10,6 +10,7 @@ from django.http import HttpResponse
 
 from app_backoffice.jqgrid import JqGrid
 from app_public.models import Account
+from app_backoffice.excel_response import ExcelResponse
 
 class UserGrid(JqGrid):
     fields = ("id", "username", "first_name", "last_name", "email", "date_joined", "last_login")
@@ -69,6 +70,26 @@ def backoffice_main_page(request):
     """ The page onlt for Admin use """
     variables = RequestContext(request, {"type": request.GET.get('type','members')})
     return render_to_response('backoffice/index.html', variables)
+    
+@staff_member_required   
+def acc_download_excel(request):
+    """ The page only for Admin use """
+    data = [
+            ["user__username", "subscription__end_date"],
+    ]
+    for account in Account.objects.all():
+        data.append([account.user.username, account.subscription.end_date])
+    return ExcelResponse(data, 'my_data')
+    
+@staff_member_required   
+def download_excel(request):
+    """ The page only for Admin use """
+    data = [
+            ["id", "username", "first_name", "last_name", "email", "date_joined", "last_login"],
+    ]
+    for user in User.objects.all():
+        data.append([user.id, user.username, user.first_name, user.last_name, user.email, user.date_joined, user.last_login])
+    return ExcelResponse(data, 'my_data')
 
 
 
