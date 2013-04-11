@@ -158,6 +158,25 @@ def registration_complete(request, token):
         person = Person.objects.get(signup_token = token)
         print person.__dict__
 
+        signup_time = person.signup_date
+        #current_time = datetime.now()
+        from django.utils import timezone
+        current_time = timezone.now()
+        print ">>>> signup_time:", signup_time.date(), signup_time.time()
+        print ">>>> current_time:", current_time.date(), current_time.time()
+        #d1 = current_time.replace(tzinfo=None)
+        #d2 = signup_time.replace(tzinfo=None)
+        d1 = current_time
+        d2 = signup_time
+        print ">>>> diff=", (d1 - d2).days * 24
+        #print ">>>> difference:", (current_time - signup_time).days * 24
+        """
+        if current_time - signup_time > 24:
+            # token expired
+            # removed person, user
+            pass
+        """
+
         # store the person id in session, so
         # that we can associate when we get callbacked by oauth provide
         request.session['person_id'] = person.id
