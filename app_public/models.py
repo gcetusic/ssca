@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.flatpages.models import FlatPage
+from django.utils import timezone
 
 
 class MenuItem(models.Model):
@@ -70,42 +71,96 @@ class Page(FlatPage):
 
 
 class Subscription(models.Model):
+
+    ELECTRONIC = "E"
+    FIRST_CLASS = "First"
+    BULK_MAIL = "Bulk"
+    AIR_MAIL = "Air"
+    SURFACE_MAIL = "Surface"
+
+    SUBSCRIPTION_CHOICES = (
+        (ELECTRONIC, 'Electronic'),
+        ('US', (
+                (FIRST_CLASS, 'First Class'),
+                (BULK_MAIL, 'Bulk Mail'),
+            )
+        ),
+        ('North America (Canada / Mexico)', (
+                (AIR_MAIL, 'Air Mail'),
+                (SURFACE_MAIL, 'Surface Mail'),
+            )
+        ),
+    )
+
+    subscription_type = models.CharField(max_length=150,
+                                        choices=SUBSCRIPTION_CHOICES,
+                                        default=ELECTRONIC
+                                    )
+
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(blank=True)
     amount_paid = models.DecimalField(max_digits=5, decimal_places=2)
     date_paid = models.DateField()
 
 
 class Account(models.Model):
-    # TODO i don't think this should have a user...should it?
-    user = models.ForeignKey(User)
-    subscription = models.ForeignKey(Subscription)
+    subscription = models.ManyToManyField(Subscription)
+    yearly_renew = models.BooleanField(default=True, verbose_name="Auto renew")
+    joindate = models.DateField(default=timezone.now())
+    last_renewed = models.DateTimeField()
 
-    def __unicode__(self):
-        return u'%s' % (self.user.username)
-
-
-class Person(models.Model):
-    user = models.ForeignKey(User)
-    # openid identity string, used to find which User has logged in
-    identity = models.TextField()
-    friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    # FIXME - per subscription or per account?
+    #expiration_date
+    # source, cruise_status??? EXPLAIN
 
     # FIXME - need to determine how to store this info in db
     # encrypt or hash ?
     """
-    card_number = models.CharField(max_length=32, required = True)
+    card_number = models.CharField(max_length=32, required=True)
     card_expiry_date = models.DateField(required = True)
-    card_csv = models.CharField(max_length=3, required = True)
+    card_csv = models.CharField(max_length=3, required=True)
     yearly_total = models.IntegerField()
-    yearly_reniew = models.BooleanField()
     total = models.IntegerField()
     """
+
+
+class Person(User):
+    account = models.ForeignKey(Account, related_name="person_account")
+
+    # openid identity string, used to find which User has logged in
+    identity = models.TextField()
+    friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+
+    membership_type = models.ForeignKey('MembershipType')
+
+    def __unicode__(self):
+        return u'%s' % (self.username)
+
+
+class PersonInfo(models.Model):
+    person = models.OneToOneField(Person, primary_key=True)
+    middle_name = models.CharField(blank=True, max_length="35")
+    address1 = models.CharField(max_length=150, verbose_name="Primary address")
+    address2 = models.CharField(blank=True, max_length=150, verbose_name="Secondary address")
+    city = models.CharField(max_length=80)
+    state = models.CharField(max_length=150, blank=True)
+    postcode = models.IntegerField(max_length=50)
+    country = models.CharField(max_length=50)
+    phone1 = models.CharField(max_length=50, verbose_name="Primary phone number")
+    phone2 = models.CharField(blank=True, max_length=50, verbose_name="Secondary phone number")
+    fax = models.CharField(max_length=50)
+    email1 = models.EmailField(max_length=50, verbose_name="Primary email address")
+    email2 = models.EmailField(blank=True, max_length=50, verbose_name="Secondary email address")
+    website = models.CharField(blank=True, max_length=150)
 
 
 class Relationship(models.Model):
     from_person = models.ForeignKey(Person, related_name='from_people')
     to_person = models.ForeignKey(Person, related_name='to_people')
+
+
+class MembershipType(models.Model):
+    pass
 
 
 # this is just so that the app-wide sample data works (we don't have data for it yet)

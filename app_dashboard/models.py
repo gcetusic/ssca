@@ -39,6 +39,11 @@ class Location(models.Model):
     date = models.DateTimeField()
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
+
+    # FIXME
+    # track location by person or by boat?
+    # maybe both, so we can determine at which time a person was on a boat
+    # if so, would a separate table that tracks that help?
     person = models.ForeignKey(Person, blank=True, null=True)
 
     objects = LocationManager()
@@ -76,10 +81,24 @@ class Location(models.Model):
         return info
 
 
+class Boat(models.Model):
+    person = models.ForeignKey(Person, related_name="person_boat")
+    name = models.CharField(max_length=150)
+    boat_type = models.CharField(max_length=50)
+    make = models.CharField(max_length=50)
+    length = models.CharField(max_length=50)
+    rig = models.CharField(max_length=50)
+    draft = models.CharField(max_length=50)
+
+    # EXPLAIN
+    callsign = models.CharField(max_length=50)
+
+
 class Port(models.Model):
     latitude = models.DecimalField(max_digits=7, decimal_places=5)
     longitude = models.DecimalField(max_digits=8, decimal_places=5)
     name = models.CharField(max_length=150)
+    boat = models.ManyToManyField(Boat)
 
     def __unicode__(self):
         return u'%s' % (self.name)
