@@ -181,6 +181,12 @@
             </script>
             {% endif %}
 
+            {% if error_type == "AccountDoesNotExist" %}
+            <script>
+                $("#modalRegisterNoSubscription").modal('show');
+            </script>
+            {% endif %}
+
             {% if registration_action == "RegistrationComplete" %}
             <script>
                 $("#modalRegisterOpenId").modal('show');
