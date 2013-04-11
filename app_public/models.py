@@ -91,7 +91,7 @@ class Person(models.Model):
     identity = models.TextField()
     friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
     signup_token = models.CharField(max_length=64)
-    token_created = models.DateTimeField(auto_now_add=True)
+    signup_date = models.DateTimeField(auto_now_add=True)
 
     # FIXME - need to determine how to store this info in db
     # encrypt or hash ?
