@@ -16,16 +16,35 @@ import json
 
 @login_required
 def dashboard_main_page(request):
-    """ If users are authenticated, direct them to the main page. Otherwise,
-        take them to the login page. """
-    return render_to_response('dashboard/index.html', {}, RequestContext(request))
+    """ 
+    If users are authenticated, direct them to the main page. Otherwise,
+    take them to the login page. 
+    """
+    context = {}
+    # Initial configuration for Google Maps
+    google_map = {
+        'center': (20, 0),
+        'zoom': 2,
+        'minzoom': 2
+    }
+    context['gmap'] = google_map
+    context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
+
+    return render_to_response('dashboard/index.html', context, RequestContext(request))
+
+
+@login_required
+def dashboard_map_ajax(request):
+    """
+    Contains HTML contents of MAP page
+    """
+    return render_to_response('dashboard/ajax/map.html', {}, RequestContext(request))
 
 
 @csrf_exempt
 def show_gmaps(request):
     context = {}
-
-    if request.is_ajax and request.POST:
+    if request.is_ajax() and request.method == "POST":
 
         # Set the timezone to the client's or server's if none specified
         timezone = request.POST.get('timezone', get_current_timezone_name())

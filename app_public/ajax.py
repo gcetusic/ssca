@@ -1,5 +1,6 @@
 import json
 from dajaxice.decorators import dajaxice_register
+from app_dashboard.views import show_gmaps
 from app_public.views import sscapage
 
 

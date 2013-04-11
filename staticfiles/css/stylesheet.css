@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-body { background-color: #fff; font-family: ff-tisa-web-pro, serif; }
+body { background-color: #fff; font-family: ff-tisa-web-pro, serif; letter-spacing: 1px; }
 
 .container{ background:#fff; width:1000px;}
 .container .header{ width:auto; min-height:137px;}
@@ -10,14 +10,16 @@ body { background-color: #fff; font-family: ff-tisa-web-pro, serif; }
 .container .header .user span{color:red;}
 .container .header .user span a{color:red;}			
 
-h1{ font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:normal; padding:0 15px;}
+h1 { font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:normal; padding:0 15px;}
+h2, h3, h4, h5, h6 {font-family:futura-pt, Futura, sans-serif;}
+.nav {font-family: sans-serif;}
 .navbar-inverse .brand, .navbar-inverse .nav > li > a {color:#666666; text-shadow:inherit;}
 .navbar-inverse .nav > li > a:focus,
 .navbar-inverse .nav > li > a:hover {
   color: #ffffff;
   background-color:#000;
 }
-.content_wrapper{ padding:1px 50px; border-left:3px dashed #7D8D9B; border-right:3px dashed #7D8D9B; padding-top:3px; }
+.content_wrapper{ padding:1px 50px; border-left:3px dashed #C8C8C8; border-right:3px dashed #C8C8C8; padding-top:3px; }
 
 .alert{ font-family:futura-pt, Futura, sans-serif; font-size:13px; font-weight:bold; margin-bottom:10px;}
 .alert span{ font-weight:normal; font-size:12px;}
@@ -39,7 +41,7 @@ h1{ font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:norma
     overflow-y: scroll;
 }
 .homae-rig h1 {font-size:24px; color:#7D8D9B; width:270px; padding:0px;}
-.homae-rig p {font-size:12px; width:100%; margin:20px 0 0 0; line-height:20px;}
+.homae-rig p {font-size:13px; width:100%; margin:20px 0 0 0; line-height:20px;}
 
 .con-right-bottom-con {
     width:auto; 
@@ -193,20 +195,28 @@ h1{ font-size:16px; font-family:futura-pt, Futura, sans-serif; font-weight:norma
 
 .hero-unit {
   padding: 0px !important;
-  margin-top: -30px;
+  margin-top: 1px;
 }
 .bs-docs-example {padding-top: 5px !important;}
 #myTab {width: 100%; margin-bottom: 0px;}
-#sscaLogo {width: 150px;}
+#sscaLogo {width: 180px; margin-right: 0px;}
 #page_content {margin-right: 7px;}
 #ss-university {margin-top: 5px}
-.social-left img {opacity: 0.4; filter:alpha(opacity=40); -moz-opacity: 0.4; -khtml-opacity: 0.4;}
-.social-left img:hover {opacity: 1; filter:alpha(opacity=100); -moz-opacity: 1.0; -khtml-opacity: 1.0;}
-.social-right img {opacity: 0.4; filter:alpha(opacity=40); -moz-opacity:0.4; -khtml-opacity: 0.4;}
-.social-right img:hover {opacity: 1; filter:alpha(opacity=100); -moz-opacity: 1.0; -khtml-opacity: 1.0;}
-#sscaFlag {margin-top: 60px;}
+.social-left img {
+  filter: url(filters.svg#grayscale); /* Firefox 3.5+ */
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome & Safari 6+ */
+}
+.social-left img:hover {filter: none; -webkit-filter: grayscale(0);}
+.social-right img {
+  filter: url(filters.svg#grayscale); /* Firefox 3.5+ */
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome & Safari 6+ */
+}
+.social-right img:hover {filter: none; -webkit-filter: grayscale(0);}
+#sscaFlag {margin-top: 25px;}
 #headerSearch {background-color: white; border: 1px solid #ccc;margin-top: 20px}
-.icon-search {top: 26px !important;}
+.icon-search {top: 6px !important;}
 #page_picture img {
   -o-box-shadow:      0px 0px 6px 10px #F8F3EA;
   -icab-box-shadow:   0px 0px 6px 10px #F8F3EA;
