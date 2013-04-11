@@ -40,6 +40,7 @@ def member_page(request):
 def post_auth_process(request, backend, *args, **kwargs):
     """Post authentication process"""
 
+    message = None
 
     try:  # Get the identity from the response returned by the OpenId provider.
         openid_identity = request.REQUEST['openid.identity']
@@ -104,7 +105,8 @@ def post_auth_process(request, backend, *args, **kwargs):
             'description': 'There occurs error in authentication. Please try again.'
         }
 
-    return render_to_response('error.html', {"message": message})
+    context = {"message": message}
+    return render_to_response('error.html', RequestContext(request, context))
 
 
 def join(request):
