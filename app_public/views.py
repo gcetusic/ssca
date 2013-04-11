@@ -159,7 +159,7 @@ def registration_complete(request, token):
 
 @csrf_protect
 def register_page(request):
-    # print "register_page()"
+    print "register_page()"
     response = HttpResponse()
 
     # print "checking request type"
@@ -195,6 +195,8 @@ def register_page(request):
 
     # composing email
     subject = "SSCA Registration Activation"
+
+    # FIXME - use actual url instead of localhost !!!
     link = "http://localhost:8000/registration/complete"
     email_format = """Hello %s, 
     Thank you very much for registering with SSCA.
@@ -208,7 +210,6 @@ def register_page(request):
     name = "%s %s" % (fname, lname)
     email_body = email_format % (name, link, token)
     print email_body
-    #email_from = "test.weavebytes@gmail.com"
     email_from = settings.EMAIL_HOST_USER
 
     # list of email receiver, we may add cc/bcc later
@@ -221,13 +222,13 @@ def register_page(request):
 
     # create a new user and make him inactive
     print "creating user..."
-    new_user = User()
-    new_user.username = 'dummy-user1'
-    new_user.first_name = fname
-    new_user.last_name = lname
-    new_user.email = email + "1"
-    new_user.password = '123'
-    new_user.is_active = 0
+    dummy_username = generate_random_str(30) # required
+
+    new_user = User.objects.create_user(dummy_username, email)
+
+    new_user.first_name = fname  # optional
+    new_user.last_name = lname   # optional
+    new_user.is_active = 0       # optional
     new_user.save()
 
     # add this user id as foreign key in person
