@@ -150,13 +150,8 @@ def registration_complete(request, token):
         response.write("ERROR:: Only HTTP GET is supported for registering.")
         return response
 
-    print "registration complete:", token
-
     try:
-        # TODO
-        # (1) check token 
         person = Person.objects.get(signup_token = token)
-        print person.__dict__
 
         delta = datetime.now() - person.signup_date
         hours_delta = delta.total_seconds() / 3600
@@ -177,9 +172,9 @@ def registration_complete(request, token):
         request.session['person_id'] = person.id
         request.session['openid_association'] = True
 
-        # (2) remove token from db
-
-        # (3) check 24 hrs validity of token
+        # removing token from person
+        person.signup_token = ""
+        person.save()
 
         c = {'registration_action': 'RegistrationComplete'}
         c.update(csrf(request))
