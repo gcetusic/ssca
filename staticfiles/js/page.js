@@ -42,13 +42,14 @@ function load_page(page) {
 	});
 
 	$("#tab1 .page_content").fadeToggle(function () {
-		// add id to every image inside content and check if scrolled to it
+		//add id to every image inside content and check if scrolled to it
 		$(div).find("img").attr("id", "content_img");
 		$(document).scroll(function () {
 			console.log("scrolled");
 		});
 
 		$(this).html(div);
+        $(this).fadeToggle();
 	});
 
 	$("#page_picture").fadeToggle(function () {
