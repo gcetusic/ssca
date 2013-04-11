@@ -226,7 +226,7 @@
     Other SSCA members will not be able to see which provider you use.<br><br>
 
     Use my:
-    <select id="providers" name="providers_list" style="width: 150px;">
+    <select id="associate_providers" name="providers_list" style="width: 150px;">
         <option value="{% url socialauth_begin 'google' %}">Google</option>
         <option value="" disabled="disabled">Yahoo</option>
         <option value="" disabled="disabled">AOL</option>
@@ -239,7 +239,7 @@
 
     <div class="modal-footer">
         <a href="http://openidexplained.com/" target="_blank" style="color: #003399;float: left;">Why OpenId is secure ?</a>
-        <a id="" href="" class="btn btn-primary" onclick="return false;">Associate Identity</a>
+        <input type="button" id="btn_associate_identity" class="btn btn-primary" value="Associate Identity">
     </div>
 </div>
 <!-- modal register openid ends -->

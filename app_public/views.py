@@ -40,9 +40,22 @@ def member_page(request):
 def post_auth_process(request, backend, *args, **kwargs):
     """Post authentication process"""
 
+
     try:  # Get the identity from the response returned by the OpenId provider.
         openid_identity = request.REQUEST['openid.identity']
         print "------> openid=", openid_identity
+
+        # if we see that there openid_association flag is True in session
+        # we will be associating person with openid
+        if request.session.has_key('openid_association'):
+            print "--> person id:", request.session['person_id']
+            person_id = request.session['person_id']
+            del request.session['person_id']
+            del request.session['openid_association']
+            print "--> session cleaned"
+            person = Person.objects.get(id=person_id)
+            person.identity = openid_identity
+            person.save()
 
         try:  # Check whether an user exists with this Identity.
             person = Person.objects.get(identity=openid_identity)
@@ -142,6 +155,11 @@ def registration_complete(request, token):
         # (1) check token 
         person = Person.objects.get(signup_token = token)
         print person.__dict__
+
+        # store the person id in session, so
+        # that we can associate when we get callbacked by oauth provide
+        request.session['person_id'] = person.id
+        request.session['openid_association'] = True
 
         # (2) remove token from db
 
