@@ -4,10 +4,10 @@ $(document).ready(function () {
         var GMAPS_LINK = "";
 
         e.preventDefault();
-        moveTabsAndContents();
         var pageType = $(this).data("page-type");
 
         if(pageType == "page") {
+            moveTabsAndContents();
             Dajaxice.app_public.sscapage_ajax(load_page, {'page': this.getAttribute('href')});
         }
 		  

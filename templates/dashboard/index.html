@@ -57,6 +57,7 @@
                 var pageType = $(this).data("page-type");
 
                 if(pageType == "maps") {
+                    moveTabsAndContents();
                     $("#page_title").fadeToggle(function () {
                         $(this).html($(_this).text());
                         $(this).fadeToggle();
