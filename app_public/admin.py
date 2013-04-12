@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_public.models import Person, Account, Subscription, Image, MenuItem
+from app_public.models import Person, Account, Subscription, Image, MenuItem, MenuHeader
 from django.contrib.flatpages.admin import FlatpageForm, FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
@@ -26,6 +26,7 @@ class ExtendedFlatPageAdmin(FlatPageAdmin):
 admin.site.unregister(FlatPage)
 admin.site.register(Page, ExtendedFlatPageAdmin)
 admin.site.register(MenuItem)
+admin.site.register(MenuHeader)
 admin.site.register(Image)
 admin.site.register(Person)
 admin.site.register(Account)

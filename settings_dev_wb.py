@@ -21,3 +21,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'test.weavebytes@gmail.com'
 EMAIL_HOST_PASSWORD = 'test@1234'
 EMAIL_PORT = 587
+
+# ------------ Braintree payments related keys start here ------------
+
+import braintree
+BTREE_ENVIRONMENT = braintree.Environment.Sandbox
+BTREE_MERCHANT_ID = "qp96bcphs85fyjyq"
+BTREE_PUBLIC_KEY = "ccsmkms74ymxhbxg"
+BTREE_PRIVATE_KEY = "5227ce9f17856c06e877871eefb8e92a"
+
+# ------------ Braintree payments keys end here           ------------

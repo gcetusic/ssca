@@ -1,6 +1,21 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.flatpages.models import FlatPage
+from django.utils.translation import ugettext_lazy as _
+
+
+class MenuHeader(models.Model):
+    """
+    Stores menu headers which will then be the parent menu of the pages/menu items.
+    """
+    title = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return "%s" % self.title
+
+    class Meta:
+        verbose_name = _("Menu Header")
+        verbose_name_plural = _("Menu Headers")
 
 
 class MenuItem(models.Model):
