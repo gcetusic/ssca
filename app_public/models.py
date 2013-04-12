@@ -123,3 +123,42 @@ class Relationship(models.Model):
 # this is just so that the app-wide sample data works (we don't have data for it yet)
 class Dev(models.Model):
     test = models.TextField()
+
+
+class Event(models.Model):
+    date = models.DateTimeField()
+    title = models.CharField(max_length=100)
+    image = models.ManyToManyField(Image, null=True, blank=True, editable=True)
+    description = models.TextField()
+    location = models.TextField()
+    longitude = models.DecimalField(max_digits=7, decimal_places=5)
+    latitude = models.DecimalField(max_digits=7, decimal_places=5)
+    member_price = models.DecimalField(max_digits=9, decimal_places=2, default=0),
+    non_member_price = models.DecimalField(max_digits=9, decimal_places=2, default=0)
+    recurrence_interval = models.SmallIntegerField()
+    recurrence_of = models.ForeignKey('self')
+
+    access = (
+        ('pu', 'public'),
+        ('sm', 'ssca_members'),
+        ('pr', 'private'),
+    )
+
+    open_to = models.CharField(max_length=2, choices=access)
+    capacity = models.IntegerField()
+
+    def __unicode__(self):
+        return u'%s' % self.title
+
+    @staticmethod
+    def get_Events(cls,open_to, max_events, time_from, time_to):
+        events = Event.objects.filter(open_to=open_to, date__gte=time_from, date_lte=time_to)
+        if max_events != 0:
+            events = events[:max_events]
+        return events
+
+    @staticmethod
+    def get_Event(cls, open_to, id):
+        #if there is no such event will raise DoesNotExist exception.
+        event = Event.objects.get(pk=id, open_to=open_to)
+        return event

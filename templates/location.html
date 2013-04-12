@@ -1,0 +1,20 @@
+{% load dajaxice_templatetags %}
+{% dajaxice_js_import 'nocsrf' %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="/static/js/location.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/location.css">
+
+<div class="location">
+    <table>
+        <tr>
+            <td>
+                <img src="/static/images/globe_grey.png" id="globe"/>
+            </td>
+            <td>
+                <input type="text" id="coordinates"/>
+                <input type="hidden" id="extended" value="N12 12.12, W053 41.23"/>
+            </td>
+        </tr>
+    </table>
+</div>
