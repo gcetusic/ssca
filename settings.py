@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'app_dashboard',
     'social_auth',
     'dajaxice',
+    'app_backoffice',
 )
 
 # A sample logging configuration. The only tangible logging
