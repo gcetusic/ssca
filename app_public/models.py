@@ -84,6 +84,19 @@ class Page(FlatPage):
         help_text="Page that shis one should appear under (if any)")
 
 
+class PageSequence(models.Model):
+    """
+    Stores the display sequence of a Page from its parent MenuHeader
+    """
+    menu_header = models.ForeignKey(MenuHeader)
+    page = models.ForeignKey(Page)
+    sequence = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = _("Page Sequence")
+        verbose_name_plural = _("Page Sequence")
+
+
 class Subscription(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
