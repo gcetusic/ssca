@@ -6,7 +6,7 @@
     {% for header in MENU_HEADERS %}
         <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ header }}</b></a>
             <ul class="dropdown-menu">
-                {% for sequence in header|get_ordered_pages %}
+                {% for sequence in header|get_ordered_pages:request.user %}
                     <li><a tabindex="-1" href="{{ sequence.page.url }}" data-page-type="{{ sequence.page.page_type }}">{{ sequence.page.title }}</a></li>
                 {% endfor %}
                 <!-- <li><a tabindex="-1" href="/officers/" data-page-type="page">Officers, Staff, & Volunteers </a></li>
