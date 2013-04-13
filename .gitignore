@@ -6,3 +6,4 @@ env
 migrations
 static
 media
+settings_dev_custom.py
