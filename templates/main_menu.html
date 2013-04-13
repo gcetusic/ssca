@@ -3,7 +3,10 @@
 {% load local_tags %}
 <ul class="nav">
     <li ><a href="#">Home</a></li>
-    <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">About SSCA</b></a>
+    {% for header in MENU_HEADERS %}
+        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ header }}</b></a>
+    {% endfor %}
+    <!-- <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">About SSCA</b></a>
     <ul class="dropdown-menu">
         <li><a tabindex="-1" href="/officers/" data-page-type="page">Officers, Staff, & Volunteers </a></li>
         <li><a tabindex="-1" href="#">Contact Us</a></li>
@@ -51,9 +54,6 @@
     </li>
     <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Membership</b></a>
     <ul class="dropdown-menu">
-        <!--
-        <li><a tabindex="-1" data-toggle="modal" href="#modalStep1">Join/Renew</a></li>
-        -->
         <li><a tabindex="-1" data-toggle="modal" onclick="return showModalStep1();" href="return false;">Join/Renew</a></li>
         <li><a tabindex="-1" href="/membership-benefits/" data-page-type="page">Membership Benefits</a></li>
         <li><a tabindex="-1" href="/become-a-commodore/" data-page-type="page">Become a Commodore</a></li>
@@ -82,7 +82,7 @@
         <li><a tabindex="-1" href="#">Publications</a></li>
         <li><a tabindex="-1" href="#">Music</a></li>
     </ul>
-    </li>
+    </li> -->
 
     <!-- <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Pages</a>
     <ul class="dropdown-menu">
