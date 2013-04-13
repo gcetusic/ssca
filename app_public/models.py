@@ -1,5 +1,7 @@
+from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import pre_save
 from django.contrib.flatpages.models import FlatPage
 from django.utils.translation import ugettext_lazy as _
 
@@ -201,3 +203,12 @@ class Event(models.Model):
         #if there is no such event will raise DoesNotExist exception.
         event = Event.objects.get(pk=id, open_to=open_to)
         return event
+
+
+def check_sequence(sender, instance, *args, **kwargs):
+    header_sequence = get_object_or_None(sender, menu_header=instance.menu_header,
+                                        sequence=instance.sequence)
+    if header_sequence:
+        raise Exception("Sequence number is already taken. Please choose another.")
+
+pre_save.connect(check_sequence, sender=PageSequence)
