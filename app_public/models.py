@@ -4,6 +4,13 @@ from django.contrib.flatpages.models import FlatPage
 from django.utils.translation import ugettext_lazy as _
 
 
+PAGE_TYPES = (
+    ('maps', 'Map'),
+    ('static', 'Static Page'),
+    ('normal', 'Normal Page')
+)
+
+
 class MenuHeader(models.Model):
     """
     Stores menu headers which will then be the parent menu of the pages/menu items.
@@ -82,6 +89,8 @@ class Page(FlatPage):
         null=True, blank=True, default=None,
         related_name="flatpage_parent",
         help_text="Page that shis one should appear under (if any)")
+    page_type = models.CharField(max_length=100, choices=PAGE_TYPES, null=True)
+    require_authentication = models.BooleanField(default=False)
 
 
 class PageSequence(models.Model):
