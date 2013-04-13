@@ -208,7 +208,8 @@ class Event(models.Model):
 def check_sequence(sender, instance, *args, **kwargs):
     header_sequence = get_object_or_None(sender, menu_header=instance.menu_header,
                                         sequence=instance.sequence)
-    if header_sequence:
-        raise Exception("Sequence number is already taken. Please choose another.")
+    if not instance.id:
+        if header_sequence:
+            raise Exception("Sequence number is already taken. Please choose another.")
 
 pre_save.connect(check_sequence, sender=PageSequence)
