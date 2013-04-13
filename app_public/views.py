@@ -145,6 +145,7 @@ def registration_complete(request, token):
         delta = datetime.now() - person.signup_date
         hours_delta = delta.total_seconds() / 3600
 
+        """
         # token expired
         if hours_delta > 24:
             # removing person, user
@@ -155,6 +156,7 @@ def registration_complete(request, token):
             c = {'registration_action': 'RegistrationComplete_ActivationExpired'}
             c.update(csrf(request))
             return render_to_response('public.html', c, context_instance=RequestContext(request))
+        """
 
         # store the person id in session, so
         # that we can associate when we get callbacked by oauth provide
