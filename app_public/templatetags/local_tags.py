@@ -1,5 +1,5 @@
 from django import template
-from app_public.models import MenuItem
+from app_public.models import MenuItem, MenuHeader, PageSequence, Page
 
 register = template.Library()
 
@@ -35,9 +35,19 @@ def get_ul_for_page(item):
     string += "</li>"
     return string
 
+
 @register.filter
 def get_full_name(user):
     """
     Returns the full name of the logged in user.
     """
     return "%s %s" % (user.first_name, user.last_name)
+
+
+@register.filter
+def get_ordered_pages(menu_header):
+    """
+    Returns an ordered list of Page objects based on the given menu_header parameter.
+    The order will be based on sequence and in an ASC order.
+    """
+    return PageSequence.objects.filter(menu_header=menu_header).order_by('sequence')

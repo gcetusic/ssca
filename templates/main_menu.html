@@ -5,6 +5,24 @@
     <li ><a href="#">Home</a></li>
     {% for header in MENU_HEADERS %}
         <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ header }}</b></a>
+            <ul class="dropdown-menu">
+                {% for sequence in header|get_ordered_pages %}
+                    <li><a tabindex="-1" href="{{ sequence.page.url }}" data-page-type="{{ sequence.page.page_type }}">{{ sequence.page.title }}</a></li>
+                {% endfor %}
+                <!-- <li><a tabindex="-1" href="/officers/" data-page-type="page">Officers, Staff, & Volunteers </a></li>
+                <li><a tabindex="-1" href="#">Contact Us</a></li>
+                <li><a tabindex="-1" href="/awards/" data-page-type="page">Awards & Recognition</a></li>
+                <li><a tabindex="-1" href="/volunteer/" data-page-type="page">Volunteer!</a></li>
+                <li><a tabindex="-1" href="/history/" data-page-type="page">History</a></li>
+                <li><a tabindex="-1" href="/clean-wakes/" data-page-type="page">About Clean Wakes</a></li>
+                <li><a tabindex="-1" href="/ssca-foundation/" data-page-type="page">SSCA Foundation</a></li>
+                <li><a tabindex="-1" href="#">SSCA Documents</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a tabindex="-1" href="#">Logos for Sites & Cards</a></li>
+                {% endif %}
+                <li><a tabindex="-1" href="/press/" data-page-type="page">Press</a></li> -->
+            </ul>
+        </li>
     {% endfor %}
     <!-- <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">About SSCA</b></a>
     <ul class="dropdown-menu">
