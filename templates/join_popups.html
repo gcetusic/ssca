@@ -226,7 +226,7 @@
     Other SSCA members will not be able to see which provider you use.<br><br>
 
     Use my:
-    <select id="providers" name="providers_list" style="width: 150px;">
+    <select id="associate_providers" name="providers_list" style="width: 150px;">
         <option value="{% url socialauth_begin 'google' %}">Google</option>
         <option value="" disabled="disabled">Yahoo</option>
         <option value="" disabled="disabled">AOL</option>
@@ -239,7 +239,7 @@
 
     <div class="modal-footer">
         <a href="http://openidexplained.com/" target="_blank" style="color: #003399;float: left;">Why OpenId is secure ?</a>
-        <a id="" href="" class="btn btn-primary" onclick="return false;">Associate Identity</a>
+        <input type="button" id="btn_associate_identity" class="btn btn-primary" value="Associate Identity">
     </div>
 </div>
 <!-- modal register openid ends -->
@@ -261,3 +261,46 @@
 
 </div>
 <!-- modal register complete person does not exist -->
+
+<!-- modal register complete 'activation expired' begins-->
+<div id="modalRegisterActivationExpired" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>OpenId Registration Failed</h3>
+    </div>
+
+    <div class="modal-body">
+        <h4>Sorry ! Your activation request has expired</h4>
+    </div>
+    <div class="control-group" style="padding: 10px; margin: 20px;">
+        After 24 hours the activation request gets expired.<br>
+        Please try registering again...
+    </div>
+</div>
+<!-- modal register complete 'activation expired' ends-->
+
+<!-- modal register complete 'no subscription found' begins-->
+<div id="modalRegisterNoSubscription" class="modal hide fade">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>OpenId Registration Failed</h3>
+    </div>
+
+    <div class="modal-body">
+        <h4>Subscription doesn't exist</h4>
+    </div>
+
+    <div class="control-group" style="padding: 10px; margin: 20px;">
+        You have not yet subscribed to SSCA. <br>
+        Either click the Join/Renew button below to continue,<br>
+        or email office@ssca.org for assistance.
+    </div>
+
+    <div class="modal-footer">
+        <a class="btn btn-primary" href="#">Join/Renew</a>
+    </div>
+
+</div>
+<!-- modal register complete 'no subscription found' ends -->
