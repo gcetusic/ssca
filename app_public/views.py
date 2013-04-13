@@ -40,14 +40,24 @@ def member_page(request):
 def post_auth_process(request, backend, *args, **kwargs):
     """Post authentication process"""
 
+    message = None
+
     try:  # Get the identity from the response returned by the OpenId provider.
         openid_identity = request.REQUEST['openid.identity']
         print "------> openid=", openid_identity
 
+        # if we see that there openid_association flag is True in session
+        # we will be associating person with openid
+        if request.session.has_key('openid_association'):
+            person_id = request.session['person_id']
+            del request.session['person_id']
+            del request.session['openid_association']
+            person = Person.objects.get(id=person_id)
+            person.identity = openid_identity
+            person.save()
+
         try:  # Check whether an user exists with this Identity.
             person = Person.objects.get(identity=openid_identity)
-
-            print "found person", person.__dict__
 
             # If exists, check whether the user has subscribed.
             account = Account.objects.get(user=person.user)
@@ -60,38 +70,32 @@ def post_auth_process(request, backend, *args, **kwargs):
                 user = person.user
                 user.backend = 'social_auth.backends.google.GoogleBackend'
                 login(request, person.user)
-                print "---------------- Login Success redirect ----------------"
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
             else:  # If the subscription seems to be expired, ask the user to renew it.
-                print "---------------- Subscription Expired ----------------"
                 message = {
                     'title': 'Subscription Expired',
                     'description': 'Your subscription seems to be expired. Please renew it.'
                 }
 
         except Person.DoesNotExist:
-            print "---------------- PersonDoesNotExist ----------------"
             context = {"error_type": "PersonDoesNotExist"}
             return render_to_response('public.html', RequestContext(request, context))
 
         except Account.DoesNotExist:
-            print "-- Account DoesNotExist --"
             # If the user has no subscription yet, ask him to subscribe.
-            message = {
-                        'title': 'No Subscription found',
-                        'description': 'You seem to be not chosen any subscription. Please subscribe.'
-            }
+            context = {"error_type": "AccountDoesNotExist"}
+            return render_to_response('public.html', RequestContext(request, context))
 
     except KeyError:  # Handle the case of no identity found in the Openid provider response.
         # Message to the user as error in authentication.
-        print "------> KeyError"
         message = {
             'title': 'Authentication Error',
             'description': 'There occurs error in authentication. Please try again.'
         }
 
-    return render_to_response('error.html', {"message": message})
+    context = {"message": message}
+    return render_to_response('error.html', RequestContext(request, context))
 
 
 def join(request):
@@ -135,19 +139,33 @@ def registration_complete(request, token):
         response.write("ERROR:: Only HTTP GET is supported for registering.")
         return response
 
-    print "registration complete:", token
-
     try:
-        # TODO
-        # (1) check token 
         person = Person.objects.get(signup_token = token)
-        print person.__dict__
 
-        # (2) remove token from db
+        delta = datetime.now() - person.signup_date
+        hours_delta = delta.total_seconds() / 3600
 
-        # (3) check 24 hrs validity of token
+        """
+        # token expired
+        if hours_delta > 24:
+            # removing person, user
+            person.user.delete()
+            person.delete()
 
-        # (4) associate with OpenID
+            # sending registration error to template
+            c = {'registration_action': 'RegistrationComplete_ActivationExpired'}
+            c.update(csrf(request))
+            return render_to_response('public.html', c, context_instance=RequestContext(request))
+        """
+
+        # store the person id in session, so
+        # that we can associate when we get callbacked by oauth provide
+        request.session['person_id'] = person.id
+        request.session['openid_association'] = True
+
+        # removing token from person
+        person.signup_token = ""
+        person.save()
 
         c = {'registration_action': 'RegistrationComplete'}
         c.update(csrf(request))
@@ -159,7 +177,7 @@ def registration_complete(request, token):
 
 @csrf_protect
 def register_page(request):
-    # print "register_page()"
+    print "register_page()"
     response = HttpResponse()
 
     # print "checking request type"
@@ -195,7 +213,8 @@ def register_page(request):
 
     # composing email
     subject = "SSCA Registration Activation"
-    link = "http://localhost:8000/registration/complete"
+
+    link = "http://%s/registration/complete" % request.get_host()
     email_format = """Hello %s, 
     Thank you very much for registering with SSCA.
 
@@ -208,7 +227,6 @@ def register_page(request):
     name = "%s %s" % (fname, lname)
     email_body = email_format % (name, link, token)
     print email_body
-    #email_from = "test.weavebytes@gmail.com"
     email_from = settings.EMAIL_HOST_USER
 
     # list of email receiver, we may add cc/bcc later
@@ -221,13 +239,13 @@ def register_page(request):
 
     # create a new user and make him inactive
     print "creating user..."
-    new_user = User()
-    new_user.username = 'dummy-user1'
-    new_user.first_name = fname
-    new_user.last_name = lname
-    new_user.email = email + "1"
-    new_user.password = '123'
-    new_user.is_active = 0
+    dummy_username = generate_random_str(30) # required
+
+    new_user = User.objects.create_user(dummy_username, email)
+
+    new_user.first_name = fname  # optional
+    new_user.last_name = lname   # optional
+    new_user.is_active = 0       # optional
     new_user.save()
 
     # add this user id as foreign key in person

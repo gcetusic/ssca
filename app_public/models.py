@@ -96,6 +96,8 @@ class Person(models.Model):
     token_created = models.DateTimeField(auto_now_add=True)
     # customer_id for braintree which we can use in transactions and subscriptions
     customer_id = models.CharField(max_length=20)
+    signup_date = models.DateTimeField(auto_now_add=True)
+
     # FIXME - need to determine how to store this info in db
     # encrypt or hash ?
     """
