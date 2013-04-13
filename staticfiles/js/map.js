@@ -1,10 +1,34 @@
 // list of current markers
 var markersArray = [];
 
+// Limiting scrolling past poles: http://stackoverflow.com/questions/3901611/google-maps-api-v3-limit-map-bounds
+var allowedBounds = false;
+
 // Google Maps callback (init) function as defined in main html src tag
 function initialize() {
 
     /***************** Main map *******************/
+    
+    function loadMarkers() {
+        // fetches new markers every time the map stops moving
+        google.maps.event.addListener(map, 'idle', getMarkers);
+        google.maps.event.addListener(map, 'idle', function() {
+            if (!allowedBounds) {
+                // set initial bounds
+                allowedBounds = map.getBounds();
+            }
+        });
+        google.maps.event.addListener(map, 'drag', checkBounds);
+        google.maps.event.addListener(map, 'zoom_changed', checkBounds); 
+        google.maps.event.addListener(map, 'bounds_changed', checkBounds); 
+    }
+    
+    // load markers with label lib
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = markers_with_label_script_src;
+    script.onload = loadMarkers;
+    document.body.appendChild(script);
 
     // create map
     var map = new google.maps.Map(
@@ -13,12 +37,13 @@ function initialize() {
             center: new google.maps.LatLng(center_latitude, center_longitude),
             zoom: map_zoom,
             minZoom: min_zoom,
-            mapTypeId: google.maps.MapTypeId.ROADMAP 
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
-
-    // fetches new markers every time the map stops moving
-    google.maps.event.addListener(map, 'idle', getMarkers);
+    
+    // Icons source: https://developers.google.com/chart/infographics/docs/dynamic_icons#pins    
+    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_xpin_letter_withshadow&chld=pin_star|%E2%80%A2|CC3300|000000|FF9900", new google.maps.Size(45, 42), new google.maps.Point(0, 0), new google.maps.Point(10, 34));
+    var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow", new google.maps.Size(40, 37), new google.maps.Point(0, 0), new google.maps.Point(12, 35));
 
     // Determines timezone of client browser
     /* This is important because a query to the database has to fetch
@@ -29,11 +54,24 @@ function initialize() {
     }
 
     // Add marker but check if its category should be visible
-    function addMarker(position, id, category) {
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-        });
+    function addMarker(position, id, category, count) {
+        if (category == "cluster") {
+            // Recipe from: http://jsfiddle.net/yV6xv/21/
+            marker = new MarkerWithLabel({
+                map: map,
+                position: position,
+                icon: pinImage,
+                shadow: pinShadow,
+                labelContent: count,
+                labelAnchor: new google.maps.Point(12, -5),
+                labelClass: "cluster-label"
+            });        
+        } else {
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+            });
+        }
         if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
             marker.setVisible(false);
         }
@@ -79,7 +117,7 @@ function initialize() {
         var longitude_minutes = (coord.lng() % 1)*60;
         longitude_minutes = longitude_minutes.toPrecision(2);
 
-        return latitude_degrees + " " + latitude_minutes + "'" + ", " 
+        return latitude_degrees + " " + latitude_minutes + "'" + ", "
             + longitude_degrees  + " " + longitude_minutes + "'"
     }
 
@@ -158,14 +196,15 @@ function initialize() {
             "west": sw.lng(),
             "timezone": getTimezoneName(),
             "time": time,
-            "zoom": map.getZoom()
+            "zoom": map.getZoom(),
+            "clustering": clustering
         }
 
         // Send gathered data to server and receive response
         /* The response is a json object that contains
             1. position - a tuple with latitude and longitude
             3. id - the specific id of the marker, sent only if the marker isn't a cluster
-            2. category - a string, either 'stations', 'ports', 'members' or cluster 
+            2. category - a string, either 'stations', 'ports', 'members' or cluster
                 - if the category is a cluster, the marker represents
                 not a single precise location but a grouping of markers */
 
@@ -183,12 +222,45 @@ function initialize() {
                     addMarker(
                         new google.maps.LatLng(item.position[0], item.position[1]),
                         item.id,
-                        item.category
+                        item.category,
+                        item.count
                     );
                 });
                 showOverlays();
             }
         });
+    }
+    
+    function checkBounds() {
+        // limit the bounds on drag and zoom_changed to not go past the poles
+        
+        //if (map.getZoom() < 7) map.setZoom(7);    
+        
+        if (allowedBounds) {       
+            var allowed_ne_lng = allowedBounds.getNorthEast().lng();
+            var allowed_ne_lat = allowedBounds.getNorthEast().lat();
+            var allowed_sw_lng = allowedBounds.getSouthWest().lng();
+            var allowed_sw_lat = allowedBounds.getSouthWest().lat();
+          
+            var currentBounds = map.getBounds();
+            var current_ne_lng = currentBounds.getNorthEast().lng();
+            var current_ne_lat = currentBounds.getNorthEast().lat();
+            var current_sw_lng = currentBounds.getSouthWest().lng();
+            var current_sw_lat = currentBounds.getSouthWest().lat();
+          
+            var currentCenter = map.getCenter();
+            var centerX = currentCenter.lng();
+            var centerY = currentCenter.lat();
+          
+            // For now only limit Y
+            
+            //if (current_ne_lng > allowed_ne_lng) centerX = centerX-(current_ne_lng-allowed_ne_lng);
+            if (current_ne_lat > allowed_ne_lat) centerY = centerY-(current_ne_lat-allowed_ne_lat);
+            //if (current_sw_lng < allowed_sw_lng) centerX = centerX+(allowed_sw_lng-current_sw_lng);
+            if (current_sw_lat < allowed_sw_lat) centerY = centerY+(allowed_sw_lat-current_sw_lat);
+          
+            map.setCenter(new google.maps.LatLng(centerY,centerX));
+        }
     }
 
     /**********************************************/
@@ -290,7 +362,7 @@ function initialize() {
             var divisor = (2 + 2 * margin);
             var wayTooBig = false;
             if (
-                // margin of one means zoom in when overage is big enough that 
+                // margin of one means zoom in when overage is big enough that
                 // zooming in would leave > half of width
                 // which would be when overage is > three quarters width
 
@@ -298,8 +370,7 @@ function initialize() {
                 (widthOverage > (divisor - 1) * (overlayMapWidth / divisor)) &&
                 (heightOverage > (divisor - 1) * (overlayMapHeight / divisor))
             ) {
-                //FIXME: sometimes it isn't enough to change by only 1.
-                overlayMap.setZoom(overlayMap.getZoom() + 1);
+                overlayMap.setZoom(overlayMap.getZoom() + 2);
             } else if (
                 // margin of one means, zoom out when overage is < half width
                 // margin of half means zoom out when overage is < quarter width
@@ -309,8 +380,7 @@ function initialize() {
             ) {
                 var overlayZoom = overlayMap.getZoom();
                 if (overlayZoom > 0) {
-                  //FIXME: sometimes it isn't enough to change by only 1.
-                    overlayMap.setZoom(overlayZoom - 1);
+                    overlayMap.setZoom(overlayZoom - 2);
                 } else {
                   wayTooBig = true;
                 }
@@ -469,6 +539,10 @@ function initialize() {
             else {
                 hideCategory(this.value);
             }
+            if($("#type-filter input[name='type']:checked").length < 1) {
+                // hide empty clusters
+                hideCategory("cluster");
+            }
         });
 
         // Refetch markers from server if timeframe is changed
@@ -490,7 +564,7 @@ function initialize() {
             So instead of sending the string directly to the server, the string is put
             in an array that acts like a queue. Every two seconds only the latest string in
             the queue is sent to the server and the queue is emptied until the next keystroke.
-            When user inputs text, a searchqueue is filled with the current input text. 
+            When user inputs text, a searchqueue is filled with the current input text.
         */
         var searchqueue = [];
         setInterval(function () {
