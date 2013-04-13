@@ -7,7 +7,7 @@
         <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ header }}</b></a>
             <ul class="dropdown-menu">
                 {% for sequence in header|get_ordered_pages:request.user %}
-                    <li><a tabindex="-1" href="{{ sequence.page.url }}" data-page-type="{{ sequence.page.page_type }}">{{ sequence.page.title }}</a></li>
+                    <li><a tabindex="-1" href="{{ sequence.page.url }}" data-page-type="{{ sequence.page.page_type }}" {% ifequal sequence.page.title "Join/Renew" %}onclick="return showModalStep1();" href="return false;"{% else %}href="{{ sequence.page.url }}"{% endifequal %}>{{ sequence.page.title }}</a></li>
                 {% endfor %}
                 <!-- <li><a tabindex="-1" href="/officers/" data-page-type="page">Officers, Staff, & Volunteers </a></li>
                 <li><a tabindex="-1" href="#">Contact Us</a></li>
