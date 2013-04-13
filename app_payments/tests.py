@@ -6,10 +6,14 @@ https://www.braintreepayments.com/docs/ruby/reference/sandbox
 NOTE: running tests too quickly one after another might cause braintree
 to refuse some transactions.
 """
+import os
 import unittest
+import datetime
 import braintree
 from app_payments.payment_service import create_transaction, create_subscription
-from app_payments.export_payment_service import _get_all_transactions
+from app_payments.export_payment_service import quickbooks_export_transactions
+from app_payments.braintree_finders_API import get_transactions_before, get_transactions_in_date_inverval, \
+get_transactions_with_amount_range
 from app_payments.exceptions import *
 from app_public.models import Person
 from django.contrib.auth.models import User
@@ -27,11 +31,39 @@ class TransactionTestCase(unittest.TestCase):
         self.b_user.delete()
         self.user.delete()
         
+        
+    def test_get_transactions_before_old_date(self):
+        """
+        Test that we don't get any transactions if we try before some
+        old date.
+        """
+        old_date = datetime.datetime(1901, 1, 13)
+        result = get_transactions_before(old_date)
+        self.assertEqual(len(list(result)), 0)
+
+
+    def test_get_transactions_before_now(self):
+        """
+        We can't know exactly how many transactions we have since each
+        test run generates new ones. Just test that it returs something
+        since we should have transactions older than todat.
+        """
+        result = get_transactions_before(datetime.datetime.now())
+        self.assertTrue(len(list(result)) > 0)
+        
     
-    def test_all_trans(self):
-        _get_all_transactions()
-    
-    
+    def test_quickbook_export(self):
+        """
+        Just get all transactions and export them to a csv file. No exceptions
+        or erros are expected. File should be present in app_payments folder, named
+        all_transactions.csv
+        """
+        result_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 
+                                   'all_transactions.csv')
+        trans_list = get_transactions_before()
+        quickbooks_export_transactions(trans_list, result_file)
+        
+        
     def test_create_simple_transaction_valid(self):
         """
         Create a transaction with no user passed. 
