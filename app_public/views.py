@@ -126,6 +126,9 @@ def renew(request):
 
 
 def public_page(request):
+    # Redirect user to dashboard page if authenticated
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('dashboard-main-page'))
     #assuming new user
     user_exist = False
     form = SSCAJoinForm()

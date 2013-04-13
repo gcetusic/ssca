@@ -37,6 +37,10 @@ def dashboard_main_page(request):
     }
     context['gmap'] = google_map
     context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
+    if settings.DEBUG:
+        context['clustering'] = request.GET.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)
+    else:
+        context['clustering'] = DEFAULT_CLUSTERING_ALGORITHM
 
     return render_to_response('dashboard/index.html', context, RequestContext(request))
 
