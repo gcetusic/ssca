@@ -15,7 +15,8 @@ class ExtendedFlatPageForm(FlatpageForm):
 class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
     fieldsets = (
-        (None, {'fields': ('url', 'title', 'content', 'picture', 'child_of', 'sites')}),
+        (None, {'fields': ('url', 'title', 'page_type', 'require_authentication', 'content', 
+                'picture', 'child_of', 'sites')}),
         (('Advanced options'), {'classes': ('collapse',), 'fields': ('enable_comments', 'registration_required', 'template_name')}),
     )
 
