@@ -45,9 +45,13 @@ def get_full_name(user):
 
 
 @register.filter
-def get_ordered_pages(menu_header):
+def get_ordered_pages(menu_header, user):
     """
     Returns an ordered list of Page objects based on the given menu_header parameter.
     The order will be based on sequence and in an ASC order.
     """
-    return PageSequence.objects.filter(menu_header=menu_header).order_by('sequence')
+    if user.is_authenticated():
+        pages = PageSequence.objects.filter(menu_header=menu_header).order_by('sequence')
+    else:
+        pages = PageSequence.objects.filter(menu_header=menu_header).order_by('sequence').exclude(page__in=[page for page in Page.objects.filter(require_authentication=True)])
+    return pages
