@@ -1,0 +1,14 @@
+.location {
+    display: inline-block;
+}
+
+.location #coordinates {
+    border: #ffffff solid 1px;
+    vertical-align: middle;
+    width: 70px;
+    display: inline-block;
+}
+
+.location #globe {
+    vertical-align: middle;
+}

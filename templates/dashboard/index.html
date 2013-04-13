@@ -1,20 +1,7 @@
 {% extends "base.html" %}
+{% load local_tags %}
 
 {% block title %} Welcome to the Dashboard {% endblock %}
-
-{% block auth_form %}
-<div style="float: right">
-    <ul class="nav">
-        <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Demo User<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><a href="#">View Profile</a></li>
-            <li><a href="#">Edit Profile</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
  
 <!--
     <header>
@@ -26,33 +13,225 @@
         <p>Items to be added here. Cool!</p>
     </section>
 -->
+{% block search_bar %}
+{% endblock %}
+
+{% block extra_js %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/tabs.js"></script>
+
+    <!-- Configuration -->
+    <script type="text/javascript">
+        var center_latitude = {{ gmap.center.0 }};
+        var center_longitude = {{ gmap.center.1 }};
+        var map_zoom = {{ gmap.zoom }};
+        var min_zoom = {{ gmap.minzoom }};
+        var gmaps_viewer = "{% url gmaps_viewer %}";
+        var marker_info = "{% url marker_info %}";
+        var member_finder = "{% url member_finder %}";
+    </script>
+
+    <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b>
+        However, it seems JavaScript is either disabled or not supported by your browser.
+        To view Google Maps, enable JavaScript by changing your browser options, and then
+        try again.
+    </noscript>
+
+    <!-- /Configuration -->
+
+    <script type="text/javascript">
+
+        function loadScript() {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
+            document.body.appendChild(script);
+        }
+
+        $(document).ready(function () {
+            $('.dropdown-menu a').attr('tabindex', -1);
+            $('.dropdown-menu a').click(function () {
+                var _this = this;
+                var pageType = $(this).data("page-type");
+
+                if(pageType == "maps") {
+                    moveTabsAndContents();
+                    $("#page_title").fadeToggle(function () {
+                        $(this).html($(_this).text());
+                        $(this).fadeToggle();
+                    });
+
+                    $.ajax({
+                        url: "{% url dashboard-map-ajax %}",
+                        success: function(result) {
+                            $('#tab1 .page_content').html(result);
+                        }
+                    });
+                    loadScript();
+                }
+                  
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/locator.css" rel="stylesheet" media="screen">
+{% endblock %}
 
 {% block content %}
 
-<div class="content_wrapper">
-    <div class="hero-unit" style="padding: 2px; margin-bottom: 2px;">
-        <div class="row-fluid" style="border: solid 0px blue;">
-            <div class="span12">
-                <div class="row-fluid">
+    <div class="content_wrapper">
+        <div class="hero-unit" style="padding: 2px; margin-bottom: 2px;">
+            {% block dashboard_menu %}
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#tab1" class="tab-headers" id="page_title">MELBOURENE GAM</a></li>
+                    <li class=""><a href="#tab2" class="tab-headers">Report From Trinidad</a></li>
+                    <li class=""><a href="#tab3" class="tab-headers">New Hunter Review</a></li>
+                    <li class=""><a href="#tab4" class="tab-headers">&nbsp;</a></li>
+                </ul>
+            {% endblock %}
+            <div class="clearfix">&nbsp;</div>
+            {% block tab_content %}
+                <div class="tab-content" id="myTabContent">
+                    <div class="row-fluid">
+                        <div class="span9">
+                            <div class="well well-small"  style="background:none; border:none;border-radius:0px;box-shadow:none;margin-bottom: 20px;">
+                                <div id="tab1" class="tab-pane fade active in tab-contents">
+                                    <div class="sub-pagleft">
+                                        <div class="page_content">
+                                            <h1>Harvard Model</h1>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                    {% block main_content %}
-                    <div class="span7 homae-rig">
-                        <h1>WELCOME TO SSCA</h1>
-                        <p> Content will come here... </p>
-                    </div>
-                    {% endblock %}
+                                <div id="tab2" class="tab-pane fade tab-contents">
+                                </div>
+                              
+                                <div id="tab3" class="tab-pane fade tab-contents">
+                                </div>
 
-                    {% block events %}
-                    <div class="span5">
-                        <div class="row-fluid">
-                        <div class="con-right-bottom-con span12">
+                                <div id="tab4" class="tab-pane fade tab-contents">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span3">
+                            <div class="sub-rigtxt">
+                                <form method="post" id="memberSearch">
+                                    {% csrf_token %}
+                                    <input class="sub-con-butt" type="submit" value="">
+                                    <input class="sub-con-tex" name="search" type="text">
+                                </form>
+                            </div>
+                            <span class="sub-leftcon">
+                                <h2>AD1</h2>
+                            </span>
+                            <span class="sub-leftcon">
+                                <h2>AD2</h2>
+                            </span>
+                            <span class="sub-leftcon">
+                                <h2>AD3</h2>
+                            </span>
                         </div>
                     </div>
-                    </div>
-                    {% endblock %}
                 </div>
-            </div>
+            {% endblock %}
         </div>
     </div>
-</div>
+    
+    <div id="member_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="member_label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Members</h3>
+        </div>
+        <div class="modal-body">
+            Search members: <input id="modal_search" type="text" class="memberTypeahead span6 search-query"></input>
+        </div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">Close</a>
+            <a href="#" id="modal_find" class="btn btn-primary">OK</a>
+        </div>
+        {% block widget %}  
+            <div class="row-fluid">
+                <div class="span4 sub-bottcon">
+                    <h1>FORUM ACTIVITY</h1>
+                    <div class="sub-middleft">
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>PHOTO THE WEEK</h1>
+                    <div class="spansa">
+                        <img src="{{ STATIC_URL }}images/sub1.png"  />
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NEREST PORT</h1>
+                    <div class="sub-middleft" style="overflow-y:hidden;">
+                        <span class="sub-eqva">GEORETOWN MARINO, SC</span><br />
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;"> Nightly:$100</span><span style="float:right; margin-top:10px;"> Bertha :15</span></span>
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;" class="sub-read"><a href="#">Read Guide </a></span><span style="float:right; margin-top:10px; width:90px;" class="sub-read"> <a href="#">All Atlantic Parts</a></span></span>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub2.png"  />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NOVEMBER SALE</h1>
+                    <div class="spansaa">
+                        <span class="sub-price">30 % OFF</span>
+                        <span class="sub-othrpri">ALL APPARELS IN <span style="color:#000;">    SSCA STORE</span></div>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub3.png"  />
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        {% endblock %}
+    </div>
 {% endblock %}    

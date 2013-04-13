@@ -18,7 +18,7 @@ def get_ul_for_page(item):
     if len(items) < 1:
         if item.flatpage_parent.exists():
             url = item.flatpage_parent.order_by('?')[0].url
-            li = """<li><a href="%s">%s</a></li>""" % (url, item.title)
+            li = """<li><a href="%s" data-page-type='page'>%s</a></li>""" % (url, item.title)
         else:
             li = """<li>%s</li>""" % (item.title)
         return li
@@ -34,3 +34,10 @@ def get_ul_for_page(item):
     string += "</ul>"
     string += "</li>"
     return string
+
+@register.filter
+def get_full_name(user):
+    """
+    Returns the full name of the logged in user.
+    """
+    return "%s %s" % (user.first_name, user.last_name)

@@ -18,12 +18,18 @@ urlpatterns = patterns('',
     url(r'^dajax_test/', dajax_test),
 
     # url(r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
-    url(r'^$', public_page),
+    url(r'^$', public_page, name='public-page'),
+    url(r'^register/$', register_page),
+
+    # token must be [a-zA-Z0-1] and 64 chars in length, incase token length in
+    # url does not match the registration page will not be shown
+    url(r'^registration/complete/(?P<token>[a-zA-Z0-9]{64})$', registration_complete),
+
     url(r'^base/$', 'django.views.generic.simple.direct_to_template', {'template': 'base.html'}),
     url(r'^public/$', public_page),
-    url(r'^member/$', 'django.views.generic.simple.direct_to_template', {'template': 'member.html'}),
+    url(r'^member/$', member_page, name="member-page"),
     url(r'^login/$', 'django.contrib.auth.views.login'),
-    url(r'^logout/$', logout_page),
+    url(r'^logout/$', logout_page, name='logout'),
     url(r'^dashboard/', include('app_dashboard.urls')),
     url(r'^backoffice/', include('app_backoffice.urls')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
@@ -38,6 +44,8 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('social_auth.urls')),
 
     ('^pages/', include('django.contrib.flatpages.urls')),
+
+    url(r'^location/', 'django.views.generic.simple.direct_to_template', {'template': 'location.html'})
 )
 
 urlpatterns += staticfiles_urlpatterns()

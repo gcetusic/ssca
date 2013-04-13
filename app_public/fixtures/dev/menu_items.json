@@ -1,0 +1,155 @@
+[
+    {
+        "pk": 2, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "Officers, Staff, & Volunteers"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 2, 
+            "parent": null, 
+            "title": "Awards & Recognition"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 3, 
+            "parent": null, 
+            "title": "Volunteer!"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 4, 
+            "parent": null, 
+            "title": "History"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 5, 
+            "parent": null, 
+            "title": "About Clean Wakes"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 6, 
+            "parent": null, 
+            "title": "SSCA Foundation"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "Press"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "GAMs"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "Projects & Initiatives"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 10, 
+            "parent": null, 
+            "title": "Southbound"
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 11, 
+            "parent": null, 
+            "title": "Concerned Cruiser's Committee"
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 12, 
+            "parent": null, 
+            "title": "Seven Seas University"
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 13, 
+            "parent": null, 
+            "title": "Other Clean Wake Projects"
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "Resource Links"
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "Membership Benefits"
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": 16, 
+            "parent": null, 
+            "title": "Become a Commodore"
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "app_public.menuitem", 
+        "fields": {
+            "show_after": null, 
+            "parent": null, 
+            "title": "Boat shows"
+        }
+    }
+]

@@ -4,15 +4,20 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import login
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.core.urlresolvers import reverse
 from django.core.xheaders import populate_xheaders
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
+from django.core.context_processors import csrf
 from app_public.models import Person, Account, Page
 from datetime import datetime
 from decimal import *
 import json
 from app_public.forms import SSCAJoinForm
+from django.core.mail import send_mail
+from public_utils import *
+from django.contrib.auth.models import User
 
 
 def dashboard_main_page(request):
@@ -22,7 +27,14 @@ def dashboard_main_page(request):
 def logout_page(request):
     """ Log users out and re-direct them to the main page. """
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('public-page'))
+
+
+def member_page(request):
+    """
+    View for members page.
+    """
+    return render_to_response('member.html', {}, RequestContext(request))
 
 
 def post_auth_process(request, backend, *args, **kwargs):
@@ -114,8 +126,119 @@ def public_page(request):
     user_exist = False
     form = SSCAJoinForm()
     c = {'form': form, 'basic_mail_cost': 55}
+    c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
+def registration_complete(request, token):
+    response = HttpResponse()
+    if not request.method == 'GET':
+        response.write("ERROR:: Only HTTP GET is supported for registering.")
+        return response
+
+    print "registration complete:", token
+
+    try:
+        # TODO
+        # (1) check token 
+        person = Person.objects.get(signup_token = token)
+        print person.__dict__
+
+        # (2) remove token from db
+
+        # (3) check 24 hrs validity of token
+
+        # (4) associate with OpenID
+
+        c = {'registration_action': 'RegistrationComplete'}
+        c.update(csrf(request))
+        return render_to_response('public.html', c, context_instance=RequestContext(request))
+    except Person.DoesNotExist:
+        c = {'registration_action': 'RegistrationComplete_PersonDoesNotExist'}
+        c.update(csrf(request))
+        return render_to_response('public.html', c, context_instance=RequestContext(request))
+
+@csrf_protect
+def register_page(request):
+    # print "register_page()"
+    response = HttpResponse()
+
+    # print "checking request type"
+    # we will only entertain POST request
+    if not request.method == 'POST':
+        response.write("ERROR:: Only HTTP POST is supported for registering.")
+        return response
+
+    # print "ensure email"
+    if not request.POST.has_key("email"):
+        response.write("ERROR:: Email not specified.")
+        return response
+
+    # print "ensure fname"
+    if not request.POST.has_key("fname"):
+        response.write("ERROR:: firstname not specified.")
+        return response
+
+    # print "ensure lname"
+    if not request.POST.has_key("lname"):
+        response.write("ERROR:: lastname not specified.")
+        return response
+
+    #todo fetch params from post request
+    email = request.POST["email"]
+    fname = request.POST["fname"]
+    lname = request.POST["lname"]
+
+    # print "name:", fname, lname
+
+    # generate 64 byte hash
+    token = get_rendon_alphanum64()
+
+    # composing email
+    subject = "SSCA Registration Activation"
+    link = "http://localhost:8000/registration/complete"
+    email_format = """Hello %s, 
+    Thank you very much for registering with SSCA.
+
+    Kindly click on following link to activate your account:-
+    %s/%s
+
+    Sincerely,
+    SSCA Team
+    """
+    name = "%s %s" % (fname, lname)
+    email_body = email_format % (name, link, token)
+    print email_body
+    #email_from = "test.weavebytes@gmail.com"
+    email_from = settings.EMAIL_HOST_USER
+
+    # list of email receiver, we may add cc/bcc later
+    email_to_lst = [] 
+
+    email_to_lst.append(email)
+
+    # send registration email
+    send_mail(subject, email_body, email_from, email_to_lst, fail_silently=False)
+
+    # create a new user and make him inactive
+    print "creating user..."
+    new_user = User()
+    new_user.username = 'dummy-user1'
+    new_user.first_name = fname
+    new_user.last_name = lname
+    new_user.email = email + "1"
+    new_user.password = '123'
+    new_user.is_active = 0
+    new_user.save()
+
+    # add this user id as foreign key in person
+    print "creating person..."
+    new_person = Person()
+    new_person.user = new_user
+    new_person.signup_token = token
+    new_person.save()
+
+    response.write( "registering... %s" % request.POST["email"])
+    return response
 
 def dajax_test(request):
     """test view to evaluate dajax capabilities"""

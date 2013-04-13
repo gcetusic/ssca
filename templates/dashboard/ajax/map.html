@@ -1,0 +1,27 @@
+<div id="map-canvas" style="width: 100%"></div>
+
+<div class="controls" style="width: 100%">
+    <div class="controls-header">
+        <div id="controls-left">Map controls</div>
+        <div id="controls-right"><a href="#member_modal" role="button btn-primary" class="btn" data-toggle="modal">Find member</a></div>
+    </div>
+
+    <div class="control-buttons">
+        <div id="type-filter">
+            <input type="checkbox" name="type" value="friends">&nbspMy friends</input><br />
+            <input type="checkbox" name="type" value="members">&nbspAll members</input><br />
+            <input type="checkbox" name="type" value="guides">&nbspPort Guides</input><br />
+            <input type="checkbox" name="type" value="stations">&nbspCruising Stations</input>
+        </div>
+        <div id="time-filter">
+            <input type="radio" name="time" value="current">&nbspLast known locations</input><br />
+            <input type="radio" name="time" value="recent">&nbspRecently updated locations</input><br />
+            <br />
+            Centered on <div id="center"></div>
+        </div>
+        <div id="overview_map">
+            <div id="overlayMap"></div>
+        </div>
+    </div>
+</div>
+

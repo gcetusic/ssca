@@ -1,156 +1,150 @@
 {% extends "base.html" %}
+{% load local_tags %}
 
 {% block title %} SSCA Dashboard {% endblock %}
 
-{% block profile_dropdown %}
-      <li class="dropdown"><a href="#">Reuben  <b class="caret"></b></a></li>
+{% block extra_js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/tabs.js"></script>
 {% endblock %}
 
 {% block content %}
-</div>
-<div class="content_wrapper">
-  	<div class="hero-unit">
-  	    <div class="bs-docs-example">
-            
-            
+    <div class="content_wrapper">
+        <div class="hero-unit">
             {% block dashboard_menu %}
-            <ul class="nav nav-tabs" id="myTab">
-              <li class="active"><a data-toggle="tab" href="#tab1">MELBOURENE GAM</a></li>
-              <li class=""><a data-toggle="tab" href="#tab2">Report From Trinidad</a></li>
-              <li class=""><a data-toggle="tab" href="#tab3">New Hunter Review</a></li>
-            </ul>
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#tab1" class="tab-headers" id="page_title">MELBOURENE GAM</a></li>
+                    <li class=""><a href="#tab2" class="tab-headers">Report From Trinidad</a></li>
+                    <li class=""><a href="#tab3" class="tab-headers">New Hunter Review</a></li>
+                    <li class=""><a href="#tab4" class="tab-headers">&nbsp;</a></li>
+                </ul>
             {% endblock %}
-            
-            
+            <div class="clearfix">&nbsp;</div>
             {% block tab_content %}
-            <div class="tab-content" id="myTabContent">
-              <div id="tab1" class="tab-pane fade active in">
-                  <div id="Billing" class="tab-pane fade active in">
-                    <div class="well well-small"  style="background:none; border:none;border-radius:0px;box-shadow:none;margin-bottom: 20px;">
-                            <div class="row-fluid">
-                              <div class="span6 sub-pagleft">
-                                <h1>Harvard Model</h1>
-                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
-                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
-                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
-                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
-                                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
-                              </div>
-              
-                              <div class="span6 sub-righcon">
-                                    <div class="sub-rigtxt">
-                                    <input class="sub-con-butt" type="button" value="">
-                                    <input class="sub-con-tex" type="text">
+                <div class="tab-content" id="myTabContent">
+                    <div class="row-fluid">
+                        <div class="span9">
+                            <div class="well well-small"  style="background:none; border:none;border-radius:0px;box-shadow:none;margin-bottom: 20px;">
+                                <div id="tab1" class="tab-pane fade active in tab-contents">
+                                    <div class="sub-pagleft">
+                                        <div id="page_content">
+                                            <h1>Harvard Model</h1>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts</p>
+                                        </div>
                                     </div>
-                                    <span class="sub-leftcon">
-                                          <h2>AD1</h2>
-                                     </span>
-                                     <span class="sub-leftcon">
-                                          <h2>AD2</h2>
-                                      </span>
-                                       <span class="sub-leftcon">
-                                          <h2>AD3</h2>
-                                      </span>
-                                    </div>
-                              </div> 
-                           </div>
-                     </div>
-            </div>
-
-             <div id="tab2" class="tab-pane fade">
-                 <!-- Tab2 with different content and adavertisements  -->
-             </div>
-              
-              <div id="#tab3" class="tab-pane fade">
-                <!-- Tab2 with different content and adavertisements  -->
-              </div>
-
-            </div>
-            {% endblock %}
-            
-          </div>
-      </div>
-      
-      
-      {% block widget %}  
-        <div class="row-fluid">
-             			<div class="span4 sub-bottcon">
-                        	<h1>FORUM ACTIVITY</h1>
-                            	<div class="sub-middleft">
-                               <span class="sub-eqva"> Association is the largest</span>
-                                	<ul>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                    
-                                    </ul>
-                                    <span class="sub-eqva"> Association is the largest</span>
-                                	<ul>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                    
-                                    </ul>
-                                    <span class="sub-eqva"> Association is the largest</span>
-                                	<ul>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                    
-                                    </ul>
-                                    <span class="sub-eqva"> Association is the largest</span>
-                                	<ul>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                        <li><a href="#">Association is the largest</a></li>
-                                    
-                                    </ul>
-                                    
                                 </div>
-                            
-                       		</div>
-                        <div class="span4 sub-bottcon">
-                        <h1>PHOTO THE WEEK</h1>
-                        	<div class="spansa">
-                        <img src="/static/images/sub1.png"  />
-                        </div>
-                       		</div>
-                        <div class="span4 sub-bottcon">
-                        	<h1>NEREST PORT</h1>
-                            <div class="sub-middleft" style="overflow-y:hidden;">
-                            	<span class="sub-eqva">GEORETOWN MARINO, SC</span><br />
-                                <span style="float:left; width:200px;">
-                               <span style="float:left; margin-top:10px;"> Nightly:$100</span><span style="float:right; margin-top:10px;"> Bertha :15</span></span>
-                               <span style="float:left; width:200px;">
-                               <span style="float:left; margin-top:10px;" class="sub-read"><a href="#">Read Guide </a></span><span style="float:right; margin-top:10px; width:90px;" class="sub-read"> <a href="#">All Atlantic Parts</a></span></span>
-                               <div class="spansa">
-                               <img src="/static/images/sub2.png"  />
-                               </div>
-                            </div>
-                            
-                       		</div>
-                        <div class="span4 sub-bottcon">
-                        	<h1>NOVEMBER SALE</h1>
-                            <div class="spansaa">
-                            	<span class="sub-price">30 % OFF</span>
-                                 <span class="sub-othrpri">ALL APPARELS IN <span style="color:#000;">	SSCA STORE</span></div>
-                                 <div class="spansa">
-                                 <img src="/static/images/sub3.png"  />
-                                 </div>
-                            </div>
-                       		</div>
-                   
-                   </div>
-                
-      {% endblock %}       
-  
 
+                                <div id="tab2" class="tab-pane fade tab-contents">
+                                </div>
+                              
+                                <div id="tab3" class="tab-pane fade tab-contents">
+                                </div>
+
+                                <div id="tab4" class="tab-pane fade tab-contents">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span3">
+                            <div class="sub-rigtxt">
+                                <form method="post" id="memberSearch">
+                                    {% csrf_token %}
+                                    <input class="sub-con-butt" type="submit" value="">
+                                    <input class="sub-con-tex" name="search" type="text">
+                                </form>
+                            </div>
+                            <span class="sub-leftcon">
+                                <h2>AD1</h2>
+                            </span>
+                            <span class="sub-leftcon">
+                                <h2>AD2</h2>
+                            </span>
+                            <span class="sub-leftcon">
+                                <h2>AD3</h2>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+        {% block widget %}  
+            <div class="row-fluid">
+                <div class="span4 sub-bottcon">
+                    <h1>FORUM ACTIVITY</h1>
+                    <div class="sub-middleft">
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                        <span class="sub-eqva"> Association is the largest</span>
+                        <ul>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                            <li><a href="#">Association is the largest</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>PHOTO THE WEEK</h1>
+                    <div class="spansa">
+                        <img src="{{ STATIC_URL }}images/sub1.png"  />
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NEREST PORT</h1>
+                    <div class="sub-middleft" style="overflow-y:hidden;">
+                        <span class="sub-eqva">GEORETOWN MARINO, SC</span><br />
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;"> Nightly:$100</span><span style="float:right; margin-top:10px;"> Bertha :15</span></span>
+                        <span style="float:left; width:200px;">
+                        <span style="float:left; margin-top:10px;" class="sub-read"><a href="#">Read Guide </a></span><span style="float:right; margin-top:10px; width:90px;" class="sub-read"> <a href="#">All Atlantic Parts</a></span></span>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub2.png"  />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4 sub-bottcon">
+                    <h1>NOVEMBER SALE</h1>
+                    <div class="spansaa">
+                        <span class="sub-price">30 % OFF</span>
+                        <span class="sub-othrpri">ALL APPARELS IN <span style="color:#000;">    SSCA STORE</span></div>
+                        <div class="spansa">
+                            <img src="{{ STATIC_URL }}images/sub3.png"  />
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        {% endblock %}
+    </div>
 {% endblock %}
+      
+      
+    

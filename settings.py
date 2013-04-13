@@ -5,6 +5,11 @@ PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 print ('Project dir: %s ' % PROJECT_DIR)
 
+# Ronil: I'm not supposed to be adding the next line below on this file but this is the location
+# wherein it does not return an error. Any suggestion as to where is the correct location of the 
+# code below?
+os.environ['DEPLOYMENT_ENV'] = "dev"
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -123,6 +128,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'app_public',
     'app_dashboard',
+    'app_payments',
     'social_auth',
     'dajaxice',
     'app_backoffice',
@@ -175,6 +181,8 @@ if deployment_env == 'prod':
     from settings_prod import *
 elif deployment_env == 'stag':
     from settings_stag import *
+elif deployment_env == 'dev':
+    from settings_dev import *
 # if you like, add your own custom setup here
 else:
     print('loading local config override')
