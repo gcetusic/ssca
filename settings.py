@@ -5,11 +5,6 @@ PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 print ('Project dir: %s ' % PROJECT_DIR)
 
-# Ronil: I'm not supposed to be adding the next line below on this file but this is the location
-# wherein it does not return an error. Any suggestion as to where is the correct location of the 
-# code below?
-os.environ['DEPLOYMENT_ENV'] = ""
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -186,27 +181,10 @@ elif deployment_env == 'stag':
     from settings_stag import *
 elif deployment_env == 'dev':
     from settings_dev import *
-# if you like, add your own custom setup here
-else:
-    print('loading local config override')
-    from settings_dev_wb import *
-
-####################
-# DYNAMIC SETTINGS #
-####################
-
-# set_dynamic_settings() will rewrite globals based on what has been
-# defined so far, in order to provide some better defaults where
-# applicable. We also allow this settings module to be imported
-# without Mezzanine installed, as the case may be when using the
-# fabfile, where setting the dynamic settings below isn't strictly
-# required.
-try:
-    from mezzanine.utils.conf import set_dynamic_settings
-except ImportError:
-    pass
-else:
-    set_dynamic_settings(globals())
+    try:
+        from settings_dev_custom import *
+    except ImportError:
+        pass
 
 ########################
 # SOCIAL AUTH SETTINGS #
