@@ -130,10 +130,10 @@ class Person(User):
 
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
-    friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    friend = models.ManyToManyField('self', through='Friendship', symmetrical=False, related_name="friends")
     boat = models.ManyToManyField('Boat', null=True, related_name="person_boat")
 
-    offspring = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    offspring = models.ManyToManyField('self', through='Relationship', symmetrical=False, related_name="relations")
 
     notes = models.TextField(max_length=1000, blank=True)
     disclose_info = models.BooleanField()
@@ -163,12 +163,17 @@ class PersonInfo(models.Model):
     website = models.CharField(blank=True, max_length=150)
     dob = models.DateField()
     dod = models.DateField(blank=True, null=True)
-    skype = models.CharField(blank=True)
+    skype = models.CharField(blank=True, max_length=50)
+
+
+class Friendship(models.Model):
+    from_person = models.ForeignKey(Person, related_name='from_people')
+    to_person = models.ForeignKey(Person, related_name='to_people')
 
 
 class Relationship(models.Model):
-    from_person = models.ForeignKey(Person, related_name='from_people')
-    to_person = models.ForeignKey(Person, related_name='to_people')
+    from_person = models.ForeignKey(Person, related_name='from_relation')
+    to_person = models.ForeignKey(Person, related_name='to_relation')
 
 
 # this is just so that the app-wide sample data works (we don't have data for it yet)
