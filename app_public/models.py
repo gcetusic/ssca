@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.flatpages.models import FlatPage
-from django.utils import timezone
 
 
 class MenuItem(models.Model):
@@ -103,25 +102,27 @@ class Subscription(models.Model):
     date_paid = models.DateField()
 
 
+class Boat(models.Model):
+    name = models.CharField(max_length=150)
+    boat_type = models.CharField(max_length=50)
+    make = models.CharField(max_length=50)
+    length = models.CharField(max_length=50)
+    rig = models.CharField(max_length=50)
+    draft = models.CharField(max_length=50)
+    callsign = models.CharField(max_length=50)
+
+
 class Account(models.Model):
     subscription = models.ManyToManyField(Subscription)
     yearly_renew = models.BooleanField(default=True, verbose_name="Auto renew")
-    joindate = models.DateField(default=timezone.now())
+    date_joined = models.DateField(auto_now_add=True)
     last_renewed = models.DateTimeField()
-
+    signup = models.BooleanField()
     # FIXME - per subscription or per account?
     #expiration_date
-    # source, cruise_status??? EXPLAIN
 
-    # FIXME - need to determine how to store this info in db
-    # encrypt or hash ?
-    """
-    card_number = models.CharField(max_length=32, required=True)
-    card_expiry_date = models.DateField(required = True)
-    card_csv = models.CharField(max_length=3, required=True)
     yearly_total = models.IntegerField()
     total = models.IntegerField()
-    """
 
 
 class Person(User):
@@ -130,15 +131,23 @@ class Person(User):
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
     friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    boat = models.ManyToManyField('Boat', null=True, related_name="person_boat")
 
-    membership_type = models.ForeignKey('MembershipType')
+    offspring = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+
+    notes = models.TextField(max_length=1000, blank=True)
+    disclose_info = models.BooleanField()
+    active = models.BooleanField()
 
     def __unicode__(self):
         return u'%s' % (self.username)
 
+    def is_deceased(self):
+        pass
+
 
 class PersonInfo(models.Model):
-    person = models.OneToOneField(Person, primary_key=True)
+    person = models.OneToOneField(Person, primary_key=True, related_name="person_info")
     middle_name = models.CharField(blank=True, max_length="35")
     address1 = models.CharField(max_length=150, verbose_name="Primary address")
     address2 = models.CharField(blank=True, max_length=150, verbose_name="Secondary address")
@@ -152,15 +161,14 @@ class PersonInfo(models.Model):
     email1 = models.EmailField(max_length=50, verbose_name="Primary email address")
     email2 = models.EmailField(blank=True, max_length=50, verbose_name="Secondary email address")
     website = models.CharField(blank=True, max_length=150)
+    dob = models.DateField()
+    dod = models.DateField(blank=True, null=True)
+    skype = models.CharField(blank=True)
 
 
 class Relationship(models.Model):
     from_person = models.ForeignKey(Person, related_name='from_people')
     to_person = models.ForeignKey(Person, related_name='to_people')
-
-
-class MembershipType(models.Model):
-    pass
 
 
 # this is just so that the app-wide sample data works (we don't have data for it yet)

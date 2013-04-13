@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.timezone import get_current_timezone
 from datetime import timedelta
-from app_public.models import Person
+from app_public.models import Person, Boat
 import math
 
 
@@ -79,19 +79,6 @@ class Location(models.Model):
         }
 
         return info
-
-
-class Boat(models.Model):
-    person = models.ForeignKey(Person, related_name="person_boat")
-    name = models.CharField(max_length=150)
-    boat_type = models.CharField(max_length=50)
-    make = models.CharField(max_length=50)
-    length = models.CharField(max_length=50)
-    rig = models.CharField(max_length=50)
-    draft = models.CharField(max_length=50)
-
-    # EXPLAIN
-    callsign = models.CharField(max_length=50)
 
 
 class Port(models.Model):
