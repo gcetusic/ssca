@@ -165,9 +165,6 @@ def registration_complete(request, token):
         # that we can associate when we get callbacked by oauth provide
         request.session['person_id'] = person.id
         request.session['openid_association'] = True
-
-        # removing token from person
-        person.signup_token = ""
         person.save()
 
         c = {'registration_action': 'RegistrationComplete', 
