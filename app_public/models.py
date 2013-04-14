@@ -95,6 +95,9 @@ class Page(FlatPage):
     page_type = models.CharField(max_length=100, choices=PAGE_TYPES, null=True)
     require_authentication = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return "%s" % self.title
+
 
 class PageSequence(models.Model):
     """

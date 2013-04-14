@@ -10,10 +10,10 @@ urlpatterns = patterns('',
     url(r'^search/$', find_member, name="member_finder"),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
                                   {'document_root': 'static'}),
-    url(r'^watson-search/$', watson_search, name="watson-search"),
 
     #aJax Calls
     url(r'^map-ajax/$', dashboard_map_ajax, name="dashboard-map-ajax"),
+    url(r'^watson-search/$', watson_search, name="watson-search"),
 )
 
 if settings.DEBUG:

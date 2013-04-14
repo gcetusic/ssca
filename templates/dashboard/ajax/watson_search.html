@@ -5,11 +5,13 @@
             {% for result in results %}
                 <li>
                     <article>
-                        <a href="{{ result.url }}">
-                            <p>{{ result.title }}</p>
+                        <a href="{{ result.url }}" class="result-title">
+                            <span class="title">{{ result.title }}</span>
                         </a>
-                        <small>{{ result.content }}</small>
+                        <br />
+                        <span class="result-content">{{ result.content }}</span>
                     </article>
+                    <br />
                 </li>
             {% endfor %}
         </ul>

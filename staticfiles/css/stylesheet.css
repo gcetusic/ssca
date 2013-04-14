@@ -613,3 +613,7 @@ body {
     margin-top: 2px;
     margin-left: 20px;
 }
+
+.search-results li {list-style-type: none; }
+.result-title {text-decoration: underline;}
+.result-content {font-size: 10px;}
