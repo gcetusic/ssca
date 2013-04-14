@@ -12,6 +12,7 @@ from itertools import chain
 from app_dashboard.models import Location, Port, CruisingStation, Guide
 from clustering import distance
 import json
+from app_public.forms import SSCAJoinForm
 
 CLUSTERING_ALGORITHMS = [
     'qt', # helpers.cluster_qt - largest cluster first
@@ -41,6 +42,8 @@ def dashboard_main_page(request):
         context['clustering'] = request.GET.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)
     else:
         context['clustering'] = DEFAULT_CLUSTERING_ALGORITHM
+
+    context.update({'form': SSCAJoinForm, 'basic_mail_cost': 55})
 
     return render_to_response('dashboard/index.html', context, RequestContext(request))
 
