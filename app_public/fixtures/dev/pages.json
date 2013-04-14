@@ -1,16 +1,60 @@
 [
     {
+        "pk": 29, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
         "pk": 3, 
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 3
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
         }
     }, 
     {
@@ -18,13 +62,15 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 17
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
         }
     }, 
     {
@@ -32,13 +78,43 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 21
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -46,13 +122,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 6
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -60,13 +152,71 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 12
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 22, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "maps"
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -74,13 +224,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 9
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -88,13 +254,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 5
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 31, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -102,13 +284,43 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 16
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 38, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -116,13 +328,15 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 2
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
         }
     }, 
     {
@@ -130,13 +344,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 14
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -144,13 +374,15 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 8
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
         }
     }, 
     {
@@ -158,13 +390,43 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 10
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -172,13 +434,15 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 15
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
         }
     }, 
     {
@@ -186,13 +450,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 13
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -200,13 +480,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 11
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": false, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -214,13 +510,29 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 7
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
+        }
+    }, 
+    {
+        "pk": 32, 
+        "model": "app_public.page", 
+        "fields": {
+            "picture": [], 
+            "require_authentication": true, 
+            "child_of": [], 
+            "sites": [
+                1
+            ], 
+            "show_after": null, 
+            "page_type": "normal"
         }
     }, 
     {
@@ -228,13 +540,15 @@
         "model": "app_public.page", 
         "fields": {
             "picture": [], 
-            "show_after": null, 
+            "require_authentication": false, 
             "child_of": [
                 4
             ], 
             "sites": [
                 1
-            ]
+            ], 
+            "show_after": null, 
+            "page_type": "static"
         }
     }
 ]

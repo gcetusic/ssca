@@ -4,7 +4,7 @@ from app_dashboard.views import *
 urlpatterns = patterns('',
     # Main web portal entrance.
     (r'^test_mockup/$', dashboard_test_mockup),
-    (r'^$', dashboard_main_page),
+    url(r'^$', dashboard_main_page, name="dashboard-main-page"),
     url(r'^marker/$', marker_info, name="marker_info"),
     url(r'^map/$', show_gmaps, name="gmaps_viewer"),
     url(r'^search/$', find_member, name="member_finder"),
