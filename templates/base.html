@@ -51,6 +51,14 @@
 
         {% block extra_js %}{% endblock %}    
         {% block extra_css %}{% endblock %}    
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#logoutTrigger').click(function(e) {
+                    e.preventDefault();
+                    window.location = $(this).attr('href');
+                });
+            });
+        </script>
 
         {% endblock %}
         <style>
@@ -101,7 +109,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="#">View Profile</a></li>
                                         <li><a href="#">Edit Profile</a></li>
-                                        <li><a href="{% url logout %}">Logout</a></li>
+                                        <li><a href="{% url logout %}" id="logoutTrigger">Logout</a></li>
                                     </ul>
                                     </li>
                                 </ul>
