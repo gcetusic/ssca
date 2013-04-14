@@ -79,12 +79,14 @@ def post_auth_process(request, backend, *args, **kwargs):
                 }
 
         except Person.DoesNotExist:
-            context = {"error_type": "PersonDoesNotExist"}
+            context = {"error_type": "PersonDoesNotExist",
+                    'form': SSCAJoinForm, 'basic_mail_cost': 55}
             return render_to_response('public.html', RequestContext(request, context))
 
         except Account.DoesNotExist:
             # If the user has no subscription yet, ask him to subscribe.
-            context = {"error_type": "AccountDoesNotExist"}
+            context = {"error_type": "AccountDoesNotExist",
+                    'form': SSCAJoinForm, 'basic_mail_cost': 55}
             return render_to_response('public.html', RequestContext(request, context))
 
     except KeyError:  # Handle the case of no identity found in the Openid provider response.
@@ -109,8 +111,7 @@ def join(request):
     """
     #assuming new user
     user_exist = False
-    form = SSCAJoinForm()
-    c = {'form': form, 'basic_mail_cost': 55}
+    c = {'form': SSCAJoinForm(), 'basic_mail_cost': 55}
     return render_to_response('join.html', c)
 
 
@@ -131,8 +132,7 @@ def public_page(request):
         return HttpResponseRedirect(reverse('dashboard-main-page'))
     #assuming new user
     user_exist = False
-    form = SSCAJoinForm()
-    c = {'form': form, 'basic_mail_cost': 55}
+    c = {'form': SSCAJoinForm, 'basic_mail_cost': 55}
     c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
@@ -170,11 +170,13 @@ def registration_complete(request, token):
         person.signup_token = ""
         person.save()
 
-        c = {'registration_action': 'RegistrationComplete'}
+        c = {'registration_action': 'RegistrationComplete', 
+                'form': SSCAJoinForm(), 'basic_mail_cost': 55}
         c.update(csrf(request))
         return render_to_response('public.html', c, context_instance=RequestContext(request))
     except Person.DoesNotExist:
-        c = {'registration_action': 'RegistrationComplete_PersonDoesNotExist'}
+        c = {'registration_action': 'RegistrationComplete_PersonDoesNotExist', 
+                'form': SSCAJoinForm(), 'basic_mail_cost': 55}
         c.update(csrf(request))
         return render_to_response('public.html', c, context_instance=RequestContext(request))
 
