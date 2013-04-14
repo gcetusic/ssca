@@ -1,3 +1,5 @@
+import watson
+from watson.models import SearchEntry
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.conf import settings
@@ -224,6 +226,23 @@ def find_member(request):
                 }}}})
 
         return HttpResponse(results)
+
+
+def watson_search(request):
+    """
+    Custom handler for search using watson.
+    """
+    context = {}
+    if request.is_ajax() and request.method == "POST":
+        search_value = request.POST['q']
+        results = watson.search(search_value)
+
+        context['search_value'] = search_value
+        context['results'] = results
+        context['entries'] = SearchEntry.objects.all()
+        return render_to_response('dashboard/ajax/watson_search.html', context, 
+                                    RequestContext(request))
+
 
 def dashboard_test_mockup(request):
     """ test view for dashboard mockup """

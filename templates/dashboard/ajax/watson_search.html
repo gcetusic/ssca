@@ -1,0 +1,23 @@
+{% if search_value != "" %}
+    <h3>Search results for "{{ search_value }}"</h3>
+    {% if results|length > 0 %}
+        <ul class="search-results">
+            {% for result in results %}
+                <li>
+                    <article>
+                        <a href="{{ result.url }}">
+                            <p>{{ result.title }}</p>
+                        </a>
+                        <small>{{ result.content }}</small>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p><em>There are no results to display.</em></p>
+        <p><em>Try entering a less specific search term.</em></p>
+    {% endif %}
+{% else %}
+    <h1>Search results</h1>
+    <p><em>Please enter a query in the search form.</em></p>
+{% endif %}

@@ -1,3 +1,4 @@
+import watson
 from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
 from django.db import models
@@ -211,5 +212,10 @@ def check_sequence(sender, instance, *args, **kwargs):
     if not instance.id:
         if header_sequence:
             raise Exception("Sequence number is already taken. Please choose another.")
+
+
+# register model to use watson search
+watson.register(Page)
+
 
 pre_save.connect(check_sequence, sender=PageSequence)
