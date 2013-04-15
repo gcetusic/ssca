@@ -615,5 +615,6 @@ body {
 }
 
 .search-results li {list-style-type: none; }
-.result-title {text-decoration: underline;}
-.result-content {font-size: 10px;}
+.resultTitle {line-height: 0em !important; }
+.resultTitle a {text-decoration: underline;}
+.resultContent {font-size: 10px;}

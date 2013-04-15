@@ -43,6 +43,7 @@
         <script src="{{ STATIC_URL }}assets/js/bootstrap-collapse.js"></script>
         <script src="{{ STATIC_URL }}assets/js/bootstrap-carousel.js"></script>
         <script src="{{ STATIC_URL }}assets/js/bootstrap-typeahead.js"></script>
+        <script src="{{ STATIC_URL }}js/load_page_splash.js"></script>
         <script src="{{ STATIC_URL }}js/page.js"></script>
 
         {% include "join_head.html" %}
@@ -65,10 +66,27 @@
                         data: $(this).serialize(),
                         type: "POST",
                         success: function(result) {
-                            $('.homae-rig').html(result);
+                            // $('.homae-rig').html(result);
+                            $(".homae-rig").fadeToggle(function () {
+                                $(this).html(result);
+                                $(this).fadeToggle();
+                            });
+                            $("#searchPublic")[0].reset();
                         }
 
                     });
+                });
+
+                $('.resultLink').live('click', function(e) {
+                    e.preventDefault();
+                    var div_title = document.createElement("div");
+                    div_title.id = "page_title";
+                    var div_content = document.createElement("div");
+                    div_content.id = "page_content";
+                    $('.homae-rig').html("");
+                    $('.homae-rig').append(div_title);
+                    $('.homae-rig').append(div_content);
+                    Dajaxice.app_public.sscapage_ajax(load_page, {'page': this.getAttribute('href')});
                 });
             });
         </script>
