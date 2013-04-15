@@ -1,5 +1,6 @@
 from django.contrib import admin
-from app_public.models import Person, Account, Subscription, Image, MenuItem
+from app_public.models import Person, Account, Subscription, Image, MenuItem, MenuHeader, \
+    PageSequence
 from django.contrib.flatpages.admin import FlatpageForm, FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
@@ -14,7 +15,8 @@ class ExtendedFlatPageForm(FlatpageForm):
 class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
     fieldsets = (
-        (None, {'fields': ('url', 'title', 'content', 'picture', 'child_of', 'sites')}),
+        (None, {'fields': ('url', 'title', 'page_type', 'require_authentication', 'content', 
+                'picture', 'child_of', 'sites')}),
         (('Advanced options'), {'classes': ('collapse',), 'fields': ('enable_comments', 'registration_required', 'template_name')}),
     )
 
@@ -23,10 +25,20 @@ class ExtendedFlatPageAdmin(FlatPageAdmin):
             kwargs["initial"] = [Site.objects.get_current()]
         return super(FlatPageAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
+
+class PageSequenceAdmin(admin.ModelAdmin):
+    """
+    Admin for PageSequence model
+    """
+    model = PageSequence
+    list_display = ['menu_header', 'page', 'sequence']
+
 admin.site.unregister(FlatPage)
 admin.site.register(Page, ExtendedFlatPageAdmin)
 admin.site.register(MenuItem)
+admin.site.register(MenuHeader)
 admin.site.register(Image)
 admin.site.register(Person)
 admin.site.register(Account)
 admin.site.register(Subscription)
+admin.site.register(PageSequence, PageSequenceAdmin)

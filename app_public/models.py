@@ -1,6 +1,30 @@
+from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import pre_save
 from django.contrib.flatpages.models import FlatPage
+from django.utils.translation import ugettext_lazy as _
+
+
+PAGE_TYPES = (
+    ('maps', 'Map'),
+    ('static', 'Static Page'),
+    ('normal', 'Normal Page')
+)
+
+
+class MenuHeader(models.Model):
+    """
+    Stores menu headers which will then be the parent menu of the pages/menu items.
+    """
+    title = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return "%s" % self.title
+
+    class Meta:
+        verbose_name = _("Menu Header")
+        verbose_name_plural = _("Menu Headers")
 
 
 class MenuItem(models.Model):
@@ -67,6 +91,21 @@ class Page(FlatPage):
         null=True, blank=True, default=None,
         related_name="flatpage_parent",
         help_text="Page that shis one should appear under (if any)")
+    page_type = models.CharField(max_length=100, choices=PAGE_TYPES, null=True)
+    require_authentication = models.BooleanField(default=False)
+
+
+class PageSequence(models.Model):
+    """
+    Stores the display sequence of a Page from its parent MenuHeader
+    """
+    menu_header = models.ForeignKey(MenuHeader)
+    page = models.ForeignKey(Page)
+    sequence = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = _("Page Sequence")
+        verbose_name_plural = _("Page Sequence")
 
 
 class Subscription(models.Model):
@@ -164,3 +203,13 @@ class Event(models.Model):
         #if there is no such event will raise DoesNotExist exception.
         event = Event.objects.get(pk=id, open_to=open_to)
         return event
+
+
+def check_sequence(sender, instance, *args, **kwargs):
+    header_sequence = get_object_or_None(sender, menu_header=instance.menu_header,
+                                        sequence=instance.sequence)
+    if not instance.id:
+        if header_sequence:
+            raise Exception("Sequence number is already taken. Please choose another.")
+
+pre_save.connect(check_sequence, sender=PageSequence)
