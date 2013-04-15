@@ -19,15 +19,73 @@
                             $(this).fadeToggle();
                         });
                         $("#searchPublic")[0].reset();
+                        
+                        if($('.sidebar-placeholder').find('.recent-search-header').text() != "Recent Searches") {
+                            $.ajax({
+                                url: "{% url recent-searches %}",
+                                success: function(result) {
+                                    var recent_searches = $.parseJSON(result);
 
-                        $.ajax({
-                            url: "{% url recent-searches %}",
-                            success: function(result) {
-                                var recent_searches = $.parseJSON(result);
-                            }
-                        }); // end of inner ajax
+                                    var outer_div = document.createElement('div');
+                                    $(outer_div).addClass("con-right-bottom-con span12 sidebar");
+
+                                    var h1 = document.createElement('h1');
+                                    $(h1).addClass('recent-search-header');
+                                    $(h1).text("Recent Searches");
+                                    $(outer_div).prepend(h1);
+
+                                    var div = document.createElement("div");
+                                    $(div).addClass('con-right-bott');
+
+                                    var ul = document.createElement("ul");
+                                    $(ul).addClass('recent-search-list');
+
+                                    $.each(recent_searches, function(index, item) {
+                                        if(index < 4){
+                                            var li = document.createElement('li');
+                                            var a = document.createElement('a');
+                                            a.href = "javascript:;";
+                                            $(a).text(item);
+                                            $(a).addClass("search-value");
+                                            $(li).append(a);
+                                            $(ul).append(li);
+                                        }
+                                    });
+                                    $(div).append(ul);
+                                    $(outer_div).append(div);
+
+                                    $('.sidebar-placeholder').prepend(outer_div);
+                                    $('.sidebar-placeholder .thumbnail').hide();
+                                }
+                            }); // end of inner ajax
+                        } // end of if statement
+                        else {
+                            $.ajax({
+                                url: "{% url recent-searches %}",
+                                success: function(result) {
+                                    var recent_searches = $.parseJSON(result);
+                                    $('.recent-search-list').html("");
+                                    $.each(recent_searches, function(index, item) {
+                                        if(index < 4){
+                                            var li = document.createElement('li');
+                                            var a = document.createElement('a');
+                                            a.href = "javascript:;";
+                                            $(a).text(item);
+                                            $(a).addClass("search-value");
+                                            $(li).append(a);
+                                            $('.recent-search-list').append(li);
+                                        }
+                                    });
+                                }
+                            }); // end of inner ajax
+                        } // end of else statement
                     } // end of success in outer ajax
                 }); // end of outer ajax
+            });
+
+            $('.search-value').live('click', function() {
+                $("[name='q']").val($(this).text());
+                $('#searchPublic').submit();
             });
 
             $('.resultLink').live('click', function(e) {
@@ -75,7 +133,7 @@
 
                     {% block events %}
                     <div class="span5">
-                        <div class="row-fluid">
+                        <div class="row-fluid sidebar-placeholder">
                         <div class="thumbnail">
                             <div id="page_picture">
                                 {% block page_picture %}<img src="{{ STATIC_URL }}images/right_main.png" class="img-rounded" alt="Seven Seas Cruising Association">{% endblock %}
