@@ -19,9 +19,15 @@
                             $(this).fadeToggle();
                         });
                         $("#searchPublic")[0].reset();
-                    }
 
-                });
+                        $.ajax({
+                            url: "{% url recent-searches %}",
+                            success: function(result) {
+                                var recent_searches = $.parseJSON(result);
+                            }
+                        }); // end of inner ajax
+                    } // end of success in outer ajax
+                }); // end of outer ajax
             });
 
             $('.resultLink').live('click', function(e) {
