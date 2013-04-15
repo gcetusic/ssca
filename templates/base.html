@@ -58,36 +58,6 @@
                     e.preventDefault();
                     window.location = $(this).attr('href');
                 });
-
-                $('#searchPublic').submit(function(e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: "{% url watson-search %}",
-                        data: $(this).serialize(),
-                        type: "POST",
-                        success: function(result) {
-                            // $('.homae-rig').html(result);
-                            $(".homae-rig").fadeToggle(function () {
-                                $(this).html(result);
-                                $(this).fadeToggle();
-                            });
-                            $("#searchPublic")[0].reset();
-                        }
-
-                    });
-                });
-
-                $('.resultLink').live('click', function(e) {
-                    e.preventDefault();
-                    var div_title = document.createElement("div");
-                    div_title.id = "page_title";
-                    var div_content = document.createElement("div");
-                    div_content.id = "page_content";
-                    $('.homae-rig').html("");
-                    $('.homae-rig').append(div_title);
-                    $('.homae-rig').append(div_content);
-                    Dajaxice.app_public.sscapage_ajax(load_page, {'page': this.getAttribute('href')});
-                });
             });
         </script>
 

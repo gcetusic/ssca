@@ -3,6 +3,42 @@
 
 {% block title %} SSCA Home {% endblock %}
 
+{% block extra_js %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#searchPublic').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{% url watson-search %}",
+                    data: $(this).serialize(),
+                    type: "POST",
+                    success: function(result) {
+                        // $('.homae-rig').html(result);
+                        $(".homae-rig").fadeToggle(function () {
+                            $(this).html(result);
+                            $(this).fadeToggle();
+                        });
+                        $("#searchPublic")[0].reset();
+                    }
+
+                });
+            });
+
+            $('.resultLink').live('click', function(e) {
+                e.preventDefault();
+                var div_title = document.createElement("div");
+                div_title.id = "page_title";
+                var div_content = document.createElement("div");
+                div_content.id = "page_content";
+                $('.homae-rig').html("");
+                $('.homae-rig').append(div_title);
+                $('.homae-rig').append(div_content);
+                Dajaxice.app_public.sscapage_ajax(load_page, {'page': this.getAttribute('href')});
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 
 <div class="content_wrapper">
@@ -34,7 +70,7 @@
                     {% block events %}
                     <div class="span5">
                         <div class="row-fluid">
-                        <div class="thumbnail" >
+                        <div class="thumbnail">
                             <div id="page_picture">
                                 {% block page_picture %}<img src="{{ STATIC_URL }}images/right_main.png" class="img-rounded" alt="Seven Seas Cruising Association">{% endblock %}
                             </div>
