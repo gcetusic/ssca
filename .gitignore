@@ -1,7 +1,9 @@
 env
 .idea
+*.wpr
 *.iml
 *.pyc
 migrations
 static
 media
+settings_dev_custom.py

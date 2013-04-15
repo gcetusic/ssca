@@ -123,8 +123,10 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'app_public',
     'app_dashboard',
+    'app_payments',
     'social_auth',
     'dajaxice',
+    'app_backoffice',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -174,10 +176,12 @@ if deployment_env == 'prod':
     from settings_prod import *
 elif deployment_env == 'stag':
     from settings_stag import *
-# if you like, add your own custom setup here
-else:
-    print('loading local config override')
-    from settings_dev_wb import *
+elif deployment_env == 'dev':
+    from settings_dev import *
+    try:
+        from settings_dev_custom import *
+    except ImportError:
+        pass
 
 ########################
 # SOCIAL AUTH SETTINGS #

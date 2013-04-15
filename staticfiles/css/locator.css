@@ -70,3 +70,16 @@
     width: 256px;
     height: 150px;
 }
+
+.cluster-label {
+    color: #000;
+    background-color: white;    
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    width: 25px;
+    height: 12px;
+    line-height: 12px;
+    border: 1px solid black;
+    white-space: nowrap;
+}

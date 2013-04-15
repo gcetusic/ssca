@@ -1,6 +1,14 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
+        /* associate user with openid */
+        $("#btn_associate_identity").click(function(){
+            var url = $("#associate_providers").val();
+            if(url != ""){
+                window.location.href = url;
+            }
+            });
+        
             /* show privider login page */
             $("#btn_login").click(function(){
                 var url = $("#providers").val();

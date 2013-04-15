@@ -15,3 +15,9 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'test.weavebytes@gmail.com'
+EMAIL_HOST_PASSWORD = 'test@1234'
+EMAIL_PORT = 587

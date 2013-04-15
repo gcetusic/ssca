@@ -10,3 +10,4 @@ django-social-auth>=0.7.18
 pytz
 wadofstuff-django-serializers
 django-dajaxice
+braintree

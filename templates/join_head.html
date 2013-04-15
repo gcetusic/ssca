@@ -175,6 +175,31 @@
         return true;
     }
 
+    /* function to get coolie by name
+    *  can be replaced by jquery cookie plugin later...
+    */
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+
     function validateStep3() {
 
         if(!$("#id_name_on_card").val()) {
@@ -202,12 +227,30 @@
         }
         */
 
+
         $("#a_step4").attr("href", "#modalStep4");
         $("#a_step4").attr("data-dismiss", "modal");
         $("#a_step4").attr("data-toggle", "modal");
 
         //setting to email in thanks (registration) dialog
         $("#to_email").html( $("#id_email").val() );
+
+        // fetching csrf token
+        var csrftoken = getCookie('csrftoken');
+
+        // sending register request
+        $.ajax({
+            type: "POST",
+            url: "/register/",
+            data: {'csrfmiddlewaretoken': csrftoken, 
+                   'email': $("#id_email").val(),
+                   'fname': $("#id_firstname").val(),
+                   'lname': $("#id_lastname").val(),
+                  },
+            }).done(function( msg ) {
+            //alert( "Data Sent: " + msg );
+        });
+
         return true;
     }
 
@@ -297,6 +340,21 @@
         */
         $('#step3-form').validate(step3ValidatationRules);
         $('#cal-form').validate(csvValidatationRules);
+
+        //NOTE: this works with jquery 1.5 but may not with 1.5.1
+        $.ajaxSetup({
+            crossDomain: false,
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                //alert("crossDomain = false , token=" + csrftoken);
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
         });
+
+
+
+        });//document.ready()
 
     </script>

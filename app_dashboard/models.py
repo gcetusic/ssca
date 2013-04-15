@@ -4,6 +4,7 @@ from django.utils.timezone import get_current_timezone
 from datetime import timedelta
 from app_public.models import Person, Boat
 import math
+import re
 
 
 class LocationManager(models.Manager):
@@ -53,7 +54,8 @@ class Location(models.Model):
             location[arg] = float(location[arg])
         return location
 
-    def format_coordinates(self, coordinate):
+    @staticmethod
+    def format_coordinates(coordinate):
         minutes, degrees = math.modf(round(coordinate, 4))
         degrees = "%d" % degrees
         minutes = "%.2f" % round(minutes * 60, 2)
@@ -61,17 +63,7 @@ class Location(models.Model):
 
     def get_info(self):
         usertime = self.date.astimezone(get_current_timezone())
-
-        if self.latitude >= 0:
-            latitude = "N" + " " + Location().format_coordinates(self.latitude)
-        else:
-            latitude = "S" + " " + abs(Location().format_coordinates(self.latitude))
-
-        if self.longitude >= 0:
-            longitude = "E" + " " + Location().format_coordinates(self.longitude)
-        else:
-            longitude = "W" + " " + abs(Location().format_coordinates(self.longitude))
-
+        latitude, longitude = Location.to_readable_format(self.latitude,self.longitude)
         info = {
             'name': self.person.user.username,
             'date': usertime.strftime("%Y-%m-%d %H:%m"),
@@ -79,6 +71,37 @@ class Location(models.Model):
         }
 
         return info
+
+    @staticmethod
+    def to_readable_format(latitude, longitude):
+        if latitude >= 0:
+            readable_latitude = 'N'
+        else:
+            readable_latitude = 'S'
+
+        if longitude >= 0:
+            readable_longitude = 'E'
+        else:
+            readable_longitude = 'W'
+
+        readable_latitude += Location.format_coordinates(latitude)
+        readable_longitude += Location.format_coordinates(longitude)
+
+        return readable_latitude, readable_longitude
+
+    @staticmethod
+    def to_decimal_format(location):
+        pattern = re.compile('^[N|S|n|s](\d{2}) (\d{2}.\d{2}), [W|E|w|e](\d{3}) (\d{2}.\d{2})$')
+        m = pattern.match(location)
+        latitude_deg = int(m.groups(0)[0])
+        latitude_min = float(m.groups(0)[1])
+        longitude_deg = int(m.groups(0)[2])
+        longitude_min = float(m.groups(0)[3])
+
+        dec_latitude = latitude_deg + latitude_min / 60
+        dec_longitude = longitude_deg + longitude_min / 60
+        return dec_latitude, dec_longitude
+
 
 
 class Port(models.Model):

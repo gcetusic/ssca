@@ -1,4 +1,5 @@
 import math
+import helpers
 
 MAP_ZOOM = 21
 MAP_OFFSET = 268435456    # half the Earth's circumference at zoom level 21
@@ -73,11 +74,45 @@ def cluster(points, cluster_distance, zoom, *args):
         else:
             clusters.append([point1])
 
-    return clusters
+    return [(centroid(cluster, args[0], args[1]), cluster) for cluster in clusters]
 
+def smart_cluster(locations, cluster_distance, zoom, algorithm, *args):
+    """
+    Returns clusters for a list of locations
+    
+    Uses algorithms from https://gist.github.com/anonymous/204365/
+    """        
+    if algorithm == 'old': # fallback to old clustering algorithm
+        return cluster(locations, cluster_distance, zoom, *args)    
+    size = cluster_distance
+    for div in xrange(1,zoom):
+        size = int(math.ceil(size / (1.35*div)))    
+    #print 'Cluster size: ', size
+    points = loc2points(locations, *args)
+    cluster_function = getattr(helpers, 'cluster_%s' % algorithm) or helpers.cluster_naive
+    clusters = cluster_function(points, size) if points else []
+    return format_clusters(clusters, locations, *args)
+
+def loc2points(locations, *args):
+    return [(loc[args[0]], loc[args[1]]) for loc in locations]
+
+def point2loc(point, locations, *args):
+    for loc in locations:
+        if loc[args[0]] == point[0] and loc[args[1]] == point[1]:
+            return loc
+    return None
+
+def format_clusters(clusters, locations, *args):
+    formatted_clusters = []
+    for c, c_points in clusters:
+        formatted_clusters.append((c, [point2loc(point, locations, *args) for  point in c_points]))        
+    return formatted_clusters
 
 def centroid(cluster, *args):
-    points = [(point[args[0]], point[args[1]]) for point in cluster]
+    if type(cluster[0]) == dict:
+        points = loc2points(cluster, *args)
+    else:
+        points = cluster    
     x, y = zip(*points)
     latitude = sum(x) / len(x)
     longitude = sum(y) / len(y)

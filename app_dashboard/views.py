@@ -13,23 +13,55 @@ from app_dashboard.models import Location, Port, CruisingStation, Guide
 from clustering import distance
 import json
 
+CLUSTERING_ALGORITHMS = [
+    'qt', # helpers.cluster_qt - largest cluster first
+    'smart', # helpers.cluster_smart - Precalculate some constants outside the loop
+    'naive', # helpers.cluster_naive - sequential search
+    'old', # distance.cluster - old one    
+]
+DEFAULT_CLUSTERING_ALGORITHM = getattr(settings, 'DEFAULT_CLUSTERING_ALGORITHM', CLUSTERING_ALGORITHMS[0])
+
 
 @login_required
 def dashboard_main_page(request):
-    """ If users are authenticated, direct them to the main page. Otherwise,
-        take them to the login page. """
-    return render_to_response('dashboard/index.html')
+    """ 
+    If users are authenticated, direct them to the main page. Otherwise,
+    take them to the login page. 
+    """
+    context = {}
+    # Initial configuration for Google Maps
+    google_map = {
+        'center': (20, 0),
+        'zoom': 2,
+        'minzoom': 2
+    }
+    context['gmap'] = google_map
+    context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
+
+    return render_to_response('dashboard/index.html', context, RequestContext(request))
+
+
+@login_required
+def dashboard_map_ajax(request):
+    """
+    Contains HTML contents of MAP page
+    """
+    return render_to_response('dashboard/ajax/map.html', {}, RequestContext(request))
 
 
 @csrf_exempt
 def show_gmaps(request):
     context = {}
-
-    if request.is_ajax and request.POST:
+    if request.is_ajax() and request.method == "POST":
 
         # Set the timezone to the client's or server's if none specified
         timezone = request.POST.get('timezone', get_current_timezone_name())
+        zoom = int(request.POST.get('zoom', 3))        
         activate(timezone)
+        if settings.DEBUG:
+            clustering = request.POST.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)        
+        else:
+            clustering = DEFAULT_CLUSTERING_ALGORITHM        
 
         # Get all markers in the last x minutes
         deltatime = int(request.POST.get('time', 0))
@@ -68,15 +100,18 @@ def show_gmaps(request):
 
         result_list = list(chain(locations, ports, stations))
         result_list = map(lambda x: Location().decimal_to_float(x, 'latitude', 'longitude'), result_list)
-        clusters = distance.cluster(result_list, 80, int(request.POST.get('zoom', 3)), 'latitude', 'longitude')
+        
+        # Clustering algorithm selection
+        clusters = distance.smart_cluster(result_list, 80, zoom, clustering, 'latitude', 'longitude')
 
-        for cluster in clusters:
-            if len(cluster) > 1:
-                category = 'cluster'
-                centroid = distance.centroid(cluster, 'latitude', 'longitude')
+        for center, cluster in clusters:
+            cluster_count = len(cluster)
+            if cluster_count > 1:
+                category = 'cluster'                
                 markers.append({
-                    'position': ("%.3f" % centroid[0], "%.3f" % centroid[1]),
-                    'category': "cluster"
+                    'position': ("%.3f" % center[0], "%.3f" % center[1]),
+                    'category': "cluster",
+                    'count': cluster_count,
                 })
             else:
                 location = cluster[0]
@@ -85,7 +120,7 @@ def show_gmaps(request):
                     'id': location['id'],
                     'position': ("%.3f" % location['latitude'], "%.3f" % location['longitude']),
                     'category': category,
-                })
+                })    
         return HttpResponse(json.dumps(markers))
 
     else:
@@ -96,6 +131,10 @@ def show_gmaps(request):
         }
         context['gmap'] = google_map
         context['google_maps_key'] = settings.GOOGLE_MAPS_KEY
+        if settings.DEBUG:
+            context['clustering'] = request.GET.get('clustering', DEFAULT_CLUSTERING_ALGORITHM)
+        else:
+            context['clustering'] = DEFAULT_CLUSTERING_ALGORITHM                   
     return render_to_response('map.html', RequestContext(request, context))
 
 
@@ -182,4 +221,4 @@ def find_member(request):
 
 def dashboard_test_mockup(request):
     """ test view for dashboard mockup """
-    return render_to_response('dashboard/index.html')
+    return render_to_response('dashboard/index.html', {}, RequestContext(request))

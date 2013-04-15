@@ -34,6 +34,15 @@ def dev():
         utils.abort('Create your own dev env; see dev_rfirmin for example')
 
 
+def dev_evgeny():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.home = os.path.abspath(os.path.dirname(__file__))
+    env.git_branch = 'develop_evgeny'
+    _setup_path()
+
+
 def dev_navjot():
     env.dev = True
     dev()
@@ -42,6 +51,13 @@ def dev_navjot():
     env.git_branch = 'develop_navjot1'
     _setup_path()
 
+def dev_ostap():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.home = '/home/ostap/projects/ssca/'
+    env.git_branch = 'develop_ostap'
+    _setup_path()
 
 # feel free to make your own envs
 def dev_rf():
@@ -52,12 +68,33 @@ def dev_rf():
     _setup_path()
 
 
+def dev_bn():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    if env.local:
+        env.home = os.path.abspath(os.path.dirname(__file__))
+    else:
+        env.home = run('pwd')
+    env.git_branch = 'develop_bogdan'
+    _setup_path()
+
+
 def dev_gc():
     env.dev = True
     dev()
     # dir to install virtualenv etc
     env.home = '/home/cetko/projects/ssca/'
     env.git_branch = 'develop_goran'
+    _setup_path()
+
+
+def dev_ronil():
+    env.dev = True
+    dev()
+    # dir to install virtualenv etc
+    env.home = '/home/ronil/projects/ssca-project/ssca/'
+    env.git_branch = 'develop_ronil'
     _setup_path()
 
 

@@ -4,15 +4,20 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import login
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.core.urlresolvers import reverse
 from django.core.xheaders import populate_xheaders
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
+from django.core.context_processors import csrf
 from app_public.models import Person, Account, Page
 from datetime import datetime
 from decimal import *
 import json
 from app_public.forms import SSCAJoinForm
+from django.core.mail import send_mail
+from public_utils import *
+from django.contrib.auth.models import User
 
 
 def dashboard_main_page(request):
@@ -22,20 +27,37 @@ def dashboard_main_page(request):
 def logout_page(request):
     """ Log users out and re-direct them to the main page. """
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('public-page'))
+
+
+def member_page(request):
+    """
+    View for members page.
+    """
+    return render_to_response('member.html', {}, RequestContext(request))
 
 
 def post_auth_process(request, backend, *args, **kwargs):
     """Post authentication process"""
 
+    message = None
+
     try:  # Get the identity from the response returned by the OpenId provider.
         openid_identity = request.REQUEST['openid.identity']
         print "------> openid=", openid_identity
 
+        # if we see that there openid_association flag is True in session
+        # we will be associating person with openid
+        if request.session.has_key('openid_association'):
+            person_id = request.session['person_id']
+            del request.session['person_id']
+            del request.session['openid_association']
+            person = Person.objects.get(id=person_id)
+            person.identity = openid_identity
+            person.save()
+
         try:  # Check whether an user exists with this Identity.
             person = Person.objects.get(identity=openid_identity)
-
-            print "found person", person.__dict__
 
             # If exists, check whether the user has subscribed.
             account = Account.objects.get(user=person.user)
@@ -48,38 +70,32 @@ def post_auth_process(request, backend, *args, **kwargs):
                 user = person.user
                 user.backend = 'social_auth.backends.google.GoogleBackend'
                 login(request, person.user)
-                print "---------------- Login Success redirect ----------------"
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
             else:  # If the subscription seems to be expired, ask the user to renew it.
-                print "---------------- Subscription Expired ----------------"
                 message = {
                     'title': 'Subscription Expired',
                     'description': 'Your subscription seems to be expired. Please renew it.'
                 }
 
         except Person.DoesNotExist:
-            print "---------------- PersonDoesNotExist ----------------"
             context = {"error_type": "PersonDoesNotExist"}
             return render_to_response('public.html', RequestContext(request, context))
 
         except Account.DoesNotExist:
-            print "-- Account DoesNotExist --"
             # If the user has no subscription yet, ask him to subscribe.
-            message = {
-                'title': 'No Subscription found',
-                'description': 'You seem to be not chosen any subscription. Please subscribe.'
-            }
+            context = {"error_type": "AccountDoesNotExist"}
+            return render_to_response('public.html', RequestContext(request, context))
 
     except KeyError:  # Handle the case of no identity found in the Openid provider response.
         # Message to the user as error in authentication.
-        print "------> KeyError"
         message = {
             'title': 'Authentication Error',
             'description': 'There occurs error in authentication. Please try again.'
         }
 
-    return render_to_response('error.html', {"message": message})
+    context = {"message": message}
+    return render_to_response('error.html', RequestContext(request, context))
 
 
 def join(request):
@@ -114,8 +130,135 @@ def public_page(request):
     user_exist = False
     form = SSCAJoinForm()
     c = {'form': form, 'basic_mail_cost': 55}
+    c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
+
+def registration_complete(request, token):
+    response = HttpResponse()
+    if not request.method == 'GET':
+        response.write("ERROR:: Only HTTP GET is supported for registering.")
+        return response
+
+    try:
+        person = Person.objects.get(signup_token=token)
+
+        delta = datetime.now() - person.signup_date
+        hours_delta = delta.total_seconds() / 3600
+
+        """
+        # token expired
+        if hours_delta > 24:
+            # removing person, user
+            person.user.delete()
+            person.delete()
+
+            # sending registration error to template
+            c = {'registration_action': 'RegistrationComplete_ActivationExpired'}
+            c.update(csrf(request))
+            return render_to_response('public.html', c, context_instance=RequestContext(request))
+        """
+
+        # store the person id in session, so
+        # that we can associate when we get callbacked by oauth provide
+        request.session['person_id'] = person.id
+        request.session['openid_association'] = True
+
+        # removing token from person
+        person.signup_token = ""
+        person.save()
+
+        c = {'registration_action': 'RegistrationComplete'}
+        c.update(csrf(request))
+        return render_to_response('public.html', c, context_instance=RequestContext(request))
+    except Person.DoesNotExist:
+        c = {'registration_action': 'RegistrationComplete_PersonDoesNotExist'}
+        c.update(csrf(request))
+        return render_to_response('public.html', c, context_instance=RequestContext(request))
+
+
+@csrf_protect
+def register_page(request):
+    print "register_page()"
+    response = HttpResponse()
+
+    # print "checking request type"
+    # we will only entertain POST request
+    if not request.method == 'POST':
+        response.write("ERROR:: Only HTTP POST is supported for registering.")
+        return response
+
+    # print "ensure email"
+    if not request.POST.has_key("email"):
+        response.write("ERROR:: Email not specified.")
+        return response
+
+    # print "ensure fname"
+    if not request.POST.has_key("fname"):
+        response.write("ERROR:: firstname not specified.")
+        return response
+
+    # print "ensure lname"
+    if not request.POST.has_key("lname"):
+        response.write("ERROR:: lastname not specified.")
+        return response
+
+    #todo fetch params from post request
+    email = request.POST["email"]
+    fname = request.POST["fname"]
+    lname = request.POST["lname"]
+
+    # print "name:", fname, lname
+
+    # generate 64 byte hash
+    token = get_rendon_alphanum64()
+
+    # composing email
+    subject = "SSCA Registration Activation"
+
+    link = "http://%s/registration/complete" % request.get_host()
+    email_format = """Hello %s,
+    Thank you very much for registering with SSCA.
+
+    Kindly click on following link to activate your account:-
+    %s/%s
+
+    Sincerely,
+    SSCA Team
+    """
+    name = "%s %s" % (fname, lname)
+    email_body = email_format % (name, link, token)
+    print email_body
+    email_from = settings.EMAIL_HOST_USER
+
+    # list of email receiver, we may add cc/bcc later
+    email_to_lst = []
+
+    email_to_lst.append(email)
+
+    # send registration email
+    send_mail(subject, email_body, email_from, email_to_lst, fail_silently=False)
+
+    # create a new user and make him inactive
+    print "creating user..."
+    dummy_username = generate_random_str(30) # required
+
+    new_user = User.objects.create_user(dummy_username, email)
+
+    new_user.first_name = fname  # optional
+    new_user.last_name = lname   # optional
+    new_user.is_active = 0       # optional
+    new_user.save()
+
+    # add this user id as foreign key in person
+    print "creating person..."
+    new_person = Person()
+    new_person.user = new_user
+    new_person.signup_token = token
+    new_person.save()
+
+    response.write( "registering... %s" % request.POST["email"])
+    return response
 
 def dajax_test(request):
     """test view to evaluate dajax capabilities"""
