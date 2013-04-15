@@ -133,7 +133,7 @@ class Person(User):
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
     boat = models.ManyToManyField('Boat', null=True, related_name="person_boat")
-    friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    friend = models.ManyToManyField('self', through='Friendship', symmetrical=False)
     signup_token = models.CharField(max_length=64)
     token_created = models.DateTimeField(auto_now_add=True)
     # customer_id for braintree which we can use in transactions and subscriptions
