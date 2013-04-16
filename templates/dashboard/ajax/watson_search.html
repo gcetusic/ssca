@@ -14,6 +14,17 @@
                         </article>
                     </li>
                 {% endfor %}
+                <li>
+                    {% if results.has_previous %}
+                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ results.number }} of {{ results.paginator.num_pages }}.
+                    </span>
+                    {% if results.has_next %}
+                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.next_page_number }}">next</a>
+                    {% endif %}
+                </li>
             </ul>
         {% else %}
             <p><em>There are no results to display.</em></p>

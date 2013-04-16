@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Q
 from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -232,22 +233,39 @@ def watson_search(request):
     """
     Custom handler for search using watson.
     """
+
     recent_searches = []
+    results_list = []
     if 'recent_searches' in request.session:
         recent_searches = request.session['recent_searches']
 
     context = {}
-    if request.is_ajax() and request.method == "POST":
-        search_value = request.POST['q']
-        results = watson.search(search_value)
+    if request.is_ajax():
+        search_value = ""
+        if request.method == "POST":
+            search_value = request.POST['q']
+            results_list = watson.search(search_value)
 
-        if search_value != "":
-            recent_searches.insert(0, search_value)
+            if search_value != "":
+                request.session['latest_query'] = search_value
+                recent_searches.insert(0, search_value)
+        else:
+            search_value = request.session['latest_query']
+            results_list = watson.search(search_value)
+
+        paginator = Paginator(results_list, 10)
+
+        page = request.GET.get('page')
+        try:
+            results = paginator.page(page)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
 
         request.session['recent_searches'] = recent_searches
         context['search_value'] = search_value
         context['results'] = results
-        context['entries'] = SearchEntry.objects.all()
         return render_to_response('dashboard/ajax/watson_search.html', context, 
                                     RequestContext(request))
 
