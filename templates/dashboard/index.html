@@ -77,6 +77,93 @@
                   
                 return false;
             });
+
+            $('#searchPublic').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{% url watson-search %}",
+                    data: $(this).serialize(),
+                    type: "POST",
+                    success: function(result) {
+                        moveTabsAndContents();
+                        var h1 = document.createElement('h1');
+                        h1_content =  "Search : " + $("[name='q']").val();
+                        $(h1).text(h1_content.substr(0, 20))
+
+                        $('#page_title').fadeToggle(function () {
+                            $(this).html($(h1).text());
+                            $(this).fadeToggle();
+                        });
+                        
+                        $("#tab1 .page_content").fadeToggle(function () {
+                            $(this).html(result);
+                            $(this).fadeToggle();
+                        });
+                        console.log($(result)[0]);
+                        $("#searchPublic")[0].reset();
+                        
+                        // if($('.sidebar-placeholder').find('.recent-search-header').text() != "Recent Searches") {
+                        //     $.ajax({
+                        //         url: "{% url recent-searches %}",
+                        //         success: function(result) {
+                        //             var recent_searches = $.parseJSON(result);
+
+                        //             var outer_div = document.createElement('div');
+                        //             $(outer_div).addClass("con-right-bottom-con span12 sidebar");
+
+                        //             var h1 = document.createElement('h1');
+                        //             $(h1).addClass('recent-search-header');
+                        //             $(h1).text("Recent Searches");
+                        //             $(outer_div).prepend(h1);
+
+                        //             var div = document.createElement("div");
+                        //             $(div).addClass('con-right-bott');
+
+                        //             var ul = document.createElement("ul");
+                        //             $(ul).addClass('recent-search-list');
+
+                        //             $.each(recent_searches, function(index, item) {
+                        //                 if(index < 4){
+                        //                     var li = document.createElement('li');
+                        //                     var a = document.createElement('a');
+                        //                     a.href = "javascript:;";
+                        //                     $(a).text(item);
+                        //                     $(a).addClass("search-value");
+                        //                     $(li).append(a);
+                        //                     $(ul).append(li);
+                        //                 }
+                        //             });
+                        //             $(div).append(ul);
+                        //             $(outer_div).append(div);
+
+                        //             $('.sidebar-placeholder').prepend(outer_div);
+                        //             $('.sidebar-placeholder .thumbnail').hide();
+                        //         }
+                        //     }); // end of inner ajax
+                        // } // end of if statement
+                        // else {
+                        //     $.ajax({
+                        //         url: "{% url recent-searches %}",
+                        //         success: function(result) {
+                        //             var recent_searches = $.parseJSON(result);
+                        //             $('.recent-search-list').html("");
+                        //             $.each(recent_searches, function(index, item) {
+                        //                 if(index < 4){
+                        //                     var li = document.createElement('li');
+                        //                     var a = document.createElement('a');
+                        //                     a.href = "javascript:;";
+                        //                     $(a).text(item);
+                        //                     $(a).addClass("search-value");
+                        //                     $(li).append(a);
+                        //                     $('.recent-search-list').append(li);
+                        //                 }
+                        //             });
+                        //         }
+                        //     }); // end of inner ajax
+                        // } // end of else statement
+                    } // end of success in outer ajax
+                }); // end of outer ajax
+            });
         });
     </script>
 {% endblock %}
@@ -128,10 +215,10 @@
                         </div>
                         <div class="span3">
                             <div class="sub-rigtxt">
-                                <form method="post" id="memberSearch">
+                                <form method="post" id="searchPublic">
                                     {% csrf_token %}
                                     <input class="sub-con-butt" type="submit" value="">
-                                    <input class="sub-con-tex" name="search" type="text">
+                                    <input class="sub-con-tex" name="q" value="{{ request.GET.q }}" type="text">
                                 </form>
                             </div>
                             <span class="sub-leftcon">

@@ -1,5 +1,5 @@
 {% if search_value != "" %}
-    <div id="page_title">Search results for "{{ search_value }}"</div>
+    <div class="page_title">Search results for "{{ search_value }}"</div>
     <div id="page_content">
         {% if results|length > 0 %}
             <ul class="search-results">
@@ -32,7 +32,7 @@
         {% endif %}
     </div>
 {% else %}
-    <div id="page_title">Search results</div>
+    <div class="page_title">Search results</div>
     <div id="page_content">
         <p><em>Please enter a query in the search form.</em></p>
     </div>
