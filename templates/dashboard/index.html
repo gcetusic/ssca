@@ -97,72 +97,28 @@
                         
                         $("#tab1 .page_content").fadeToggle(function () {
                             $(this).html(result);
+                            //$(this).append(result);
                             $(this).fadeToggle();
                         });
-                        console.log($(result)[0]);
                         $("#searchPublic")[0].reset();
-                        
-                        // if($('.sidebar-placeholder').find('.recent-search-header').text() != "Recent Searches") {
-                        //     $.ajax({
-                        //         url: "{% url recent-searches %}",
-                        //         success: function(result) {
-                        //             var recent_searches = $.parseJSON(result);
-
-                        //             var outer_div = document.createElement('div');
-                        //             $(outer_div).addClass("con-right-bottom-con span12 sidebar");
-
-                        //             var h1 = document.createElement('h1');
-                        //             $(h1).addClass('recent-search-header');
-                        //             $(h1).text("Recent Searches");
-                        //             $(outer_div).prepend(h1);
-
-                        //             var div = document.createElement("div");
-                        //             $(div).addClass('con-right-bott');
-
-                        //             var ul = document.createElement("ul");
-                        //             $(ul).addClass('recent-search-list');
-
-                        //             $.each(recent_searches, function(index, item) {
-                        //                 if(index < 4){
-                        //                     var li = document.createElement('li');
-                        //                     var a = document.createElement('a');
-                        //                     a.href = "javascript:;";
-                        //                     $(a).text(item);
-                        //                     $(a).addClass("search-value");
-                        //                     $(li).append(a);
-                        //                     $(ul).append(li);
-                        //                 }
-                        //             });
-                        //             $(div).append(ul);
-                        //             $(outer_div).append(div);
-
-                        //             $('.sidebar-placeholder').prepend(outer_div);
-                        //             $('.sidebar-placeholder .thumbnail').hide();
-                        //         }
-                        //     }); // end of inner ajax
-                        // } // end of if statement
-                        // else {
-                        //     $.ajax({
-                        //         url: "{% url recent-searches %}",
-                        //         success: function(result) {
-                        //             var recent_searches = $.parseJSON(result);
-                        //             $('.recent-search-list').html("");
-                        //             $.each(recent_searches, function(index, item) {
-                        //                 if(index < 4){
-                        //                     var li = document.createElement('li');
-                        //                     var a = document.createElement('a');
-                        //                     a.href = "javascript:;";
-                        //                     $(a).text(item);
-                        //                     $(a).addClass("search-value");
-                        //                     $(li).append(a);
-                        //                     $('.recent-search-list').append(li);
-                        //                 }
-                        //             });
-                        //         }
-                        //     }); // end of inner ajax
-                        // } // end of else statement
                     } // end of success in outer ajax
                 }); // end of outer ajax
+            });
+
+            $(".paginate").live("click", function(){
+                $paginate = $(this);
+                $.ajax({ 
+                    url:"{% url watson-search %}",
+                    data: "page="+ $(this).data("pagenumber") + "&query=" + $(this).data("query"),
+                    type: "GET",
+                    success:function(result){
+                        var tabId = $paginate.parent().parent().parent().parent().parent().parent().attr("id");
+                        $("#" +tabId+ " .page_content").fadeToggle(function () {
+                            $(this).html(result);
+                            $(this).fadeToggle();
+                        });
+                    }
+                });
             });
         });
     </script>

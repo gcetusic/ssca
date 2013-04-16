@@ -248,17 +248,16 @@ def watson_search(request):
             search_value = request.POST['q']
 
             if search_value != "":
-                request.session['latest_query'] = search_value
                 recent_searches.insert(0, search_value)
         else:
-            search_value = request.session['latest_query']
+            search_value = request.GET.get('query')
 
         if request.user.is_authenticated():
             results_list = watson.search(search_value, models=(Page, Port, Guide, CruisingStation))
         else:
             results_list = watson.search(search_value, models=(Page,))
 
-        paginator = Paginator(results_list, 10)
+        paginator = Paginator(results_list, 2)
 
         page = request.GET.get('page')
         try:

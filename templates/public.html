@@ -85,7 +85,7 @@
             $(".paginate").live("click", function(){
                 $.ajax({ 
                     url:"{% url watson-search %}",
-                    data: "page="+ $(this).data("pagenumber"),
+                    data: "page="+ $(this).data("pagenumber") + "&query=" + $(this).data("query"),
                     type: "GET",
                     success:function(result){
                         $(".homae-rig").fadeToggle(function () {

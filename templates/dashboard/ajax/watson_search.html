@@ -16,13 +16,13 @@
                 {% endfor %}
                 <li>
                     {% if results.has_previous %}
-                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.previous_page_number }}">previous</a>
+                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.previous_page_number }}" data-query="{{ search_value }}">previous</a>
                     {% endif %}
                     <span class="current">
                         Page {{ results.number }} of {{ results.paginator.num_pages }}.
                     </span>
                     {% if results.has_next %}
-                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.next_page_number }}">next</a>
+                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.next_page_number }}" data-query="{{ search_value }}">next</a>
                     {% endif %}
                 </li>
             </ul>
