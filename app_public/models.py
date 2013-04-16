@@ -218,7 +218,8 @@ def check_sequence(sender, instance, *args, **kwargs):
 
 
 # register model to use watson search
-watson.register(Page)
+watson.register(Page, exclude=("url", "page_type"))
+#watson.register(Person, exclude=("signup_token", "customer_id"))
 
 
 pre_save.connect(check_sequence, sender=PageSequence)

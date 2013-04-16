@@ -10,7 +10,7 @@
                                 <a href="{{ result.url }}" class="resultLink">{{ result.title }}</a>
                             </p>
                             <span></span>
-                            <span class="resultContent">{{ result.content }}</span>
+                            <span class="resultContent">{{ result.content|truncatechars:100 }}</span>
                         </article>
                     </li>
                 {% endfor %}

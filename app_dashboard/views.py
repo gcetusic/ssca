@@ -15,7 +15,9 @@ from itertools import chain
 from app_dashboard.models import Location, Port, CruisingStation, Guide
 from clustering import distance
 import json
+from app_dashboard.models import Port, Guide, CruisingStation
 from app_public.forms import SSCAJoinForm
+from app_public.models import Page, Person
 
 CLUSTERING_ALGORITHMS = [
     'qt', # helpers.cluster_qt - largest cluster first
@@ -244,14 +246,17 @@ def watson_search(request):
         search_value = ""
         if request.method == "POST":
             search_value = request.POST['q']
-            results_list = watson.search(search_value)
 
             if search_value != "":
                 request.session['latest_query'] = search_value
                 recent_searches.insert(0, search_value)
         else:
             search_value = request.session['latest_query']
-            results_list = watson.search(search_value)
+
+        if request.user.is_authenticated():
+            results_list = watson.search(search_value, models=(Page, Port, Guide, CruisingStation))
+        else:
+            results_list = watson.search(search_value, models=(Page,))
 
         paginator = Paginator(results_list, 10)
 

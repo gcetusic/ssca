@@ -1,10 +1,11 @@
+import math
+import re
+import watson
 from django.db import models
 from django.utils import timezone
 from django.utils.timezone import get_current_timezone
 from datetime import timedelta
 from app_public.models import Person
-import math
-import re
 
 
 class LocationManager(models.Manager):
@@ -150,3 +151,8 @@ class CruisingStation(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.name)
+
+
+watson.register(Port)
+watson.register(Guide)
+watson.register(CruisingStation)
