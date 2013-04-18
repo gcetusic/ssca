@@ -34,7 +34,7 @@ class TransactionTestCase(unittest.TestCase):
     def test_card_details_valid(self):
         validate_card_details('Raymond', 'Hettinger', '5555555555554444', '223', 
                                        '05', '14')
-    
+        
     def test_card_details_invalid_card(self):
         """
         Pass some data that should be rejected due to card number.
