@@ -8,6 +8,26 @@ where $$TYPE$$ is the type of operation attempted, eg. transcations, subscriptio
 '''
 from app_payments.exceptions import *
 
+def _handle_credit_card_failure(braintree_result):
+    """
+    Handle any failures regaring credit card validations. List of codes at:
+       https://www.braintreepayments.com/docs/python/reference/processor_responses
+    """
+    if braintree_result.is_success:
+        # Why are we here at all! Let's return
+        return
+    error_code = braintree_result.errors.deep_errors[-1].code
+    if error_code == '81715':
+        raise InvalidCardDetails("Invalid credit card number.")
+    elif error_code == '81710':
+        raise InvalidCardDetails("Invalid expiration date.")
+    elif error_code == '81710':
+        raise InvalidCardDetails("CVV was declined.")
+    elif error_code == '81703':
+        raise InvalidCardDetails("Card type not accepted.")
+    # No credit card specific failure, fall back to transaction level failures.
+    _handle_transaction_failure(braintree_result)
+
 def _handle_subscription_failure(braintree_result):
     """
     Handle failure for subscription operations. Just take the first error and treat that code.
@@ -59,8 +79,8 @@ def _handle_customer_failure(braintree_result):
         # Last name is too long. Max 255 chars.
         msg = "Customer last name is invalid. Should be a maximum of 255 characters."
         raise InvalidCustomerData(msg)
-    # We have no code for customer register, fallback to transaction handling.
-    _handle_transaction_failure(braintree_result)
+    # We have no code for customer register, fallback to credit card handling.
+    _handle_credit_card_failure(braintree_result)
         
 
 def _handle_transaction_failure(braintree_result):
@@ -78,7 +98,7 @@ def _handle_transaction_failure(braintree_result):
         error_code = braintree_result.errors.deep_errors[-1].code
         if error_code == "81715":
             # Credit card is not supported by provider..
-            msg = "The credid card you provided is not supported by provide.."
+            msg = "The credit card you provided is not supported by provider."
             raise InvalidTransactionParameters(msg)
         msg = """ Transaction failed for some unhandled reason. Error code: %s """ %(error_code,)
         raise BasePaymentException(msg)
