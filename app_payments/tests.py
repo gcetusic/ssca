@@ -10,7 +10,7 @@ import os
 import unittest
 import datetime
 import braintree
-from app_payments.payment_service import create_transaction, create_subscription
+from app_payments.payment_service import create_transaction, create_subscription, validate_card_details
 from app_payments.export_payment_service import quickbooks_export_transactions
 from app_payments.braintree_finders_API import get_transactions_before, get_transactions_in_date_inverval, \
 get_transactions_with_amount_range
@@ -31,6 +31,16 @@ class TransactionTestCase(unittest.TestCase):
         self.b_user.delete()
         self.user.delete()
         
+    def test_card_details_valid(self):
+        validate_card_details('Raymond', 'Hettinger', '5555555555554444', '223', 
+                                       '05', '14')
+    
+    def test_card_details_invalid_card(self):
+        """
+        Pass some data that should be rejected due to card number.
+        """
+        self.assertRaises(InvalidCardDetails, validate_card_details, 'Raymond', 'Hettinger', 
+                          '5555555111554444', '223', '05', '14')
         
     def test_get_transactions_before_old_date(self):
         """
@@ -99,24 +109,14 @@ class TransactionTestCase(unittest.TestCase):
         braintree_subs = braintree.Subscription.find(subscription.braintree_id)
         self.assertEqual(braintree_subs.id, subscription.braintree_id)
         braintree.Subscription.cancel(braintree_subs.id)
-
-    
-    def test_create_transaction_invalid_name(self):
-        """
-        Pass a name that is too long for a customer.
-        """
-        self.b_user.first_name = ''.join(['a' for _ in xrange(266)]) # max 255 chars for name
-        self.b_user.save()
-        self.assertRaises(InvalidCustomerData, create_transaction, 100, 
-                          '5555555555554444', '223', 5, 2016, user=self.user)
-
+        
 
     def test_create_transaction_invalid_card(self):
         """
         Pass a credit card that is not supported to a transaction.
         """
         self.user.save()
-        self.assertRaises(InvalidTransactionParameters, create_transaction, 100, 
+        self.assertRaises(InvalidCardDetails, create_transaction, 100, 
                           '5555511555554444', '223', 5, 2016, user=self.user)
         
         

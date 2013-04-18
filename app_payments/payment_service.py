@@ -6,7 +6,8 @@ from datetime import datetime
 from app_public.models import Subscription
 from app_payments.models import Transaction
 from app_payments.error_handler import _handle_subscription_failure,\
-    _handle_customer_failure, _handle_transaction_failure
+    _handle_customer_failure, _handle_transaction_failure,\
+    _handle_credit_card_failure
 
 
 def create_transaction(amount, card_number, cvv, expiration_month, 
@@ -89,6 +90,14 @@ def create_subscription(user, amount, card_number, expiration_month,
         subscription.save()
         return subscription
     _handle_subscription_failure(result)
+    
+    
+def validate_card_details(first_name, last_name, card_number, cvv, exp_month, exp_year):
+    """
+    Check that these input parameters are valid for a given credit card.
+    """
+    return _create_customer(first_name, last_name, card_number, exp_month, exp_year,
+                            cvv, True)
 
     
 def _get_basic_transaction_dictionary(amount, card_number, cvv, expiration_month, expiration_year):
@@ -150,7 +159,7 @@ def _create_customer_and_transaction(first_name, last_name, amount, card_number,
     return result
 
 def _create_customer(first_name, last_name, card_number, expiration_month, 
-                    expiration_year, cvv):
+                    expiration_year, cvv, verify_data=False):
     """
     Braintree offers possibility to create a customer. After this you get a customer
     id which can later be used to get informations like credit card info if we want.
@@ -158,7 +167,7 @@ def _create_customer(first_name, last_name, card_number, expiration_month,
                                     and pass that as input.
     NOTE: this does not create a transaction, just a customer.
     """
-    result = braintree.Customer.create({
+    braintree_data_dict = {
                 "first_name": first_name,
                 "last_name": last_name,
                 "credit_card": {
@@ -167,7 +176,11 @@ def _create_customer(first_name, last_name, card_number, expiration_month,
                     "expiration_year": expiration_year,
                     "cvv": cvv
                 }
-            })
+            }
+    if verify_data:
+        braintree_data_dict["credit_card"]["options"] = { "verify_card" : True}
+    result = braintree.Customer.create(braintree_data_dict)
+    
     if result.is_success:
         return result.customer.id
     _handle_customer_failure(result)
