@@ -13,6 +13,8 @@ urlpatterns = patterns('',
 
     #aJax Calls
     url(r'^map-ajax/$', dashboard_map_ajax, name="dashboard-map-ajax"),
+    url(r'^watson-search/$', watson_search, name="watson-search"),
+    url(r'^recent-searches/$', recent_searches_ajax, name="recent-searches"),
 )
 
 if settings.DEBUG:

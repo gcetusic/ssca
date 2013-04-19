@@ -20,6 +20,7 @@
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/jstz.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/map.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/load_page_dashboard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/tabs.js"></script>
 
     <!-- Configuration -->
@@ -49,7 +50,8 @@
             var script = document.createElement("script");
             script.type = "text/javascript";
             script.src = "http://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&sensor=true&callback=initialize";
-            $('#tab1 .page_content').append(script);
+            //$('#tab1 .page_content').append(script);
+            document.body.appendChild(script);
         }
 
         $(document).ready(function () {
@@ -75,6 +77,49 @@
                 }
                   
                 return false;
+            });
+
+            $('#searchPublic').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{% url watson-search %}",
+                    data: $(this).serialize(),
+                    type: "POST",
+                    success: function(result) {
+                        moveTabsAndContents();
+                        var h1 = document.createElement('h1');
+                        h1_content =  "Search : " + $("[name='q']").val();
+                        $(h1).text(h1_content.substr(0, 20))
+
+                        $('#page_title').fadeToggle(function () {
+                            $(this).html($(h1).text());
+                            $(this).fadeToggle();
+                        });
+                        
+                        $("#tab1 .page_content").fadeToggle(function () {
+                            $(this).html(result);
+                            //$(this).append(result);
+                            $(this).fadeToggle();
+                        });
+                        $("#searchPublic")[0].reset();
+                    } // end of success in outer ajax
+                }); // end of outer ajax
+            });
+
+            $(".paginate").live("click", function(){
+                $paginate = $(this);
+                $.ajax({ 
+                    url:"{% url watson-search %}",
+                    data: "page="+ $(this).data("pagenumber") + "&query=" + $(this).data("query"),
+                    type: "GET",
+                    success:function(result){
+                        var tabId = $paginate.parent().parent().parent().parent().parent().parent().attr("id");
+                        $("#" +tabId+ " .page_content").fadeToggle(function () {
+                            $(this).html(result);
+                            $(this).fadeToggle();
+                        });
+                    }
+                });
             });
         });
     </script>
@@ -127,10 +172,10 @@
                         </div>
                         <div class="span3">
                             <div class="sub-rigtxt">
-                                <form method="post" id="memberSearch">
+                                <form method="post" id="searchPublic">
                                     {% csrf_token %}
                                     <input class="sub-con-butt" type="submit" value="">
-                                    <input class="sub-con-tex" name="search" type="text">
+                                    <input class="sub-con-tex" name="q" value="{{ request.GET.q }}" type="text">
                                 </form>
                             </div>
                             <span class="sub-leftcon">

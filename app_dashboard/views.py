@@ -1,8 +1,11 @@
+import watson
+from watson.models import SearchEntry
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Q
 from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +15,9 @@ from itertools import chain
 from app_dashboard.models import Location, Port, CruisingStation, Guide
 from clustering import distance
 import json
+from app_dashboard.models import Port, Guide, CruisingStation
 from app_public.forms import SSCAJoinForm
+from app_public.models import Page, Person
 
 CLUSTERING_ALGORITHMS = [
     'qt', # helpers.cluster_qt - largest cluster first
@@ -224,6 +229,57 @@ def find_member(request):
                 }}}})
 
         return HttpResponse(results)
+
+
+def watson_search(request):
+    """
+    Custom handler for search using watson.
+    """
+
+    recent_searches = []
+    results_list = []
+    if 'recent_searches' in request.session:
+        recent_searches = request.session['recent_searches']
+
+    context = {}
+    if request.is_ajax():
+        search_value = ""
+        if request.method == "POST":
+            search_value = request.POST['q']
+
+            if search_value != "":
+                recent_searches.insert(0, search_value)
+        else:
+            search_value = request.GET.get('query')
+
+        if request.user.is_authenticated():
+            results_list = watson.search(search_value, models=(Page, Port, Guide, CruisingStation))
+        else:
+            results_list = watson.search(search_value, models=(Page,))
+
+        paginator = Paginator(results_list, 10)
+
+        page = request.GET.get('page')
+        try:
+            results = paginator.page(page)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        request.session['recent_searches'] = recent_searches
+        context['search_value'] = search_value
+        context['results'] = results
+        return render_to_response('dashboard/ajax/watson_search.html', context,
+                                  RequestContext(request))
+
+
+def recent_searches_ajax(request):
+    """
+    Returns the most recent searches stored in request.session upon search.
+    """
+    return HttpResponse(json.dumps(request.session['recent_searches']))
+
 
 def dashboard_test_mockup(request):
     """ test view for dashboard mockup """
