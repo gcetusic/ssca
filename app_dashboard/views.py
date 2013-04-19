@@ -257,7 +257,7 @@ def watson_search(request):
         else:
             results_list = watson.search(search_value, models=(Page,))
 
-        paginator = Paginator(results_list, 2)
+        paginator = Paginator(results_list, 10)
 
         page = request.GET.get('page')
         try:
@@ -270,8 +270,8 @@ def watson_search(request):
         request.session['recent_searches'] = recent_searches
         context['search_value'] = search_value
         context['results'] = results
-        return render_to_response('dashboard/ajax/watson_search.html', context, 
-                                    RequestContext(request))
+        return render_to_response('dashboard/ajax/watson_search.html', context,
+                                  RequestContext(request))
 
 
 def recent_searches_ajax(request):
