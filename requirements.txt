@@ -11,3 +11,4 @@ pytz
 wadofstuff-django-serializers
 django-dajaxice
 braintree
+django-watson

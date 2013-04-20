@@ -128,6 +128,7 @@ def bootstrap():
         manage(app, 'syncdb --all')
     update_db('initial', True)
     load_samples()
+    manage(app, 'buildwatson')
     touch()
 
 

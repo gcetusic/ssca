@@ -1,3 +1,4 @@
+import watson
 from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
 from django.db import models
@@ -93,6 +94,9 @@ class Page(FlatPage):
         help_text="Page that shis one should appear under (if any)")
     page_type = models.CharField(max_length=100, choices=PAGE_TYPES, null=True)
     require_authentication = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return "%s" % self.title
 
 
 class PageSequence(models.Model):
@@ -278,5 +282,11 @@ def check_sequence(sender, instance, *args, **kwargs):
     if not instance.id:
         if header_sequence:
             raise Exception("Sequence number is already taken. Please choose another.")
+
+
+# register model to use watson search
+watson.register(Page, exclude=("url", "page_type"))
+#watson.register(Person, exclude=("signup_token", "customer_id"))
+
 
 pre_save.connect(check_sequence, sender=PageSequence)

@@ -4,6 +4,12 @@ class BasePaymentException(Exception):
     """
     pass
 
+class InvalidCardDetails(BasePaymentException):
+    """
+    Exception raised in case we have invalid data about a credit card.
+    """
+    pass
+
 class BaseTransactionException(BasePaymentException):
     """
     Base exception class for all transaction operations.

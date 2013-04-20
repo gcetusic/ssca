@@ -1,0 +1,39 @@
+{% if search_value != "" %}
+    <div id="page_title" class="page_title">Search results for "{{ search_value }}"</div>
+    <div id="page_content">
+        {% if results|length > 0 %}
+            <ul class="search-results">
+                {% for result in results %}
+                    <li>
+                        <article>
+                            <p class="resultTitle">
+                                <a href="{{ result.url }}" class="resultLink">{{ result.title }}</a>
+                            </p>
+                            <span></span>
+                            <span class="resultContent">{{ result.content|truncatechars:100 }}</span>
+                        </article>
+                    </li>
+                {% endfor %}
+                <li>
+                    {% if results.has_previous %}
+                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.previous_page_number }}" data-query="{{ search_value }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ results.number }} of {{ results.paginator.num_pages }}.
+                    </span>
+                    {% if results.has_next %}
+                        <a href="javascript:;" class="paginate" data-pagenumber="{{ results.next_page_number }}" data-query="{{ search_value }}">next</a>
+                    {% endif %}
+                </li>
+            </ul>
+        {% else %}
+            <p><em>There are no results to display.</em></p>
+            <p><em>Try entering a less specific search term.</em></p>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="page_title">Search results</div>
+    <div id="page_content">
+        <p><em>Please enter a query in the search form.</em></p>
+    </div>
+{% endif %}
