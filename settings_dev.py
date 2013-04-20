@@ -1,5 +1,7 @@
 # Django settings for sscadev project.
 
+GOOGLE_MAPS_KEY = 'AIzaSyBAWy5kbUgK0t3Ly6VplTrem-dvpi-YuW8'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

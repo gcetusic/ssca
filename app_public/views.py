@@ -136,6 +136,7 @@ def public_page(request):
     c.update(csrf(request))
     return render_to_response('public.html', c, context_instance=RequestContext(request))
 
+
 def registration_complete(request, token):
     response = HttpResponse()
     if not request.method == 'GET':
@@ -143,7 +144,7 @@ def registration_complete(request, token):
         return response
 
     try:
-        person = Person.objects.get(signup_token = token)
+        person = Person.objects.get(signup_token=token)
 
         # store the person id in session, so
         # that we can associate when we get callbacked by oauth provide
@@ -160,6 +161,7 @@ def registration_complete(request, token):
                 'form': SSCAJoinForm(), 'basic_mail_cost': 55}
         c.update(csrf(request))
         return render_to_response('public.html', c, context_instance=RequestContext(request))
+
 
 @csrf_protect
 def register_page(request):
@@ -201,7 +203,7 @@ def register_page(request):
     subject = "SSCA Registration Activation"
 
     link = "http://%s/registration/complete" % request.get_host()
-    email_format = """Hello %s, 
+    email_format = """Hello %s,
     Thank you very much for registering with SSCA.
 
     Kindly click on following link to activate your account:-
@@ -216,7 +218,7 @@ def register_page(request):
     email_from = settings.EMAIL_HOST_USER
 
     # list of email receiver, we may add cc/bcc later
-    email_to_lst = [] 
+    email_to_lst = []
 
     email_to_lst.append(email)
 

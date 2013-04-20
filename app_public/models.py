@@ -109,56 +109,123 @@ class PageSequence(models.Model):
 
 
 class Subscription(models.Model):
+
+    ELECTRONIC = "E"
+    FIRST_CLASS = "First"
+    BULK_MAIL = "Bulk"
+    AIR_MAIL = "Air"
+    SURFACE_MAIL = "Surface"
+
+    SUBSCRIPTION_CHOICES = (
+        (ELECTRONIC, 'Electronic'),
+        ('US', (
+                (FIRST_CLASS, 'First Class'),
+                (BULK_MAIL, 'Bulk Mail'),
+            )
+        ),
+        ('North America (Canada / Mexico)', (
+                (AIR_MAIL, 'Air Mail'),
+                (SURFACE_MAIL, 'Surface Mail'),
+            )
+        ),
+    )
+
+    subscription_type = models.CharField(max_length=150,
+                                        choices=SUBSCRIPTION_CHOICES,
+                                        default=ELECTRONIC
+                                    )
+
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(blank=True)
     amount_paid = models.DecimalField(max_digits=5, decimal_places=2)
     date_paid = models.DateField()
-    plan_id = models.CharField(max_length=20) # The id of the plan on braintree
-    braintree_id = models.CharField(max_length=20) # The id of the subscription on braintree
+    plan_id = models.CharField(max_length=20)  # The id of the plan on braintree
+    braintree_id = models.CharField(max_length=20)  # The id of the subscription on braintree
+
+
+class Boat(models.Model):
+    name = models.CharField(max_length=150)
+    boat_type = models.CharField(max_length=50)
+    make = models.CharField(max_length=50)
+    length = models.CharField(max_length=50)
+    rig = models.CharField(max_length=50)
+    draft = models.CharField(max_length=50)
+    callsign = models.CharField(max_length=50)
 
 
 class Account(models.Model):
-    # TODO i don't think this should have a user...should it?
-    user = models.ForeignKey(User)
-    subscription = models.ForeignKey(Subscription)
+    subscription = models.ManyToManyField(Subscription)
+    yearly_renew = models.BooleanField(default=True, verbose_name="Auto renew")
+    date_joined = models.DateField(auto_now_add=True)
+    last_renewed = models.DateTimeField()
+    signup = models.BooleanField()
+    # FIXME - per subscription or per account?
+    #expiration_date
 
-    def __unicode__(self):
-        return u'%s' % (self.user.username)
+    yearly_total = models.IntegerField()
+    total = models.IntegerField()
 
 
-class Person(models.Model):
-    user = models.ForeignKey(User)
+class Person(User):
+    account = models.ForeignKey(Account, related_name="person_account")
+
     # openid identity string, used to find which User has logged in
     identity = models.TextField()
-    friend = models.ManyToManyField('self', through='Relationship', symmetrical=False)
+    boat = models.ManyToManyField('Boat', null=True, related_name="person_boat")
+    friend = models.ManyToManyField('self', through='Friendship', symmetrical=False)
     signup_token = models.CharField(max_length=64)
     token_created = models.DateTimeField(auto_now_add=True)
     # customer_id for braintree which we can use in transactions and subscriptions
     customer_id = models.CharField(max_length=20)
     signup_date = models.DateTimeField(auto_now_add=True)
 
-    # FIXME - need to determine how to store this info in db
-    # encrypt or hash ?
-    """
-    card_number = models.CharField(max_length=32, required = True)
-    card_expiry_date = models.DateField(required = True)
-    card_csv = models.CharField(max_length=3, required = True)
-    yearly_total = models.IntegerField()
-    yearly_reniew = models.BooleanField()
-    total = models.IntegerField()
-    """
-    
-    
     def get_customer_id(self):
         '''
         Return either our customer_id or None if we don't have one yet.
         '''
         return self.customer_id or None
 
+    offspring = models.ManyToManyField('self', through='Relationship', symmetrical=False, related_name="relations")
 
-class Relationship(models.Model):
+    notes = models.TextField(max_length=1000, blank=True)
+    disclose_info = models.BooleanField()
+    active = models.BooleanField()
+
+    def __unicode__(self):
+        return u'%s' % (self.username)
+
+    def is_deceased(self):
+        pass
+
+
+class PersonInfo(models.Model):
+    person = models.OneToOneField(Person, primary_key=True, related_name="person_info")
+    middle_name = models.CharField(blank=True, max_length="35")
+    address1 = models.CharField(max_length=150, verbose_name="Primary address")
+    address2 = models.CharField(blank=True, max_length=150, verbose_name="Secondary address")
+    city = models.CharField(max_length=80)
+    state = models.CharField(max_length=150, blank=True)
+    postcode = models.IntegerField(max_length=50)
+    country = models.CharField(max_length=50)
+    phone1 = models.CharField(max_length=50, verbose_name="Primary phone number")
+    phone2 = models.CharField(blank=True, max_length=50, verbose_name="Secondary phone number")
+    fax = models.CharField(max_length=50)
+    email1 = models.EmailField(max_length=50, verbose_name="Primary email address")
+    email2 = models.EmailField(blank=True, max_length=50, verbose_name="Secondary email address")
+    website = models.CharField(blank=True, max_length=150)
+    dob = models.DateField()
+    dod = models.DateField(blank=True, null=True)
+    skype = models.CharField(blank=True, max_length=50)
+
+
+class Friendship(models.Model):
     from_person = models.ForeignKey(Person, related_name='from_people')
     to_person = models.ForeignKey(Person, related_name='to_people')
+
+
+class Relationship(models.Model):
+    from_person = models.ForeignKey(Person, related_name='from_relation')
+    to_person = models.ForeignKey(Person, related_name='to_relation')
 
 
 # this is just so that the app-wide sample data works (we don't have data for it yet)

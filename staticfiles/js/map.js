@@ -8,7 +8,7 @@ var allowedBounds = false;
 function initialize() {
 
     /***************** Main map *******************/
-    
+
     function loadMarkers() {
         // fetches new markers every time the map stops moving
         google.maps.event.addListener(map, 'idle', getMarkers);
@@ -19,10 +19,10 @@ function initialize() {
             }
         });
         google.maps.event.addListener(map, 'drag', checkBounds);
-        google.maps.event.addListener(map, 'zoom_changed', checkBounds); 
-        google.maps.event.addListener(map, 'bounds_changed', checkBounds); 
+        google.maps.event.addListener(map, 'zoom_changed', checkBounds);
+        google.maps.event.addListener(map, 'bounds_changed', checkBounds);
     }
-    
+
     // load markers with label lib
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -33,15 +33,15 @@ function initialize() {
     // create map
     var map = new google.maps.Map(
         document.getElementById("map-canvas"), {
-            // set options, some must be defined in the html 
+            // set options, some must be defined in the html
             center: new google.maps.LatLng(center_latitude, center_longitude),
             zoom: map_zoom,
             minZoom: min_zoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
-    
-    // Icons source: https://developers.google.com/chart/infographics/docs/dynamic_icons#pins    
+
+    // Icons source: https://developers.google.com/chart/infographics/docs/dynamic_icons#pins
     var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_xpin_letter_withshadow&chld=pin_star|%E2%80%A2|CC3300|000000|FF9900", new google.maps.Size(45, 42), new google.maps.Point(0, 0), new google.maps.Point(10, 34));
     var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow", new google.maps.Size(40, 37), new google.maps.Point(0, 0), new google.maps.Point(12, 35));
 
@@ -54,6 +54,7 @@ function initialize() {
     }
 
     // Add marker but check if its category should be visible
+
     function addMarker(position, id, category, count) {
         if (category == "cluster") {
             // Recipe from: http://jsfiddle.net/yV6xv/21/
@@ -65,14 +66,14 @@ function initialize() {
                 labelContent: count,
                 labelAnchor: new google.maps.Point(12, -5),
                 labelClass: "cluster-label"
-            });        
+            });
         } else {
             marker = new google.maps.Marker({
                 position: position,
-                map: map,
+                map: map
             });
         }
-        if ($("#type-filter input[value='" + category + "']").prop("checked") == false) {
+        if ($("#type-filter input[value='" + category + "']").prop("checked") === false) {
             marker.setVisible(false);
         }
 
@@ -99,16 +100,18 @@ function initialize() {
 
     // Receives gmaps coordinates object
     function formatCoordinates(coord) {
+        var latitude_degrees;
         if (coord.lat() >= 0) {
-            var latitude_degrees = Math.round(coord.lat()) + "N";
+            latitude_degrees = Math.round(coord.lat()) + "N";
         } else {
-            var latitude_degrees = Math.abs(Math.round(coord.lat())) + "S";
+            latitude_degrees = Math.abs(Math.round(coord.lat())) + "S";
         }
 
+        var longitude_degrees;
         if (coord.lng() >= 0) {
-            var longitude_degrees = Math.round(coord.lng()) + "E";
+            longitude_degrees = Math.round(coord.lng()) + "E";
         } else {
-            var longitude_degrees = Math.abs(Math.round(coord.lng())) + "W";
+            longitude_degrees = Math.abs(Math.round(coord.lng())) + "W";
         }
 
         var latitude_minutes = (coord.lat() % 1)*60;
@@ -118,7 +121,7 @@ function initialize() {
         longitude_minutes = longitude_minutes.toPrecision(2);
 
         return latitude_degrees + " " + latitude_minutes + "'" + ", "
-            + longitude_degrees  + " " + longitude_minutes + "'"
+            + longitude_degrees  + " " + longitude_minutes + "'";
     }
 
     // Shows any marker currently in the marker array
@@ -126,7 +129,7 @@ function initialize() {
         $("#center").html(formatCoordinates(map.getCenter()));
 
         if (markersArray) {
-            for (i in markersArray) {
+            for (var i in markersArray) {
                 // If the marker is a cluster center on it and zoom in
                 // This will trigger the 'idle' event and consequently fetch new markers
                 if (markersArray[i].category=='cluster') {
@@ -164,7 +167,7 @@ function initialize() {
     // Deletes all markers by removing references to them
     function deleteOverlays() {
         if (markersArray) {
-            for (i in markersArray) {
+            for (var i in markersArray) {
                 markersArray[i].setMap(null);
             }
             markersArray.length = 0;
@@ -230,35 +233,35 @@ function initialize() {
             }
         });
     }
-    
+
     function checkBounds() {
         // limit the bounds on drag and zoom_changed to not go past the poles
-        
-        //if (map.getZoom() < 7) map.setZoom(7);    
-        
-        if (allowedBounds) {       
+
+        //if (map.getZoom() < 7) map.setZoom(7);
+
+        if (allowedBounds) {
             var allowed_ne_lng = allowedBounds.getNorthEast().lng();
             var allowed_ne_lat = allowedBounds.getNorthEast().lat();
             var allowed_sw_lng = allowedBounds.getSouthWest().lng();
             var allowed_sw_lat = allowedBounds.getSouthWest().lat();
-          
+
             var currentBounds = map.getBounds();
             var current_ne_lng = currentBounds.getNorthEast().lng();
             var current_ne_lat = currentBounds.getNorthEast().lat();
             var current_sw_lng = currentBounds.getSouthWest().lng();
             var current_sw_lat = currentBounds.getSouthWest().lat();
-          
+
             var currentCenter = map.getCenter();
             var centerX = currentCenter.lng();
             var centerY = currentCenter.lat();
-          
+
             // For now only limit Y
-            
+
             //if (current_ne_lng > allowed_ne_lng) centerX = centerX-(current_ne_lng-allowed_ne_lng);
             if (current_ne_lat > allowed_ne_lat) centerY = centerY-(current_ne_lat-allowed_ne_lat);
             //if (current_sw_lng < allowed_sw_lng) centerX = centerX+(allowed_sw_lng-current_sw_lng);
             if (current_sw_lat < allowed_sw_lat) centerY = centerY+(allowed_sw_lat-current_sw_lat);
-          
+
             map.setCenter(new google.maps.LatLng(centerY,centerX));
         }
     }
@@ -275,7 +278,7 @@ function initialize() {
             scrollwheel: false, // Disable scrollwheel zooming
             disableDoubleClickZoom: true,
             center: new google.maps.LatLng(center_latitude, center_longitude),
-            zoom: map_zoom,
+            zoom: map_zoom
         }
     );
 
@@ -514,7 +517,7 @@ function initialize() {
     function showCategory(category) {
         for (var i=0; i<markersArray.length; i++) {
             if (markersArray[i].category == category) {
-                markersArray[i].setVisible(true)
+                markersArray[i].setVisible(true);
             }
         }
     }
@@ -579,7 +582,7 @@ function initialize() {
             return function() {
                 fn.apply(context, params);
             };
-        }
+        };
 
         var search_results;
         function find(query, process) {
@@ -633,12 +636,12 @@ function initialize() {
             map.panTo(center);
             // Zoom level is a "within a few miles" approximate
             map.setZoom(5);
-        })
+        });
 
         // Clear the search field if modal is hidden
         $('#member_modal').on('hidden', function () {
             $(this).find("input[type=text], textarea").val("");
-        })
+        });
 
         // Some functions aren't needed but included as templates
         $(".memberTypeahead").typeahead({
@@ -659,6 +662,6 @@ function initialize() {
             sorter: function(items) {
                 return items;
             }
-        })
+        });
     });
-};
+}

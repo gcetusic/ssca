@@ -1,5 +1,6 @@
 from django import forms
 
+
 class SSCAJoinForm(forms.Form):
     """
     SSCA Join Form defines fields to be used in Join SSCA js popups.
@@ -30,38 +31,38 @@ class SSCAJoinForm(forms.Form):
     min_lastname = 5
 
     # fields for step 1 dialog
-    firstname = forms.CharField(max_length=32, required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'First Name','class': 'input-xlarge'}))
+    firstname = forms.CharField(max_length=32, required=True,
+            widget=forms.TextInput(attrs={'placeholder': 'First Name', 'class': 'input-xlarge'}))
 
-    lastname = forms.CharField(max_length=32, required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'Last Name','class': 'input-xlarge'}))
+    lastname = forms.CharField(max_length=32, required=True,
+            widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': 'input-xlarge'}))
 
-    email = forms.EmailField(required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'Email Address','class': 'input-xlarge'}))
+    email = forms.EmailField(required=True,
+            widget=forms.TextInput(attrs={'placeholder': 'Email Address', 'class': 'input-xlarge'}))
 
     # fields for step 2 dialog
     membership_fee = forms.IntegerField()
 
-    mail_location = forms.ChoiceField(choices = mail_locations,
-            widget=forms.Select(attrs={'onchange':'onMailLocationChange();'}))
+    mail_location = forms.ChoiceField(choices=mail_locations,
+            widget=forms.Select(attrs={'onchange': 'onMailLocationChange();'}))
 
     # fields for step 3 dialog
-    burgee_type = forms.ChoiceField(choices = burgee_types,
-            widget=forms.Select(attrs={'onchange':'onBurgeeChanged();'}))
+    burgee_type = forms.ChoiceField(choices=burgee_types,
+            widget=forms.Select(attrs={'onchange': 'onBurgeeChanged();'}))
 
-    name_on_card = forms.CharField(max_length=32, required = True,
-            widget=forms.TextInput( attrs={'placeholder': 'Full Name','class': 'input-xlarge'}))
+    name_on_card = forms.CharField(max_length=32, required=True,
+            widget=forms.TextInput(attrs={'placeholder': 'Full Name', 'class': 'input-xlarge'}))
 
-    card_type = forms.ChoiceField(required = True, 
-            widget = forms.Select(), choices = card_types)
+    card_type = forms.ChoiceField(required=True,
+            widget=forms.Select(), choices=card_types)
 
-    card_number = forms.CharField(max_length=32, required = True,
-            widget=forms.TextInput( attrs={'placeholder': '14-digit number','class': 'input-xlarge'}))
+    card_number = forms.CharField(max_length=32, required=True,
+            widget=forms.TextInput(attrs={'placeholder': '14-digit number', 'class': 'input-xlarge'}))
 
-    card_expiry_date = forms.DateField(required = True)
+    card_expiry_date = forms.DateField(required=True)
 
-    card_csv = forms.CharField(max_length=3, required = True,
+    card_csv = forms.CharField(max_length=3, required=True,
             widget=forms.TextInput(attrs={'style': 'width: 40px;', 'class': 'input-xlarge'}))
 
-    total_fee = forms.IntegerField() 
-    yearly_reniew = forms.BooleanField() 
+    total_fee = forms.IntegerField()
+    yearly_reniew = forms.BooleanField()
