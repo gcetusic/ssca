@@ -1,0 +1,557 @@
+[
+    {
+        "pk": 25, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Additional Publications", 
+            "url": "/additional-publications/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Additional Publications</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 31, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Administration", 
+            "url": "/admin/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Apparel", 
+            "url": "/apparel/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Apparel</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Awards & Recognition", 
+            "url": "/awards/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Awards &amp; Recognition</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Become a Commodore", 
+            "url": "/become-a-commodore/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Become a Commodore</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Boat shows", 
+            "url": "/boat-shows/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Boat shows</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Bulletins", 
+            "url": "/bulletins/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Bulletins</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 32, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Calendar", 
+            "url": "/calendar/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Calendar</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "About Clean Wakes", 
+            "url": "/clean-wakes/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>About Clean Wakes</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Contact Us", 
+            "url": "/contact-us/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Contact Us</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Concerned Cruiser's Committee", 
+            "url": "/cruisers-committee/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Concerned Cruiser's Committee</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Cruising Stations", 
+            "url": "/cruising-stations/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Cruising Stations</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Member Locator", 
+            "url": "/dashboard/map/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Member Locator</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Equipment Survey", 
+            "url": "/equipment-survey/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Equipment Survey</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Discussion Forum", 
+            "url": "/forum/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Discussion Forum</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "GAMs", 
+            "url": "/gams/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>GAMs</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Gear", 
+            "url": "/gear/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Gear</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "History", 
+            "url": "/history/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>History</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Join/Renew", 
+            "url": "/join-renew/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Join/Renew</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Membership Benefits", 
+            "url": "/membership-benefits/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Membership Benefits</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Music", 
+            "url": "/music/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Music</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Ocean Navigator", 
+            "url": "/ocean-navigator/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Ocean Navigator</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Officers, Staff, & Volunteers", 
+            "url": "/officers/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Officers, Staff, &amp; Volunteers</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Other Clean Wake Projects", 
+            "url": "/other-projects/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Other Clean Wake Projects</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 22, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Port Guides", 
+            "url": "/port-guides/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Port Guides</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Press", 
+            "url": "/press/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Press</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Projects & Initiatives", 
+            "url": "/projects-initiatives/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Projects &amp; Initiatives</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Publications", 
+            "url": "/publications/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Publications</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Published Articles", 
+            "url": "/published-articles/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Published Articles</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Resource Links", 
+            "url": "/resource-links/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Resource Links</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Seven Seas University", 
+            "url": "/seven-seas-university/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Seven Seas University</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Logos for Sites & Cards", 
+            "url": "/site-logo/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Logos for Sites &amp; Cards</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Southbound", 
+            "url": "/southbound/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Southbound</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "SSCA Documents", 
+            "url": "/ssca-documents/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>SSCA Documents</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "SSCA Foundation", 
+            "url": "/ssca-foundation/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>SSCA Foundation</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": true, 
+            "title": "Update Profile", 
+            "url": "/update-profile/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Update Profile</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Volunteer!", 
+            "url": "/volunteer/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Volunteer!</p>", 
+            "enable_comments": false
+        }
+    }
+]
