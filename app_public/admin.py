@@ -1,6 +1,6 @@
 from django.contrib import admin
 from app_public.models import Person, Account, Subscription, Image, MenuItem, MenuHeader, \
-    PageSequence
+    PageSequence, Boat, PersonInfo
 from django.contrib.flatpages.admin import FlatpageForm, FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
@@ -39,6 +39,8 @@ admin.site.register(MenuItem)
 admin.site.register(MenuHeader)
 admin.site.register(Image)
 admin.site.register(Person)
+admin.site.register(PersonInfo)
 admin.site.register(Account)
 admin.site.register(Subscription)
+admin.site.register(Boat)
 admin.site.register(PageSequence, PageSequenceAdmin)
